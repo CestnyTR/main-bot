@@ -6,6 +6,8 @@ const rolesInfoSchema = require("../models/RolesInfo");
 const voiceDB = require('../models/JoinToCreate');
 const ticketSystemSchema = require("../models/TicketSystem")
 const welcomeSchema = require('../models/Welcome');
+const giveawaySystemSchema = require('../models/giveaway');
+
 module.exports = {
     data: new SlashCommandBuilder()
         .setName("server-system")
@@ -168,6 +170,17 @@ module.exports = {
                 .setDescription("Disable your auto-role for this server.")
             )
         )
+        .addSubcommandGroup((addSubcommandGroup) => addSubcommandGroup
+            .setName("giveaway-setup")
+            .setDescription('Create a giveaway system in the guild ')
+            .addSubcommand((subcommand) => subcommand
+                .setName("enable")
+                .setDescription("Enable your giveaway system for this server.")
+            ).addSubcommand((subcommand) => subcommand
+                .setName("disable")
+                .setDescription("Disable your giveaway system for this server.")
+            )
+        )
     ,
     /**
      * 
@@ -184,6 +197,7 @@ module.exports = {
             return;
         }
         const mainSubCommand = interaction.options.getSubcommandGroup();
+        const subcommand = interaction.options.getSubcommand();
         const queryGuild = {
             guildId: interaction.guild.id,
         };
@@ -820,6 +834,81 @@ module.exports = {
                             .setTitle("Suggest system server")
                             .setDescription("Suggestion removed succesfuly");
                         await interaction.reply({ embeds: [embed], ephemeral: true });
+                        break;
+                }
+                break;
+            case "giveaway-setup":
+                let giveawaySystemDB = await giveawaySystemSchema.findOne({ guildId: interaction.guild.id });
+                switch (subcommand) {
+                    case "enable":
+                        const embed = new EmbedBuilder()
+                        if (giveawaySystemDB) {
+                            return interaction.reply({ content: 'The giveaway system is already exist', ephemeral: true });
+                        } else {
+                            giveawaySystemDB = new giveawaySystemSchema({
+                                guildId: interaction.guild.id,
+                                categoryId: "",
+                                channelId: "",
+                            });
+                        }
+                        embed
+                            .setDescription('Create a giveaway and contact the support team with the button below.')
+                            .setColor("Blue");
+                        const giveawayBtn = new ButtonBuilder()
+                            .setCustomId('giveawayBtnId')
+                            .setLabel("Create giveaway")
+                            .setEmoji('🎁')
+                            .setStyle(ButtonStyle.Secondary);
+                        const row = new ActionRowBuilder()
+                            .addComponents(giveawayBtn);
+                        // Kategori oluştur
+                        await interaction.guild.channels.create({
+                            name: "Giveaway",
+                            type: ChannelType.GuildCategory,
+                        }).then(async (category) => {
+                            giveawaySystemDB.categoryId = category.id;
+                            await interaction.guild.channels.create({
+                                name: "[🎁] giveaway",
+                                parent: category,
+                                type: ChannelType.GuildText,
+                            }).then(async (channel) => {
+                                await channel.permissionOverwrites.edit(interaction.guild.roles.everyone, {
+                                    ViewChannel: true,
+                                    SendMessages: false,
+                                });
+                                giveawaySystemDB.channelId = channel.id;
+                                await channel.send({ embeds: [embed], components: [row] })
+                            })
+                        })
+                        embed
+                            .setColor("Green")
+                            .setTitle("giveaway server")
+                            .setDescription("giveaway created succesfuly");
+
+                        await giveawaySystemDB.save();
+                        await interaction.reply({ embeds: [embed], ephemeral: true })
+                        break;
+                    case "disable":
+                        // Check if the giveaway system is already disabled
+                        if (!giveawaySystemDB) {
+                            return interaction.reply({ content: 'The giveaway system is already disabled', ephemeral: true });
+                        }
+
+                        // Delete the channels and category associated with the giveaway system
+                        const category = interaction.guild.channels.cache.get(giveawaySystemDB.categoryId);
+                        const channel = interaction.guild.channels.cache.get(giveawaySystemDB.channelId);
+
+                        if (category) {
+                            await category.delete();
+                        }
+                        if (channel) {
+                            await channel.delete();
+                        }
+
+                        // Delete the giveaway system configuration from the database
+                        await giveawaySystemDB.deleteOne(queryGuild);
+
+                        interaction.reply({ content: 'The giveaway system has been disabled successfully', ephemeral: true });
                         break;
                 }
                 break;
