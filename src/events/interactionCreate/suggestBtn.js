@@ -11,21 +11,6 @@ module.exports = async (interaction) => {
     const command = interaction.customId;
     if (command !== "suggestBtnId") return;
     const embed = new EmbedBuilder()
-
-    const guildConfiguration = await GuildConfiguration.findOne({ guildId: interaction.guildId });
-    if (!guildConfiguration?.suggestionChannelId) {
-        await interaction.reply('This server has not been configure to use suggestions yet.\nAsk an admin to "/config-suggestions add" to set this up');
-        return;
-    }
-    if (!guildConfiguration.suggestionChannelId.includes(interaction.channelId)) {
-        await interaction.reply(
-            `This Channel has not been configure to use suggestions.Try one of these channel instead: ${guildConfiguration.
-                suggestionChannelId.map((id) => `<#${id}>`)
-                .join(',')} `
-        );
-        return;
-    }
-
     const modal = new ModalBuilder()
         .setTitle('create a suggestion')
         .setCustomId(`suggestion-${interaction.user.id}`);

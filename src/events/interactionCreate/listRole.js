@@ -14,57 +14,45 @@ module.exports = async (interaction) => {
 
     const registerRole = interaction.guild.roles.cache.get(autoRole.roleId);
     if (!registerRole) return;
-    try {
-
-        const [type, member, action] = interaction.customId.split('.');
-        // await interaction.deferReply({ ephemeral: true });
-        const query = {
-            guildId: interaction.guild.id,
-            roleType: type
-        };
-        const rolesInfo = await rolesInfoSchema.findOne(query);
 
 
-        try {
-            await interaction.deferReply({ ephemeral: true });
-
-            let rolId
-            let _roles = [];
-            for (let i in rolesInfo.listRoles) {
-                _roles.push(rolesInfo.listRoles[i].value);
-            }
-            for (let i in rolId) {
-                _roles.push(interaction.guild.roles.cache.get(rolId[i]))
-            }
-            if (!_roles) {
-                interaction.editReply("I couldn't find that role please contant with server admin");
-                return;
-            }
-            for (let i in _roles) {
-                const hasRole = interaction.member.roles.cache.has(_roles[i]);
-                if (hasRole) {
-                    await interaction.member.roles.remove(_roles[i]);
-                    const label = listLabel(rolesInfo.listRoles, _roles[i]);
-                    await interaction.editReply(`The role ${label} has been removed.`);
-                    break;
-                }
-            }
-            for (let i in interaction.values) {
-                await interaction.member.roles.add(interaction.values[i]);
-                const label = listLabel(rolesInfo.listRoles, interaction.values[i]);
-                await interaction.editReply(`The role ${label} has been added.`);
-                break;
-            }
+    const [type, member, action] = interaction.customId.split('.');
+    // await interaction.deferReply({ ephemeral: true });
+    const query = {
+        guildId: interaction.guild.id,
+        roleType: type
+    };
+    const rolesInfo = await rolesInfoSchema.findOne(query);
 
 
+    await interaction.deferReply({ ephemeral: true });
 
-
-        } catch (error) {
-            console.log("there was error in handleRegister.js giving role error on role set:" + error);
-
+    let rolId
+    let _roles = [];
+    for (let i in rolesInfo.listRoles) {
+        _roles.push(rolesInfo.listRoles[i].value);
+    }
+    for (let i in rolId) {
+        _roles.push(interaction.guild.roles.cache.get(rolId[i]))
+    }
+    if (!_roles) {
+        interaction.editReply("I couldn't find that role please contant with server admin");
+        return;
+    }
+    for (let i in _roles) {
+        const hasRole = interaction.member.roles.cache.has(_roles[i]);
+        if (hasRole) {
+            await interaction.member.roles.remove(_roles[i]);
+            const label = listLabel(rolesInfo.listRoles, _roles[i]);
+            await interaction.editReply(`The role ${label} has been removed.`);
+            break;
         }
-    } catch (error) {
-        console.log("error in handleRegister.js" + error);
+    }
+    for (let i in interaction.values) {
+        await interaction.member.roles.add(interaction.values[i]);
+        const label = listLabel(rolesInfo.listRoles, interaction.values[i]);
+        await interaction.editReply(`The role ${label} has been added.`);
+        break;
     }
 }
 function listLabel(list, _roles) {

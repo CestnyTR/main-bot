@@ -6,7 +6,7 @@ const rolesInfoSchema = require("../models/RolesInfo");
 const voiceDB = require('../models/JoinToCreate');
 const ticketSystemSchema = require("../models/TicketSystem")
 const welcomeSchema = require('../models/Welcome');
-const giveawaySystemSchema = require('../models/giveaway');
+const giveawaySystemSchema = require('../models/giveawaySys');
 
 module.exports = {
     data: new SlashCommandBuilder()

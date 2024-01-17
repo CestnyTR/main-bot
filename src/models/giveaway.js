@@ -1,17 +1,30 @@
-const { Schema, model } = require("mongoose")
+const { Schema, model } = require("mongoose");
+const { randomUUID } = require('crypto');
 const giveawaySchema = new Schema({
+    giveawayId: {
+        type: String,
+        default: randomUUID
+    },
     guildId: {
         type: String,
         required: true,
     },
-    categoryId: {
+    authorId: {
         type: String,
+        required: true,
     },
-    channelId: {
+    messageId: {
         type: String,
+        required: true,
+        unique: true,
     },
     prize: {
         type: String,
+    },
+    status: {
+        type: String,
+        //?"pending" , "close"
+        default: "pending"
     },
     winnerscount: {
         type: Number,
@@ -21,18 +34,7 @@ const giveawaySchema = new Schema({
         type: Number,
         default: 1
     },
-    endDate: {
-        type: Date,
-    },
     participants: {
-        type: [String],
-        default: [],
-    },
-    winnersList: {
-        type: [String],
-        default: [],
-    },
-    backupWinnersList: {
         type: [String],
         default: [],
     },
