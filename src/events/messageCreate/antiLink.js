@@ -19,7 +19,8 @@ module.exports = async (message) => {
     if (message.member.roles.cache.has(linkAccessRole.roleId) || message.author.id == message.guild.ownerId || message.member.permissions.has('Administrator')) {
         return;
     }
-    langData = await LanguageService.getLocalizedString(message.guild.id, 'antiLink');
+    langData = await LanguageService.getLocalizedString(message.guild.id, 'events');
+    langData = langData.antiLink
     message.delete();
     try {
         message.member.timeout(120000, langData.reason)

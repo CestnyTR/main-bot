@@ -29,8 +29,8 @@ module.exports = async (message) => {
     const level = await Level.findOne(query);
 
     if (level) {
-        langData = await LanguageService.getLocalizedString(message.guild.id, 'userLevelUp');
-
+        langData = await LanguageService.getLocalizedString(message.guild.id, 'events');
+        langData = langData.userLevelUp
         level.xp += xpToGive;
 
         if (level.xp > calculateLevelXp(level.level)) {

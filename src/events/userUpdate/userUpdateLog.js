@@ -14,8 +14,8 @@ module.exports = async (oldMember, newMember, client) => {
 
             // Eğer kullanıcının avatarı değiştiyse
             if (oldMember.avatar !== newMember.avatar) {
-                langData = await LanguageService.getLocalizedString(guildId, 'userUpdateLog');
-
+                langData = await LanguageService.getLocalizedString(guildId, 'events');
+                langData = langData.userUpdateLog
                 const oldImg = oldMember.displayAvatarURL({ format: 'jpg', dynamic: true });
                 const newImg = newMember.displayAvatarURL({ format: 'jpg', dynamic: true, });
 

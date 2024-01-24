@@ -1,7 +1,7 @@
 const { EmbedBuilder, AuditLogEvent } = require("discord.js");
 const logChSchema = require("../../models/logChannels");
 const LanguageService = require("../../utils/LanguageService");
-
+let langData
 module.exports = async (channel) => {
     try {
         let logChDB = await logChSchema.findOne({ guildId: channel.guildId });
@@ -11,8 +11,8 @@ module.exports = async (channel) => {
         if (!ch) return;
 
         // Dil servisini kullanarak dil dosyasını yüklüyoruz
-        const langData = await LanguageService.getLocalizedString(channel.guild.id, 'channelDelete');
- 
+        langData = await LanguageService.getLocalizedString(channel.guild.id, 'events');
+        langData = langData.channelDelete
 
         const name = channel.name;
         const embed = new EmbedBuilder()

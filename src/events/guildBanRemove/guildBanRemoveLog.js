@@ -1,11 +1,11 @@
 const { EmbedBuilder, AuditLogEvent } = require("discord.js");
 const logChSchema = require("../../models/logChannels");
 const LanguageService = require("../../utils/LanguageService");
-
+let langData
 module.exports = async (guild, user) => {
-    const guildId=guild.guild.id;
+    const guildId = guild.guild.id;
 
-    let logChDB = await logChSchema.findOne({ guildId:guildId });
+    let logChDB = await logChSchema.findOne({ guildId: guildId });
     if (!logChDB) return;
     if (!logChDB.exist) return;
 
@@ -14,8 +14,8 @@ module.exports = async (guild, user) => {
 
     const banLogs = await guild.guild.fetchAuditLogs({ type: AuditLogEvent.MemberBanRemove });
     const banEntry = banLogs.entries.find(entry => entry.target.id === user.id);
-    const langData = await LanguageService.getLocalizedString(guildId, 'userUnbanned');
-
+    langData = await LanguageService.getLocalizedString(guildId, 'events');
+    langData = langData.userUnbanned;
     if (banEntry) {
 
         const executor = banEntry.executor;

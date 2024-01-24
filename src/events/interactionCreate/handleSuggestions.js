@@ -12,8 +12,8 @@ module.exports = async (interaction) => {
     const [type, suggestionId, action] = interaction.customId.split('.');
 
     if (type !== 'suggestion') return;
-    langData = await LanguageService.getLocalizedString(interaction.guildId, "suggestHandler");
-
+    langData = await LanguageService.getLocalizedString(interaction.guildId, "events");
+    langData = langData.suggestHandler
     await interaction.deferReply({ ephemeral: true });
 
     const targetSuggestion = await Suggestion.findOne({ suggestionId });

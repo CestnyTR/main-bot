@@ -1,6 +1,8 @@
 const { PermissionFlagsBits, ChatInputCommandInteraction, SlashCommandBuilder, EmbedBuilder, ChannelType } = require('discord.js');
 const AutoRole = require('../models/AutoRole');
 const logChSchema = require("../models/logChannels");
+const trLang = require("../lang/tr.json").buildCommands.modrateSystem;
+const enLang = require("../lang/en.json").buildCommands.modrateSystem;
 const ms = require('ms');
 let reason = "some reason";
 let targetUserId;
@@ -9,109 +11,254 @@ let targetUserRolePosition;
 let requestUserRolePosition;
 let botRolePosition;
 let target;
+
 module.exports = {
 
     data: new SlashCommandBuilder()
-        .setName("modrate-system")
-        .setDescription("Modarate server members")
+        .setName(enLang.name)
+        .setNameLocalizations({
+            tr: trLang.name,
+        })
+        .setDescription(enLang.description)
+        .setDescriptionLocalizations({
+            tr: trLang.description,
+        })
         .setDMPermission(false)
-        .setDefaultMemberPermissions(PermissionFlagsBits.BanMembers)
-        .setDefaultMemberPermissions(PermissionFlagsBits.ManageRoles)
-        .setDefaultMemberPermissions(PermissionFlagsBits.MuteMembers)
-        .setDefaultMemberPermissions(PermissionFlagsBits.ManageNicknames)
-        .setDefaultMemberPermissions(PermissionFlagsBits.ManageChannels)
-        .addSubcommand(addSubcommand => addSubcommand
-            .setName("kick")
-            .setDescription('Kicks a member from this server.')
-            .addUserOption((option) => option
-                .setName("target-user")
-                .setDescription('The user you want to kick.')
-                .setRequired(true)
-            )
-            .addStringOption((option) => option
-                .setName("reason")
-                .setDescription('The reason you want to kick.')
-            )
+        .setDefaultMemberPermissions(PermissionFlagsBits.ManageGuild)
+        .addSubcommand(kickSubcommand =>
+            kickSubcommand
+                .setName(enLang.kick.name)
+                .setNameLocalizations({
+                    tr: trLang.kick.name,
+                })
+                .setDescription(enLang.kick.description)
+                .setDescriptionLocalizations({
+                    tr: trLang.kick.description,
+                })
+                .addUserOption(option => option
+                    .setName(enLang.kick.options.targetUser.name)
+                    .setNameLocalizations({
+                        tr: trLang.kick.options.targetUser.name,
+                    })
+                    .setDescription(enLang.kick.options.targetUser.description)
+                    .setDescriptionLocalizations({
+                        tr: trLang.kick.options.targetUser.description,
+                    })
+                    .setRequired(true)
+                )
+                .addStringOption(option => option
+                    .setName(enLang.kick.options.reason.name)
+                    .setNameLocalizations({
+                        tr: trLang.kick.options.reason.name,
+                    })
+                    .setDescription(enLang.kick.options.reason.description)
+                    .setDescriptionLocalizations({
+                        tr: trLang.kick.options.reason.description,
+                    })
+                )
         )
-        .addSubcommand(addSubcommand => addSubcommand
-            .setName('move-all')
-            .setDescription('Move all members in the specified channel to target channel')
-            .addChannelOption(option =>
-                option.setName('source')
-                    .setDescription('The source channel of the member to be moved')
-                    .addChannelTypes(ChannelType.GuildVoice)
-                    .setRequired(true))
-            .addChannelOption(option =>
-                option.setName('target')
-                    .setDescription('The target channel to move the member to')
-                    .addChannelTypes(ChannelType.GuildVoice)
-                    .setRequired(true))
+        // Diğer alt komutları da benzer şekilde ekleyebilirsiniz.
+        .addSubcommand(moveAllSubcommand =>
+            moveAllSubcommand
+                .setName(enLang.moveAll.name)
+                .setNameLocalizations({
+                    tr: trLang.moveAll.name,
+                })
+                .setDescription(enLang.moveAll.description)
+                .setDescriptionLocalizations({
+                    tr: trLang.moveAll.description,
+                })
+                .addChannelOption(option =>
+                    option.setName(enLang.moveAll.options.source.name)
+                        .setNameLocalizations({
+                            tr: trLang.moveAll.options.source.name,
+                        })
+                        .setDescription(enLang.moveAll.options.source.description)
+                        .setDescriptionLocalizations({
+                            tr: trLang.moveAll.options.source.description,
+                        })
+                        .addChannelTypes(ChannelType.GuildVoice)
+                        .setRequired(true))
+                .addChannelOption(option =>
+                    option.setName(enLang.moveAll.options.target.name)
+                        .setNameLocalizations({
+                            tr: trLang.moveAll.options.target.name,
+                        })
+                        .setDescription(enLang.moveAll.options.target.description)
+                        .setDescriptionLocalizations({
+                            tr: trLang.moveAll.options.target.description,
+                        })
+                        .addChannelTypes(ChannelType.GuildVoice)
+                        .setRequired(true))
         )
-        .addSubcommand(addSubcommand => addSubcommand
-            .setName("remove-role")
-            .setDescription('Remove all role from selected user and give him register role')
-            .addUserOption((option) => option
-                .setName("target-user")
-                .setDescription('The user you want to remove role.')
-                .setRequired(true)
-            )
+        // Diğer alt komutları da benzer şekilde ekleyebilirsiniz.
+        .addSubcommand(removeRoleSubcommand =>
+            removeRoleSubcommand
+                .setName(enLang.removeRole.name)
+                .setNameLocalizations({
+                    tr: trLang.removeRole.name,
+                })
+                .setDescription(enLang.removeRole.description)
+                .setDescriptionLocalizations({
+                    tr: trLang.removeRole.description,
+                })
+                .addUserOption(option => option
+                    .setName(enLang.removeRole.options.targetUser.name)
+                    .setNameLocalizations({
+                        tr: trLang.removeRole.options.targetUser.name,
+                    })
+                    .setDescription(enLang.removeRole.options.targetUser.description)
+                    .setDescriptionLocalizations({
+                        tr: trLang.removeRole.options.targetUser.description,
+                    })
+                    .setRequired(true)
+                )
         )
-        .addSubcommand(addSubcommand => addSubcommand
-            .setName("timeout")
-            .setDescription('Timeout a user.')
-            .addUserOption((option) => option
-                .setName('target-user')
-                .setDescription('The user you want to timeout.')
-                .setRequired(true))
-            .addStringOption((option) => option
-                .setName('duration')
-                .setDescription('Timeout duration (30m, 1h, 1 day).')
-                .setRequired(true))
-            .addStringOption((option) => option
-                .setName('reason')
-                .setDescription('The reason for the timeout.')
-            )
+        // Diğer alt komutları da benzer şekilde ekleyebilirsiniz.
+        .addSubcommand(timeoutSubcommand =>
+            timeoutSubcommand
+                .setName(enLang.timeout.name)
+                .setNameLocalizations({
+                    tr: trLang.timeout.name,
+                })
+                .setDescription(enLang.timeout.description)
+                .setDescriptionLocalizations({
+                    tr: trLang.timeout.description,
+                })
+                .addUserOption(option => option
+                    .setName(enLang.timeout.options.targetUser.name)
+                    .setNameLocalizations({
+                        tr: trLang.timeout.options.targetUser.name,
+                    })
+                    .setDescription(enLang.timeout.options.targetUser.description)
+                    .setDescriptionLocalizations({
+                        tr: trLang.timeout.options.targetUser.description,
+                    })
+                    .setRequired(true)
+                )
+                .addStringOption(option => option
+                    .setName(enLang.timeout.options.duration.name)
+                    .setNameLocalizations({
+                        tr: trLang.timeout.options.duration.name,
+                    })
+                    .setDescription(enLang.timeout.options.duration.description)
+                    .setDescriptionLocalizations({
+                        tr: trLang.timeout.options.duration.description,
+                    })
+                    .setRequired(true)
+                )
+                .addStringOption(option => option
+                    .setName(enLang.timeout.options.reason.name)
+                    .setNameLocalizations({
+                        tr: trLang.timeout.options.reason.name,
+                    })
+                    .setDescription(enLang.timeout.options.reason.description)
+                    .setDescriptionLocalizations({
+                        tr: trLang.timeout.options.reason.description,
+                    })
+                )
         )
-        .addSubcommand(addSubcommand => addSubcommand
-            .setName("clear")
-            .setDescription("Clear a specific amount of messages from a target or channel.")
-            .addIntegerOption((option) =>
-                option
-                    .setName("amount")
-                    .setDescription("Amount of messages to clear.(1-100)")
-            )
-            .addUserOption((option) =>
-                option
-                    .setName("target")
-                    .setDescription("Select a target to clear their messages.")
-            )
+        // Diğer alt komutları da benzer şekilde ekleyebilirsiniz.
+        .addSubcommand(clearSubcommand =>
+            clearSubcommand
+                .setName(enLang.clear.name)
+                .setNameLocalizations({
+                    tr: trLang.clear.name,
+                })
+                .setDescription(enLang.clear.description)
+                .setDescriptionLocalizations({
+                    tr: trLang.clear.description,
+                })
+                .addIntegerOption(option => option
+                    .setName(enLang.clear.options.amount.name)
+                    .setNameLocalizations({
+                        tr: trLang.clear.options.amount.name,
+                    })
+                    .setDescription(enLang.clear.options.amount.description)
+                    .setDescriptionLocalizations({
+                        tr: trLang.clear.options.amount.description,
+                    })
+                )
+                .addUserOption(option => option
+                    .setName(enLang.clear.options.target.name)
+                    .setNameLocalizations({
+                        tr: trLang.clear.options.target.name,
+                    })
+                    .setDescription(enLang.clear.options.target.description)
+                    .setDescriptionLocalizations({
+                        tr: trLang.clear.options.target.description,
+                    })
+                )
         )
-        .addSubcommand(addSubcommand => addSubcommand
-            .setName("chance-user-name")
-            .setDescription('Chance your selected user name')
-            .addUserOption((option) => option
-                .setName("target-user")
-                .setDescription("Select user")
-                .setRequired(true))
-            .addStringOption((option) => option
-                .setName("set-name")
-                .setDescription("Set user name")
-                .setRequired(true))
+        // Diğer alt komutları da benzer şekilde ekleyebilirsiniz.
+        .addSubcommand(chanceUserNameSubcommand =>
+            chanceUserNameSubcommand
+                .setName(enLang.chanceUserName.name)
+                .setNameLocalizations({
+                    tr: trLang.chanceUserName.name,
+                })
+                .setDescription(enLang.chanceUserName.description)
+                .setDescriptionLocalizations({
+                    tr: trLang.chanceUserName.description,
+                })
+                .addUserOption(option => option
+                    .setName(enLang.chanceUserName.options.targetUser.name)
+                    .setNameLocalizations({
+                        tr: trLang.chanceUserName.options.targetUser.name,
+                    })
+                    .setDescription(enLang.chanceUserName.options.targetUser.description)
+                    .setDescriptionLocalizations({
+                        tr: trLang.chanceUserName.options.targetUser.description,
+                    })
+                    .setRequired(true)
+                )
+                .addStringOption(option => option
+                    .setName(enLang.chanceUserName.options.setName.name)
+                    .setNameLocalizations({
+                        tr: trLang.chanceUserName.options.setName.name,
+                    })
+                    .setDescription(enLang.chanceUserName.options.setName.description)
+                    .setDescriptionLocalizations({
+                        tr: trLang.chanceUserName.options.setName.description,
+                    })
+                    .setRequired(true)
+                )
         )
-        .addSubcommand(addSubcommand => addSubcommand
-            .setName("ban")
-            .setDescription('Bans a member from this server.')
-            .addUserOption((option) => option
-                .setName("target-user")
-                .setDescription('The user you want to ban.')
-                .setRequired(true)
-            )
-            .addStringOption((option) => option
-                .setName("reason")
-                .setDescription('The reason you want to ban.')
-                .setRequired(true)
-            )
-        ),
+        // Diğer alt komutları da benzer şekilde ekleyebilirsiniz.
+        .addSubcommand(banSubcommand =>
+            banSubcommand
+                .setName(enLang.ban.name)
+                .setNameLocalizations({
+                    tr: trLang.ban.name,
+                })
+                .setDescription(enLang.ban.description)
+                .setDescriptionLocalizations({
+                    tr: trLang.ban.description,
+                })
+                .addUserOption(option => option
+                    .setName(enLang.ban.options.targetUser.name)
+                    .setNameLocalizations({
+                        tr: trLang.ban.options.targetUser.name,
+                    })
+                    .setDescription(enLang.ban.options.targetUser.description)
+                    .setDescriptionLocalizations({
+                        tr: trLang.ban.options.targetUser.description,
+                    })
+                    .setRequired(true)
+                )
+                .addStringOption(option => option
+                    .setName(enLang.ban.options.reason.name)
+                    .setNameLocalizations({
+                        tr: trLang.ban.options.reason.name,
+                    })
+                    .setDescription(enLang.ban.options.reason.description)
+                    .setDescriptionLocalizations({
+                        tr: trLang.ban.options.reason.description,
+                    })
+                    .setRequired(true)
+                )
+        )
+    ,
     /**
      * 
      * @param {Object} param0 
@@ -243,9 +390,9 @@ module.exports = {
                     return;
                 }
 
-                 targetUserRolePosition = targetUser.roles.highest.position; // Highest role of the target user
-                 requestUserRolePosition = interaction.member.roles.highest.position; // Highest role of the user running the cmd
-                 botRolePosition = interaction.guild.members.me.roles.highest.position; // Highest role of the bot
+                targetUserRolePosition = targetUser.roles.highest.position; // Highest role of the target user
+                requestUserRolePosition = interaction.member.roles.highest.position; // Highest role of the user running the cmd
+                botRolePosition = interaction.guild.members.me.roles.highest.position; // Highest role of the bot
 
                 if (targetUserRolePosition >= requestUserRolePosition) {
                     await interaction.editReply("You can't timeout that user because they have the same/higher role than you.");

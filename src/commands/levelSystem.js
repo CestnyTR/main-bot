@@ -4,31 +4,71 @@ const calculateLevelXp = require('../utils/calculateLevelXp');
 const Level = require('../models/Level');
 const User = require('../models/User');
 const dailyAmount = 1000;
-
+const trLang = require("../lang/tr.json").buildCommands.levelSystem;
+const enLang = require("../lang/en.json").buildCommands.levelSystem;
 module.exports = {
     data: new SlashCommandBuilder()
-        .setName("level-system")
-        .setDescription("level system ")
-        .addSubcommand((subcommand) => subcommand
-            .setName('daily').
-            setDescription('Collect your dailies!')
+        .setName(enLang.name)
+        .setNameLocalizations({
+            tr: trLang.name,
+        })
+        .setDescription(enLang.description)
+        .setDescriptionLocalizations({
+            tr: trLang.description,
+        })
+        .addSubcommand(dailySubcommand =>
+            dailySubcommand
+                .setName(enLang.subcommands.daily.name)
+                .setNameLocalizations({
+                    tr: trLang.subcommands.daily.name,
+                })
+                .setDescription(enLang.subcommands.daily.description)
+                .setDescriptionLocalizations({
+                    tr: trLang.subcommands.daily.description,
+                })
         )
-        .addSubcommand((subcommand) => subcommand
-            .setName('balance')
-            .setDescription("See yours/someone else's balance")
-            .addUserOption((option) => option
-                .setName("user")
-                .setDescription('The user whose balance you want to get.'))
+        .addSubcommand(balanceSubcommand =>
+            balanceSubcommand
+                .setName(enLang.subcommands.balance.name)
+                .setNameLocalizations({
+                    tr: trLang.subcommands.balance.name,
+                })
+                .setDescription(enLang.subcommands.balance.description)
+                .setDescriptionLocalizations({
+                    tr: trLang.subcommands.balance.description,
+                })
+                .addUserOption(option => option
+                    .setName(enLang.subcommands.balance.options.user.name)
+                    .setNameLocalizations({
+                        tr: trLang.subcommands.balance.options.user.name,
+                    })
+                    .setDescription(enLang.subcommands.balance.options.user.description)
+                    .setDescriptionLocalizations({
+                        tr: trLang.subcommands.balance.options.user.description,
+                    })
+                )
         )
-        .addSubcommand((subcommand) => subcommand
-            .setName("level")
-            .setDescription("Shows your/someone's level.")
-            .addUserOption((option) => option
-                .setName("target-user")
-                .setDescription('The user whose level you want to see.')
-            )
+        .addSubcommand(levelSubcommand =>
+            levelSubcommand
+                .setName(enLang.subcommands.level.name)
+                .setNameLocalizations({
+                    tr: trLang.subcommands.level.name,
+                })
+                .setDescription(enLang.subcommands.level.description)
+                .setDescriptionLocalizations({
+                    tr: trLang.subcommands.level.description,
+                })
+                .addUserOption(option => option
+                    .setName(enLang.subcommands.level.options.targetUser.name)
+                    .setNameLocalizations({
+                        tr: trLang.subcommands.level.options.targetUser.name,
+                    })
+                    .setDescription(enLang.subcommands.level.options.targetUser.description)
+                    .setDescriptionLocalizations({
+                        tr: trLang.subcommands.level.options.targetUser.description,
+                    })
+                )
         )
-
     ,
 
     /**

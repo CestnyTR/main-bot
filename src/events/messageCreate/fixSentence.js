@@ -18,8 +18,8 @@ module.exports = async (message) => {
     };
     const capitalLetter = await capitalLetterDb.findOne(queryCapitalLetter);
     //!FORBIN WORDS
-    langData = await LanguageService.getLocalizedString(message.guild.id, 'fixSentence');
-
+    langData = await LanguageService.getLocalizedString(message.guild.id, 'events');
+    langData = langData.fixSentence;
     if (forbid && forbid.forbiddenWord) {
         for (const forbiddenWord of forbid.forbiddenWord) {
             await handleForbiddenWord(message, forbiddenWord.toLowerCase());

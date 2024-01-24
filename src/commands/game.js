@@ -1,36 +1,69 @@
 const { ChatInputCommandInteraction, EmbedBuilder, ButtonBuilder, ActionRowBuilder, ButtonStyle, SlashCommandBuilder, } = require('discord.js')
 const UserProfile = require('../models/User')
+const trLang = require("../lang/tr.json").buildCommands.playGames;
+const enLang = require("../lang/en.json").buildCommands.playGames;
 
 const choices = [
     { name: "Rock", emoji: "🗿", beats: "Scissors" },
     { name: "Paper", emoji: "📄", beats: "Rock" },
     { name: "Scissors", emoji: "✂️", beats: "Paper" },
 ];
+
 module.exports = {
     data: new SlashCommandBuilder()
-        .setName("play-games")
-        .setDescription("Play text channel game")
+        .setName(enLang.name)
+        .setNameLocalizations({
+            tr: trLang.name,
+        })
+        .setDescription(enLang.description)
+        .setDescriptionLocalizations({
+            tr: trLang.description,
+        })
         .setDMPermission(false)
-
-        .addSubcommand(addSubcommandGroup =>
-            addSubcommandGroup
-                .setName("gamble")
-                .setDescription('gamble some of your balance')
-                .addIntegerOption((option) => option
-                    .setName("amount")
-                    .setDescription('The amount you want to gamble.')
+        .addSubcommand(gambleSubcommand =>
+            gambleSubcommand
+                .setName(enLang.gamble.name)
+                .setNameLocalizations({
+                    tr: trLang.gamble.name,
+                })
+                .setDescription(enLang.gamble.description)
+                .setDescriptionLocalizations({
+                    tr: trLang.gamble.description,
+                })
+                .addIntegerOption(option => option
+                    .setName(enLang.gamble.options.amount.name)
+                    .setNameLocalizations({
+                        tr: trLang.gamble.options.amount.name,
+                    })
+                    .setDescription(enLang.gamble.options.amount.description)
+                    .setDescriptionLocalizations({
+                        tr: trLang.gamble.options.amount.description,
+                    })
                     .setRequired(true)
                 )
         )
-        .addSubcommand(addSubcommandGroup =>
-            addSubcommandGroup
-                .setName("rps")
-                .setDescription("Play  Rock scissors with another user")
+        .addSubcommand(rpsSubcommand =>
+            rpsSubcommand
+                .setName(enLang.rps.name)
+                .setNameLocalizations({
+                    tr: trLang.rps.name,
+                })
+                .setDescription(enLang.rps.description)
+                .setDescriptionLocalizations({
+                    tr: trLang.rps.description,
+                })
                 .addUserOption(option => option
-                    .setName('user')
-                    .setDescription(`The user you want to play`)
-                    .setRequired(true)))
-    ,
+                    .setName(enLang.rps.options.user.name)
+                    .setNameLocalizations({
+                        tr: trLang.rps.options.user.name,
+                    })
+                    .setDescription(enLang.rps.options.user.description)
+                    .setDescriptionLocalizations({
+                        tr: trLang.rps.options.user.description,
+                    })
+                    .setRequired(true)
+                )
+        ),
     /**
      * 
      * @param {Object} param0

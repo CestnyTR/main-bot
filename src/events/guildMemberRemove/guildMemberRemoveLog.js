@@ -1,7 +1,7 @@
 const { EmbedBuilder, AuditLogEvent } = require("discord.js");
 const logChSchema = require("../../models/logChannels");
 const LanguageService = require("../../utils/LanguageService");
-
+let langData
 
 module.exports = async (member) => {
     let logChDB = await logChSchema.findOne({ guildId: member.guild.id });
@@ -9,8 +9,8 @@ module.exports = async (member) => {
     if (!logChDB.exist) return;
     const channel = await member.guild.channels.cache.get(logChDB.leftLog);
     if (!channel) return;
-    const langData = await LanguageService.getLocalizedString(member.guild.id, 'memberLeftLog');
-
+    langData = await LanguageService.getLocalizedString(member.guild.id, 'events');
+    langData = langData.memberLeftLog
     if (member.user.bot) return;
     const name = member.user.tag;
     const id = member.user.id;

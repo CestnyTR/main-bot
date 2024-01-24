@@ -1,314 +1,1381 @@
 {
-    "channelCreate": {
-        "title": "Kanal Oluşturuldu!",
-        "description": "Kanal: <#{{id}}> : {{name}}",
-        "footer": "Kanal ID: {{id}}"
-    },
-    "channelDelete": {
-        "title": "Kanal Silindi",
-        "description": "Silinen kanal adı: **{{name}}**",
-        "footer": "Kanal ID: {{id}}"
-    },
-    "music": {
-        "queue": {
-            "status": "Ses: {{volume}}% | Filtre: {{filter}} | Döngü: {{loop}} | Otomatik Çalma: {{autoplay}}",
-            "defaultFilter": "Kapalı",
-            "allQueue": "Tüm Kuyruk",
-            "thisSong": "Bu Şarkı",
-            "off": "Kapalı",
-            "on": "Açık"
+    "events": {
+        "channelCreate": {
+            "title": "Kanal Oluşturuldu!",
+            "description": "Kanal: <#{{id}}> : {{name}}",
+            "footer": "Kanal ID: {{id}}"
         },
-        "playSong": {
-            "title": "Şimdi Çalıyor",
-            "description": "🎶 | `{{songName}}` şarkısı çalıyor - `{{duration}}`\nTarafından istendi: {{user}}\n{{status}}"
+        "channelDelete": {
+            "title": "Kanal Silindi",
+            "description": "Silinen kanal adı: **{{name}}**",
+            "footer": "Kanal ID: {{id}}"
         },
-        "addSong": {
-            "title": "Şarkı Kuyruğa Eklendi",
-            "description": "🎶 | `{{songName}}` şarkısı, {{user}} tarafından kuyruğa eklendi - `{{duration}}`"
+        "music": {
+            "queue": {
+                "status": "Ses: {{volume}}% | Filtre: {{filter}} | Döngü: {{loop}} | Otomatik Çalma: {{autoplay}}",
+                "defaultFilter": "Kapalı",
+                "allQueue": "Tüm Kuyruk",
+                "thisSong": "Bu Şarkı",
+                "off": "Kapalı",
+                "on": "Açık"
+            },
+            "playSong": {
+                "title": "Şimdi Çalıyor",
+                "description": "🎶 | `{{songName}}` şarkısı çalıyor - `{{duration}}`\nTarafından istendi: {{user}}\n{{status}}"
+            },
+            "addSong": {
+                "title": "Şarkı Kuyruğa Eklendi",
+                "description": "🎶 | `{{songName}}` şarkısı, {{user}} tarafından kuyruğa eklendi - `{{duration}}`"
+            },
+            "addList": {
+                "title": "Çalma Listesi Kuyruğa Eklendi",
+                "description": "🎶 | `{{playlistName}}` çalma listesi ({{songCount}} şarkı) kuyruğa eklendi\n{{status}}"
+            },
+            "empty": {
+                "title": "Ses Kanalı Boş",
+                "description": "⛔ | Ses kanalı boş! Kanaldan ayrılıyor..."
+            },
+            "searchNoResult": {
+                "title": "Arama Sonuç Bulunamadı",
+                "description": "`⛔ | '{{query}}' için sonuç bulunamadı!`"
+            },
+            "finish": {
+                "title": "Kuyruk Tamamlandı",
+                "description": "🏁 | Kuyruk tamamlandı!"
+            }
         },
-        "addList": {
-            "title": "Çalma Listesi Kuyruğa Eklendi",
-            "description": "🎶 | `{{playlistName}}` çalma listesi ({{songCount}} şarkı) kuyruğa eklendi\n{{status}}"
+        "userBanned": {
+            "title": "Kullanıcı Yasaklandı",
+            "description": "Kullanıcı: {{username}} (`{{userID}}`)",
+            "bannedBy": "Yasaklayan",
+            "reason": "Sebep",
+            "noReason": "Belirtilmemiş"
         },
-        "empty": {
-            "title": "Ses Kanalı Boş",
-            "description": "⛔ | Ses kanalı boş! Kanaldan ayrılıyor..."
+        "userUnbanned": {
+            "title": "Kullanıcı Yasak Kaldırıldı",
+            "color": "Green",
+            "description": "Kullanıcı: {{username}} (`{{userID}}`)",
+            "unbannedFrom": "Yasaktan Kurtarılan",
+            "noBanLog": "Yasak kaydı bulunamadı"
         },
-        "searchNoResult": {
-            "title": "Arama Sonuç Bulunamadı",
-            "description": "`⛔ | '{{query}}' için sonuç bulunamadı!`"
+        "autoRoleAdded": {
+            "success": "Otomatik rol başarıyla eklendi.",
+            "nicknameError": "Kullanıcı adını değiştirirken bir hata oluştu.",
+            "defaultUserName": "İsim || Yaş"
         },
-        "finish": {
-            "title": "Kuyruk Tamamlandı",
-            "description": "🏁 | Kuyruk tamamlandı!"
-        }
-    },
-    "userBanned": {
-        "title": "Kullanıcı Yasaklandı",
-        "description": "Kullanıcı: {{username}} (`{{userID}}`)",
-        "bannedBy": "Yasaklayan",
-        "reason": "Sebep",
-        "noReason": "Belirtilmemiş"
-    },
-    "userUnbanned": {
-        "title": "Kullanıcı Yasak Kaldırıldı",
-        "color": "Green",
-        "description": "Kullanıcı: {{username}} (`{{userID}}`)",
-        "unbannedFrom": "Yasaktan Kurtarılan",
-        "noBanLog": "Yasak kaydı bulunamadı"
-    },
-    "autoRoleAdded": {
-        "success": "Otomatik rol başarıyla eklendi.",
-        "nicknameError": "Kullanıcı adını değiştirirken bir hata oluştu.",
-        "defaultUserName": "İsim || Yaş"
-    },
-    "memberJoinLog": {
-        "title": "Üye Katılım Logu",
-        "member": "Üye",
-        "bot": "Bot hesap mı ?",
-        "true": "Evet",
-        "false": "Hayır",
-        "joinDate": "Katılma Tarihi",
-        "creationDate": "Hesap Oluşturulma Tarihi",
-        "accountAge": "Hesap Yaşı",
-        "footer": "Katılım Logu Altbilgisi"
-    },
-    "memberLeftLog": {
-        "title": "Üye sunucuyu terketti"
-    },
-    "welcome": {
-        "memberCount": "Siz {{count}}. Üyemizsiniz",
-        "svMessage": "{{guildName}}'a Hoş Geldiniz",
-        "title": "Sunucumuza Hoş Geldiniz",
-        "message": "Harika sunucumuza hoş geldiniz!",
-        "registerChannel": "Kaydınızı tamamlamak için lütfen kayıt kanalına gidin."
-    },
-    "userLog": {
-        "title": "Üye değişiklik sistemi",
-        "oldName": "Eski adı",
-        "newName": "Yeni adı",
-        "footer": "Üye değişiklik sistemi"
-    },
-    "commandLog": {
-        "title": "🌐 Bot komutu kullanıldı",
-        "serverName": "Sunucu adı",
-        "chatCommand": "Komut adı",
-        "commandUser": "Komutu kullanan",
-        "footer": "Log sistemi"
-    },
-    "giveawayBtn": {
-        "startGiveaway": "Çekiliş Başlat",
-        "prizeLabel": "Ödül",
-        "prizePlaceholder": "Çekiliş ödülü nedir?",
-        "winnersCountLabel": "Kazananlar Sayısı",
-        "winnersCountPlaceholder": "Çekiliş kazananlarının sayısı nedir?",
-        "backupWinnersCountLabel": "Yedek Kazananlar Sayısı",
-        "backupWinnersCountPlaceholder": "Yedek kazananlarının sayısı nedir?",
-        "endDateLabel": "Bitiş Tarihi",
-        "endDatePlaceholder": "Çekilişin bitiş tarihi nedir? (örn: 30m, 1s, 1g)",
-        "invalidNumericValues": "Lütfen geçerli sayısal değerler girin.",
-        "invalidDuration": "Lütfen geçerli bir süre girin (örn: '30m', '1s', '1g').",
-        "creatingGiveaway": "Çekiliş oluşturuluyor, lütfen bekleyin...",
-        "failedToCreateGiveaway": "Bu kanalda çekiliş mesajı oluşturulamadı. Yeterli iznim olmayabilir.",
-        "giveawayCreated": "{{user}} çekilişi oluşturuldu!",
-        "giveaway": "Çekiliş",
-        "status": "Durum",
-        "pending": "Beklemede",
-        "giveawayEntries": "Çekiliş Katılımları",
-        "winnersCount": "Kazananlar Sayısı",
-        "backupWinnersCount": "Yedek Kazananlar Sayısı",
-        "giveawayDuration": "Çekiliş Süresi",
-        "closeGiveaway": "Çekilişi Kapat",
-        "doAGiveaway": "Çekilişi Yap",
-        "joinGiveaway": "Çekilişe Katıl"
-    },
-    "giveawayHandler": {
-        "giveawayNotOpen": "Bu çekiliş katılım için açık değil.",
-        "leftGiveaway": "Çekilişten ayrıldınız.",
-        "joinedGiveaway": "Çekilişe katıldınız!",
-        "giveawayEntries": "Çekiliş Katılımları",
-        "noPermissionCloseGiveaway": "Bu çekilişi kapatma izniniz yok.",
-        "giveawayClosed": "Çekiliş kapatıldı!",
-        "noPermissionDoGiveaway": "Bu çekilişi yapma izniniz yok.",
-        "noParticipants": "Bu çekiliş için katılımcı bulunamadı.",
-        "giveawayFinalized": "Çekiliş tamamlandı!",
-        "giveawayWinners": "Çekiliş Kazananları",
-        "backupWinners": "Yedek Kazananlar"
-    },
-    "register": {
-        "alreadySigned": "Zaten sunucumuza kayıtlı bulunuyorsunuz.",
-        "creatingName": "Yeni bir isim oluşturuluyor, lütfen bekleyin...",
-        "usernameChanged": "Kullanıcı adı değiştirildi: {{newUserName}}",
-        "usernameChangeError": "Kullanıcı adını değiştirme hatası: {{error}}",
-        "modalTitle": "{{guildName}} SUNUCUSUNA KAYIT OL",
-        "realNameLabel": "Gerçek adınız nedir?",
-        "ageLabel": "Kaç yaşındasınız?"
-    },
-    "suggestHandler": {
-        "permissionError": "Bu işlemi gerçekleştirmek için izniniz yok.",
-        "approveSuccess": "Öneri onaylandı!",
-        "approve": "✅ Onaylandı",
-        "rejectSuccess": "Öneri reddedildi!",
-        "reject": "❌ reddedildi",
-        "upvoteSuccess": "Öneriye oy verildi!",
-        "downvoteSuccess": "Öneriye karşı oy verildi!",
-        "alreadyVotedError": "Bu öneri için zaten oy kullandınız",
-        "approvePermissionError": "Önerileri onaylama izniniz yok",
-        "rejectPermissionError": "Önerileri reddetme izniniz yok"
-    },
-    "suggestBtn": {
-        "modalTitle": "Bir öneri oluştur",
-        "textInputLabel": "Ne önermek istersiniz?",
-        "creatingSuggest": "Öneri oluşturuluyor, lütfen bekleyin...",
-        "failedToCreateSuggest": "Bu kanalda öneri mesajı oluşturulamadı. Yeterli iznim olmayabilir.",
-        "successCreateSuggest": "Öneri oluşturuldu",
-        "created": "{{interaction.user}} Öneri Oluşturuldu!",
-        "embeds": {
-            "suggest": "Öneri",
+        "memberJoinLog": {
+            "title": "Üye Katılım Logu",
+            "member": "Üye",
+            "bot": "Bot hesap mı ?",
+            "true": "Evet",
+            "false": "Hayır",
+            "joinDate": "Katılma Tarihi",
+            "creationDate": "Hesap Oluşturulma Tarihi",
+            "accountAge": "Hesap Yaşı",
+            "footer": "Katılım Logu Altbilgisi"
+        },
+        "memberLeftLog": {
+            "title": "Üye sunucuyu terketti"
+        },
+        "welcome": {
+            "memberCount": "Siz {{count}}. Üyemizsiniz",
+            "svMessage": "{{guildName}}'a Hoş Geldiniz",
+            "title": "Sunucumuza Hoş Geldiniz",
+            "message": "Harika sunucumuza hoş geldiniz!",
+            "registerChannel": "Kaydınızı tamamlamak için lütfen kayıt kanalına gidin."
+        },
+        "userLog": {
+            "title": "Üye değişiklik sistemi",
+            "oldName": "Eski adı",
+            "newName": "Yeni adı",
+            "footer": "Üye değişiklik sistemi"
+        },
+        "commandLog": {
+            "title": "🌐 Bot komutu kullanıldı",
+            "serverName": "Sunucu adı",
+            "chatCommand": "Komut adı",
+            "commandUser": "Komutu kullanan",
+            "footer": "Log sistemi"
+        },
+        "giveawayBtn": {
+            "startGiveaway": "Çekiliş Başlat",
+            "prizeLabel": "Ödül",
+            "prizePlaceholder": "Çekiliş ödülü nedir?",
+            "winnersCountLabel": "Kazananlar Sayısı",
+            "winnersCountPlaceholder": "Çekiliş kazananlarının sayısı nedir?",
+            "backupWinnersCountLabel": "Yedek Kazananlar Sayısı",
+            "backupWinnersCountPlaceholder": "Yedek kazananlarının sayısı nedir?",
+            "endDateLabel": "Bitiş Tarihi",
+            "endDatePlaceholder": "Çekilişin bitiş tarihi nedir? (örn: 30m, 1s, 1g)",
+            "invalidNumericValues": "Lütfen geçerli sayısal değerler girin.",
+            "invalidDuration": "Lütfen geçerli bir süre girin (örn: '30m', '1s', '1g').",
+            "creatingGiveaway": "Çekiliş oluşturuluyor, lütfen bekleyin...",
+            "failedToCreateGiveaway": "Bu kanalda çekiliş mesajı oluşturulamadı. Yeterli iznim olmayabilir.",
+            "giveawayCreated": "{{user}} çekilişi oluşturuldu!",
+            "giveaway": "Çekiliş",
             "status": "Durum",
-            "statusValue": "⏳ Beklemede",
-            "votes": "Oylar"
+            "pending": "Beklemede",
+            "giveawayEntries": "Çekiliş Katılımları",
+            "winnersCount": "Kazananlar Sayısı",
+            "backupWinnersCount": "Yedek Kazananlar Sayısı",
+            "giveawayDuration": "Çekiliş Süresi",
+            "closeGiveaway": "Çekilişi Kapat",
+            "doAGiveaway": "Çekilişi Yap",
+            "joinGiveaway": "Çekilişe Katıl"
         },
-        "upvote": "Evet",
-        "downvote": "Hayır",
-        "approve": "Onayla",
-        "reject": "Reddet"
-    },
-    "listRole": {
-        "findError": "Bu rolü bulamıyorum, lütfen sunucu yöneticisi ile iletişime geçin.",
-        "roleRemove": "{{label}} rolü kaldırıldı.",
-        "roleAdd": "{{label}} rolü eklendi."
-    },
-    "ticketSys": {
-        "ticketBtn": {
-            "modalTitle": "Destek Talebi",
-            "topic": "Konu",
-            "topicPlaceHolder": "Sorununuzun konusu nedir?",
-            "issue": "Sorun",
-            "issuePlaceholder": "Karşılaştığınız sorun nedir?"
+        "giveawayHandler": {
+            "giveawayNotOpen": "Bu çekiliş katılım için açık değil.",
+            "leftGiveaway": "Çekilişten ayrıldınız.",
+            "joinedGiveaway": "Çekilişe katıldınız!",
+            "giveawayEntries": "Çekiliş Katılımları",
+            "noPermissionCloseGiveaway": "Bu çekilişi kapatma izniniz yok.",
+            "giveawayClosed": "Çekiliş kapatıldı!",
+            "noPermissionDoGiveaway": "Bu çekilişi yapma izniniz yok.",
+            "noParticipants": "Bu çekiliş için katılımcı bulunamadı.",
+            "giveawayFinalized": "Çekiliş tamamlandı!",
+            "giveawayWinners": "Çekiliş Kazananları",
+            "backupWinners": "Yedek Kazananlar"
         },
-        "ticketModal": {
-            "embedOpened": "Talep Açıldı",
-            "embedOpenDesc": "Talep oluşturuldu, lütfen bir personel üyesinin cevaplamasını bekleyin.",
-            "user": "Kullanıcı",
-            "topic": "Konu",
-            "issue": "Sorun",
-            "btnClose": "Talebi Kapat",
-            "success": "{{interaction.user.tag}}, talebiniz başarıyla oluşturuldu! Buradan görüntüleyebilirsiniz: {{channel}}"
+        "register": {
+            "alreadySigned": "Zaten sunucumuza kayıtlı bulunuyorsunuz.",
+            "creatingName": "Yeni bir isim oluşturuluyor, lütfen bekleyin...",
+            "usernameChanged": "Kullanıcı adı değiştirildi: {{newUserName}}",
+            "usernameChangeError": "Kullanıcı adını değiştirme hatası: {{error}}",
+            "modalTitle": "{{guildName}} SUNUCUSUNA KAYIT OL",
+            "realNameLabel": "Gerçek adınız nedir?",
+            "ageLabel": "Kaç yaşındasınız?"
         },
-        "closeTicketBtn": {
-            "title": "Talep Kapatıldı",
-            "desc": "Destek için bize başvurduğunuz için teşekkür ederiz. Talebiniz başarıyla kapatıldı. Yardıma ihtiyacınız olursa lütfen aşağıdaki düğmeye basın.",
-            "footer": "{{interaction.guild.name}} tarafından gönderildi",
-            "btnLabel": "Geri Dön"
+        "suggestHandler": {
+            "permissionError": "Bu işlemi gerçekleştirmek için izniniz yok.",
+            "approveSuccess": "Öneri onaylandı!",
+            "approve": "✅ Onaylandı",
+            "rejectSuccess": "Öneri reddedildi!",
+            "reject": "❌ reddedildi",
+            "upvoteSuccess": "Öneriye oy verildi!",
+            "downvoteSuccess": "Öneriye karşı oy verildi!",
+            "alreadyVotedError": "Bu öneri için zaten oy kullandınız",
+            "approvePermissionError": "Önerileri onaylama izniniz yok",
+            "rejectPermissionError": "Önerileri reddetme izniniz yok"
         },
-        "pingStaff": {
-            "title": "Personel Çağrısı Yapıldı",
-            "desc": "Personel çağrıldı, lütfen bekleyin.",
-            "footer": "Personel çağrıldı"
+        "suggestBtn": {
+            "modalTitle": "Bir öneri oluştur",
+            "textInputLabel": "Ne önermek istersiniz?",
+            "creatingSuggest": "Öneri oluşturuluyor, lütfen bekleyin...",
+            "failedToCreateSuggest": "Bu kanalda öneri mesajı oluşturulamadı. Yeterli iznim olmayabilir.",
+            "successCreateSuggest": "Öneri oluşturuldu",
+            "created": "{{interaction.user}} Öneri Oluşturuldu!",
+            "embeds": {
+                "suggest": "Öneri",
+                "status": "Durum",
+                "statusValue": "⏳ Beklemede",
+                "votes": "Oylar"
+            },
+            "upvote": "Evet",
+            "downvote": "Hayır",
+            "approve": "Onayla",
+            "reject": "Reddet"
+        },
+        "listRole": {
+            "findError": "Bu rolü bulamıyorum, lütfen sunucu yöneticisi ile iletişime geçin.",
+            "roleRemove": "{{label}} rolü kaldırıldı.",
+            "roleAdd": "{{label}} rolü eklendi."
+        },
+        "ticketSys": {
+            "ticketBtn": {
+                "modalTitle": "Destek Talebi",
+                "topic": "Konu",
+                "topicPlaceHolder": "Sorununuzun konusu nedir?",
+                "issue": "Sorun",
+                "issuePlaceholder": "Karşılaştığınız sorun nedir?"
+            },
+            "ticketModal": {
+                "embedOpened": "Talep Açıldı",
+                "embedOpenDesc": "Talep oluşturuldu, lütfen bir personel üyesinin cevaplamasını bekleyin.",
+                "user": "Kullanıcı",
+                "topic": "Konu",
+                "issue": "Sorun",
+                "btnClose": "Talebi Kapat",
+                "success": "{{interaction.user.tag}}, talebiniz başarıyla oluşturuldu! Buradan görüntüleyebilirsiniz: {{channel}}"
+            },
+            "closeTicketBtn": {
+                "title": "Talep Kapatıldı",
+                "desc": "Destek için bize başvurduğunuz için teşekkür ederiz. Talebiniz başarıyla kapatıldı. Yardıma ihtiyacınız olursa lütfen aşağıdaki düğmeye basın.",
+                "footer": "{{interaction.guild.name}} tarafından gönderildi",
+                "btnLabel": "Geri Dön"
+            },
+            "pingStaff": {
+                "title": "Personel Çağrısı Yapıldı",
+                "desc": "Personel çağrıldı, lütfen bekleyin.",
+                "footer": "Personel çağrıldı"
+            }
+        },
+        "inviteCreateLog": {
+            "title": "Davet Oluşturuldu",
+            "code": "Davet Kodu:",
+            "name": "Davet Edenin Adı:",
+            "id": "Davet Edenin ID'si:",
+            "expires": "Davet Geçerlilik Süresi:",
+            "footer": "Davet Oluşturma Sistemi"
+        },
+        "antiLink": {
+            "reason": "İzinsiz Link gönderme",
+            "warningEmbed": "Anti-Link Sistemi",
+            "warningEmbedDesc": ":no_entry_sign: İzin verilmeyen bir sunucuda link gönderdiğiniz için susturulmuş rolü verildi. 2 dakika boyunca susturulacaksınız!",
+            "logEmbed": "Üye Zaman Aşımı",
+            "logEmbedDesc": "> İzinsiz link gönderme \n> <@{{id}}> {{name}}\n> link: {{content}}"
+        },
+        "antiSpam": {
+            "title": "Üye Zaman Aşımı",
+            "desc": "> Saniyede 3'ten fazla mesaj gönderdiğiniz için zaman aşımına uğradınız.",
+            "reason": "Spam Mesaj"
+        },
+        "fixSentence": {
+            "title": "Sorunları Düzeltme",
+            "please": "LÜTFEN",
+            "desc": "Lütfen {{message.author}} kurallarınıza uyun, kötü veya istenmeyen kelimeleri kullanmayın.",
+            "correctSentence": "Doğru Cümle"
+        },
+        "userLevelUp": {
+            "title": "🌐 Kullanıcı Seviye Atladı",
+            "serverName": "Sunucu Adı",
+            "desc": "{{member}} sen **{{level.level}}. seviyeye** yükseldin.",
+            "footer": "Seviye Sistemi"
+        },
+        "messageDeleteLog": {
+            "imgDesc": "**<@{{message.member.user.id}}> tarafından gönderilen resim silindi** <#{{message.channel.id}}>",
+            "desc": "**<@{{message.member.user.id}}> tarafından gönderilen mesaj silindi** <#{{message.channel.id}}>\n{{mes}}",
+            "footer": "Mesaj ID: {{message.id}}"
+        },
+        "messageUpdatedLog": {
+            "title": "🌐 Sohbet Mesajı Güncellendi",
+            "desc": "**<@{{oldMessage.member.user.id}}> tarafından gönderilen mesaj düzenlendi** \n**<#{{oldMessage.channel.id}}> kanalında düzenlendi** \n[Mesaja Git](https://discord.com/channels/{{oldMessage.guild.id}}/{{oldMessage.channel.id}}/{{newMessage.id}})",
+            "svName": "Sunucu Adı",
+            "beforeMessage": "Önceki Mesaj",
+            "afterMessage": "Sonraki Mesaj",
+            "commandMessage": "Komut Mesajı"
+        },
+        "userUpdateLog": {
+            "title": "Kullanıcı Avatarını Değiştirdi",
+            "desc": "{{newMember.username}} Avatarını Değiştirdi",
+            "oldAvatar": "Eski avatar",
+            "newAvatar": "Yeni avatar",
+            "before": "[Önceki]({{oldImg}})",
+            "after": "[Sonraki]({{newImg}})"
+        },
+        "jtcNewState": {
+            "have": "Zaten şu anda açık bir ses kanalınız var **<#{{joinChannelData.Channel}}>**",
+            "chName": "{{newState.member.user.username}}-oda",
+            "author": "Katıl Oluştur Sistemi",
+            "footer": "Kanal Oluşturuldu",
+            "title": ">Kanal Oluşturuldu",
+            "name": "Kanal Oluşturuldu",
+            "value": ">Ses kanalınız oluşturuldu \n> **{{newState.member.guild.name}}** sunucusunda \n> Ses kanalınız **<#{{channel.id}}>**"
+        },
+        "jtcOldState": {
+            "author": "Katıl Oluştur Sistemi",
+            "title": ">Kanal Silindi",
+            "name": "Kanal Silindi",
+            "footer": "Kanal Silindi",
+            "value": ">Ses kanalınız silindi \n> **{{newState.member.guild.name}}** sunucusunda"
+        },
+        "voiceLog": {
+            "footer": "Ses Durumu Bilgisi",
+            "title": ">{{guildName}} Sunucusu",
+            "svJoin": "Sunucuya Katılındı",
+            "chName": "Kanal Adı",
+            "timeSpend": "Harcanan Zaman",
+            "minute": ">{{elapsedTimeInMinutes.toFixed(1)}} dakika"
         }
-    },
-    "inviteCreateLog": {
-        "title": "Davet Oluşturuldu",
-        "code": "Davet Kodu:",
-        "name": "Davet Edenin Adı:",
-        "id": "Davet Edenin ID'si:",
-        "expires": "Davet Geçerlilik Süresi:",
-        "footer": "Davet Oluşturma Sistemi"
-    },
-    "antiLink": {
-        "reason": "İzinsiz Link gönderme",
-        "warningEmbed": "Anti-Link Sistemi",
-        "warningEmbedDesc": ":no_entry_sign: İzin verilmeyen bir sunucuda link gönderdiğiniz için susturulmuş rolü verildi. 2 dakika boyunca susturulacaksınız!",
-        "logEmbed": "Üye Zaman Aşımı",
-        "logEmbedDesc": "> İzinsiz link gönderme \n> <@{{id}}> {{name}}\n> link: {{content}}"
-    },
-    "antiSpam": {
-        "title": "Üye Zaman Aşımı",
-        "desc": "> Saniyede 3'ten fazla mesaj gönderdiğiniz için zaman aşımına uğradınız.",
-        "reason": "Spam Mesaj"
-    },
-    "fixSentence": {
-        "title": "Sorunları Düzeltme",
-        "please": "LÜTFEN",
-        "desc": "Lütfen {{message.author}} kurallarınıza uyun, kötü veya istenmeyen kelimeleri kullanmayın.",
-        "correctSentence": "Doğru Cümle"
-    },
-    "userLevelUp": {
-        "title": "🌐 Kullanıcı Seviye Atladı",
-        "serverName": "Sunucu Adı",
-        "desc": "{{member}} sen **{{level.level}}. seviyeye** yükseldin.",
-        "footer": "Seviye Sistemi"
-    },
-    "messageDeleteLog": {
-        "imgDesc": "**<@{{message.member.user.id}}> tarafından gönderilen resim silindi** <#{{message.channel.id}}>",
-        "desc": "**<@{{message.member.user.id}}> tarafından gönderilen mesaj silindi** <#{{message.channel.id}}>\n{{mes}}",
-        "footer": "Mesaj ID: {{message.id}}"
-    },
-    "messageUpdatedLog": {
-        "title": "🌐 Sohbet Mesajı Güncellendi",
-        "desc": "**<@{{oldMessage.member.user.id}}> tarafından gönderilen mesaj düzenlendi** \n**<#{{oldMessage.channel.id}}> kanalında düzenlendi** \n[Mesaja Git](https://discord.com/channels/{{oldMessage.guild.id}}/{{oldMessage.channel.id}}/{{newMessage.id}})",
-        "svName": "Sunucu Adı",
-        "beforeMessage": "Önceki Mesaj",
-        "afterMessage": "Sonraki Mesaj",
-        "commandMessage": "Komut Mesajı"
-    },
-    "userUpdateLog": {
-        "title": "Kullanıcı Avatarını Değiştirdi",
-        "desc": "{{newMember.username}} Avatarını Değiştirdi",
-        "oldAvatar": "Eski avatar",
-        "newAvatar": "Yeni avatar",
-        "before": "[Önceki]({{oldImg}})",
-        "after": "[Sonraki]({{newImg}})"
-    },
-    "jtcNewState": {
-        "have": "Zaten şu anda açık bir ses kanalınız var **<#{{joinChannelData.Channel}}>**",
-        "chName": "{{newState.member.user.username}}-oda",
-        "author": "Katıl Oluştur Sistemi",
-        "footer": "Kanal Oluşturuldu",
-        "title": ">Kanal Oluşturuldu",
-        "name": "Kanal Oluşturuldu",
-        "value": ">Ses kanalınız oluşturuldu \n> **{{newState.member.guild.name}}** sunucusunda \n> Ses kanalınız **<#{{channel.id}}>**"
-    },
-    "jtcOldState": {
-        "author": "Katıl Oluştur Sistemi",
-        "title": ">Kanal Silindi",
-        "name": "Kanal Silindi",
-        "footer": "Kanal Silindi",
-        "value": ">Ses kanalınız silindi \n> **{{newState.member.guild.name}}** sunucusunda"
-    },
-    "voiceLog": {
-        "footer": "Ses Durumu Bilgisi",
-        "title": ">{{guildName}} Sunucusu",
-        "svJoin": "Sunucuya Katılındı",
-        "chName": "Kanal Adı",
-        "timeSpend": "Harcanan Zaman",
-        "minute": ">{{elapsedTimeInMinutes.toFixed(1)}} dakika"
     },
     "commands": {
+        "inGuildError": "Bu komutu yalnızca sunucu içinde kullanabilirsin.",
+        "chatGuard": {
+            "noManageChannelsPermission": "Kanalları yönetmek için yeterli izinlere sahip değilsin.",
+            "antiLink": {
+                "enableSuccess": {
+                    "title": "Anti-Link Sistemi",
+                    "description": "Anti-Link Sistemi şu anda etkin. Devre dışı bırakmak için /anti-link disable komutunu kullanabilirsin.",
+                    "role": "Link Erişim Rolü"
+                },
+                "enableAlreadyExist": {
+                    "title": "Anti-Link Sistemi",
+                    "description": "Anti-Link Sistemi zaten bu rolü kullanıyor. Devre dışı bırakmak için /anti-link disable komutunu kullanabilirsin.",
+                    "role": "Link Erişim Rolü"
+                },
+                "disableSuccess": {
+                    "title": "Anti-Link Sistemi",
+                    "description": "Anti-Link Sistemi şu anda devre dışı. Kurmak için /anti-link enable komutunu kullanabilirsin."
+                },
+                "disableNotExist": {
+                    "title": "Anti-Link Sistemi",
+                    "description": "Anti-Link Sistemi kurulu değil. Kurmak için /anti-link enable komutunu kullanabilirsin."
+                }
+            },
+            "capitalLetter": {
+                "enableSuccess": "Büyük harfle yazı yazmayı etkinleştir",
+                "disableSuccess": "Büyük harfle yazı yazmayı devre dışı bırak"
+            },
+            "slowMode": {
+                "enableSuccess": ":white_check_mark: {channel} şu anda **yavaş modda** {duration} saniye. Devre dışı bırakmak için \"/slowmode-disable\" komutunu kullanabilirsin.",
+                "disableSuccess": ":white_check_mark: {channel} şu anda **yavaş modu** devre dışı. Devre dışı bırakmak için \"/slowmode-disable\" komutunu kullanabilirsin."
+            },
+            "forbidWord": {
+                "addedSuccess": "Kelime başarıyla eklendi.",
+                "alreadyAdded": "Kelime zaten eklenmiş."
+            }
+        },
+        "game": {
+            "inGuildError": "Bu komutu yalnızca sunucu içinde kullanabilirsin.",
+            "gamble": {
+                "amountError": "En az 100 Meteorit bahis yapmalısın.",
+                "notEnoughBalance": "Bahis yapmak için yeterli Meteoritin yok, aptal.",
+                "lossMessage": "Her zamanki gibi kazanmadın, çünkü... işte biliyorsun.",
+                "winMessage": "Kazandın +{amountWon}\nŞu anda {newBalance} Meteoritin var. Endişelenme, bir daha kazanmana izin vermeyeceğim."
+            },
+            "rps": {
+                "selfPlayError": "Kendinle taş kağıt makas oynayamazsın.",
+                "botPlayError": "Bot ile taş kağıt makas oynayamazsın.",
+                "challengeMessage": "{challenger}, {challenged} tarafından taş kağıt makas oyununa meydan okundun. Oynamaya başlamak için aşağıdaki düğmelerden birine tıkla.",
+                "timeoutMessage": "Oyun bitti. {user} zamanında cevap vermedi.",
+                "turnMessage": "Şu anda {user}'nın sırası.",
+                "resultMessage": "{challenger} {challengerChoice} seçti\n{challenged} {challengedChoice} seçti\n\n{result}",
+                "tieResult": "Berabere",
+                "winResult": "{winner} 👑 Kazandı 👑"
+            }
+        },
         "info": {
-            "name": "info",
-            "description": "Sunucu bilgi sistemi",
+            "inGuildError": "Bu komutu yalnızca sunucu içinde kullanabilirsin.",
+            "emojimap": {
+                "pagination": {
+                    "title": "Emojiler (Sayfa {currentPage}/{totalPages})",
+                    "noEmojis": "Bu sunucuda emojiler yok",
+                    "buttonLabels": {
+                        "previous": "Önceki",
+                        "next": "Sonraki"
+                    }
+                }
+            },
+            "help": {
+                "description": "CestnyTR genel komutları, Yönetici komutları, Moderasyon komutları ve Eğlence komutları içeren çok işlevli bir bottur. Yakında Ticket ve diğerleri eklenecek.",
+                "publicCommands": "Genel komutlar",
+                "moderationCommands": "Moderasyon komutları",
+                "musicCommands": "Müzik komutları",
+                "funCommands": "Eğlence komutları",
+                "inviteMe": "Beni davet et",
+                "buttons": {
+                    "fun": {
+                        "label": "Eğlence komutları",
+                        "style": "Secondary"
+                    },
+                    "back": {
+                        "label": "Geri",
+                        "style": "Primary"
+                    }
+                }
+            },
+            "serverInfo": {
+                "permissionError": "Bu komutu gerçekleştirmek için yeterli izinlere sahip değilsin.",
+                "fields": {
+                    "owner": "Sahip",
+                    "textChannels": "Metin Kanalları",
+                    "voiceChannels": "Ses Kanalları",
+                    "categories": "Kategoriler",
+                    "members": "Üyeler",
+                    "roles": "Roller",
+                    "roleList": "Rol Listesi"
+                },
+                "footer": "ID: {guildId} | Sunucu Oluşturuldu: {createdAt}"
+            },
+            "userInfo": {
+                "title": "{username}'nin Bilgileri",
+                "color": "Red",
+                "thumbnail": "{avatarUrl}",
+                "footer": "Kullanıcı ID: {userId}",
+                "fields": {
+                    "joinedDiscord": "Discord'a Katılım",
+                    "joinedServer": "Sunucuya Katılım",
+                    "nickname": "Takma Ad",
+                    "boostedServer": "Boostlanan Sunucu",
+                    "bot": "BOT"
+                },
+                "values": {
+                    "yes": "Evet",
+                    "no": "Hayır"
+                }
+            },
+            "ping": {
+                "deferredReply": "Pong! İstemci {ping}ms | Websocket: {websocketPing}ms"
+            }
+        },
+        "levelSys": {
+            "inGuildError": "Bu komutu yalnızca sunucu içinde kullanabilirsin.",
+            "daily": {
+                "alreadyCollected": "Bugün zaten günlük ödüllerini aldın. Yarın tekrar gel!",
+                "amountAdded": "{dailyAmount} bakiyene eklendi. Yeni bakiyen: {userBalance}"
+            },
+            "balance": {
+                "noProfile": "<@{targetUserIdBalance}> henüz bir profil oluşturmamış.",
+                "yourBalance": "Bakiyen: **{userBalance}**",
+                "otherUserBalance": "<@{targetUserIdBalance}> adlı kullanıcının bakiyesi: **{userBalance}**"
+            },
+            "level": {
+                "noLevels": "{userTag} henüz seviye almamış gibi görünüyor. Biraz daha sohbet et ve tekrar dene.",
+                "noLevelsSelf": "Henüz seviye almadın. Biraz daha sohbet et ve tekrar dene."
+            }
+        },
+        "musicSys": {
+            "description": "Müziğini çal",
             "subcommands": {
-                "emojimap": {
-                    "emojimap": "emojimap",
-                    "description": "Sunucudaki emoji listesini görüntüle"
+                "play": {
+                    "description": "Buraya bir şarkı adı yazın",
+                    "queryOption": {
+                        "name": "query",
+                        "description": "YouTube URL'sini yapıştırın",
+                        "required": true
+                    }
                 },
-                "help": {
-                    "help": "help",
-                    "description": "Komutların listesini ve bot hakkında bilgiyi göster"
+                "volume": {
+                    "description": "Şarkı sesini ayarlayın",
+                    "percentOption": {
+                        "name": "percent",
+                        "description": "10=10%",
+                        "minValue": 0,
+                        "maxValue": 100,
+                        "required": true
+                    }
                 },
-                "server-info": {
-                    "server-info": "server-info",
-                    "description": "Sunucu hakkında bilgi göster"
+                "queue": {
+                    "description": "Müzik kuyruğu"
                 },
-                "user-info": {
-                    "user-info": "user-info",
-                    "description": "Sunucudaki bir kullanıcı hakkında bilgi bul"
+                "skip": {
+                    "description": "Müziği atla"
                 },
-                "ping": {
-                    "ping": "ping",
-                    "description": "Bot ping'i ile yanıt ver"
+                "pause": {
+                    "description": "Müziği duraklat"
+                },
+                "resume": {
+                    "description": "Müziği devam ettir"
+                },
+                "stop": {
+                    "description": "Müziği durdur"
+                },
+                "now-playing": {
+                    "description": "Şu Anda Çalınan"
+                },
+                "shuffle": {
+                    "description": "Mevcut çalma listesini karıştır"
+                },
+                "foward": {
+                    "description": "Bir şarkıda ileri sarma",
+                    "secondsOption": {
+                        "name": "seconds",
+                        "description": "İleri sarmak için saniye miktarı. (10 = 10s)",
+                        "minValue": 0,
+                        "required": true
+                    }
+                },
+                "rewind": {
+                    "description": "Bir şarkıda geri sarma",
+                    "secondsOption": {
+                        "name": "seconds",
+                        "description": "Geri sarmak için saniye miktarı. (10 = 10s)",
+                        "minValue": 0,
+                        "required": true
+                    }
+                },
+                "loop": {
+                    "description": "Döngü seçeneklerini göster",
+                    "loopOptionsOption": {
+                        "name": "loop-options",
+                        "description": "Döngü seçenekleri: kapalı, şarkı, kuyruk",
+                        "choices": [
+                            {
+                                "name": "kapalı",
+                                "value": "kapalı"
+                            },
+                            {
+                                "name": "şarkı",
+                                "value": "şarkı"
+                            },
+                            {
+                                "name": "kuyruk",
+                                "value": "kuyruk"
+                            }
+                        ],
+                        "required": true
+                    }
+                }
+            }
+        },
+        "setSys": {
+            "setupRegister": {
+                "activateRoleSelectMenu": {
+                    "successMessage": "{roleType} için rol seçim menüsü başarıyla etkinleştirildi.",
+                    "contentDescription": "Açıklama: {roleContent}",
+                    "maxChoice": "Maksimum Seçenekler: {setMaxValue}",
+                    "minChoice": "Minimum Seçenekler: {setMinValue}",
+                    "defaultRole": "Varsayılan Rol: {defaultRoleName}",
+                    "additionalRoles": [
+                        "{firstRoleName}: {firstRole}",
+                        "{secondRoleName}: {secondRole}",
+                        "{thirdRoleName}: {thirdRole}",
+                        "{fourthRoleName}: {fourthRole}",
+                        "{fifthRoleName}: {fifthRole}"
+                    ]
+                },
+                "userInfoButton": {
+                    "successMessage": "Kullanıcı bilgi düğmesi başarıyla oluşturuldu.",
+                    "instructionMessage": "Lütfen {guildName} sunucu adınızı ayarlayın."
+                }
+            },
+            "joinToCreate": {
+                "enable": {
+                    "alreadyEnabled": "Zaten bir kurulum katılmak için sistem etkin. Devre dışı bırakmak için /joinToCreate disable komutunu çalıştırın.",
+                    "channel": {
+                        "label": "Ses Kanalı",
+                        "description": "Yeni kanalların oluşturulacağı ses kanalı."
+                    },
+                    "category": {
+                        "label": "Kategori",
+                        "description": "Yeni ses kanallarının yerleştirileceği kategori."
+                    },
+                    "voiceLimit": {
+                        "label": "Ses Sınırlaması",
+                        "description": "Her yeni ses kanalında izin verilen maksimum kullanıcı sayısı. Varsayılan 10'dur."
+                    },
+                    "successMessage": "Katılın ve oluştur sistem başarıyla kuruldu. Yeni ses kanalları {channel} içinde, {category} kategorisi altında oluşturulacaktır."
+                },
+                "disable": {
+                    "notEnabled": "Katıl ve oluştur sisteminiz yok. Kurmak için /joinToCreate enable komutunu çalıştırın.",
+                    "successMessage": "Katıl ve oluştur sistemi başarıyla devre dışı bırakıldı.",
+                    "disabledMessage": "Katıl ve oluştur sistemi devre dışı bırakıldı."
+                }
+            },
+            "welcomeConfig": {
+                "enable": {
+                    "missingPermissions": "Karşılama sistemi, bunu yapmak için gerekli izinlere sahip olmadığınızdan kurulamaz.",
+                    "channelOptions": {
+                        "welcomeChannel": {
+                            "label": "Karşılama Kanalı",
+                            "description": "Karşılama mesajlarının gönderileceği kanal."
+                        },
+                        "registerChannel": {
+                            "label": "Kayıt Kanalı",
+                            "description": "Kayıt mesajlarının gönderileceği kanal."
+                        }
+                    },
+                    "successMessage": "Karşılama mesajı sistemi {welcomeChannel} içinde başarıyla uygulandı.",
+                    "existingSystemMessage": "Zaten bir karşılama mesajı sisteminiz var. Yeniden başlatmak için `/welcome-disable` komutunu kullanın."
+                },
+                "disable": {
+                    "successMessage": "Karşılama Mesajı Sistemi başarıyla devre dışı bırakıldı.",
+                    "noSystemMessage": "Devre dışı bırakılacak bir karşılama mesajı sistemi bulunamadı."
+                }
+            },
+            "autoroleConfigure": {
+                "name": "otomatik-rol-yapılandırması",
+                "description": "Bu sunucu için oto rolünüzü yapılandırın.",
+                "enable": {
+                    "name": "etkinleştir",
+                    "description": "Bu sunucu için oto rolünüzü etkinleştirin.",
+                    "role": {
+                        "name": "rol",
+                        "description": "Kullanıcıların katılınca alacakları rol."
+                    }
+                },
+                "disable": {
+                    "name": "devre-dışı-bırak",
+                    "description": "Bu sunucu için oto rolünüzü devre dışı bırakın."
+                }
+            },
+            "setupLogSystem": {
+                "choiceLogChannels": {
+                    "errorMessage": {
+                        "color": "Red",
+                        "timestamp": true,
+                        "author": {
+                            "name": "{interaction.user.displayName}"
+                        },
+                        "fields": [
+                            {
+                                "name": "Log Kanalları",
+                                "value": ">Kanallar zaten mevcut"
+                            }
+                        ]
+                    }
+                },
+                "setupOneLogChannel": {
+                    "errorMessage": {
+                        "color": "Red",
+                        "timestamp": true,
+                        "author": {
+                            "name": "{interaction.user.displayName}"
+                        },
+                        "fields": [
+                            {
+                                "name": "Log Kanalları",
+                                "value": ">Kanallar zaten mevcut"
+                            }
+                        ]
+                    }
+                },
+                "createLogChannel": {
+                    "errorMessage": {
+                        "color": "Red",
+                        "timestamp": true,
+                        "author": {
+                            "name": "{interaction.user.displayName}"
+                        },
+                        "fields": [
+                            {
+                                "name": "Log Kanalları",
+                                "value": ">Kanallar zaten mevcut"
+                            }
+                        ]
+                    },
+                    "successMessage": {
+                        "color": "Green",
+                        "timestamp": true,
+                        "author": {
+                            "name": "{interaction.user.displayName}"
+                        },
+                        "fields": [
+                            {
+                                "name": "Log Kanalları",
+                                "value": ">Log Kanalları başarıyla oluşturuldu"
+                            }
+                        ]
+                    }
+                },
+                "deleteLogChannel": {
+                    "errorMessage": {
+                        "color": "Red",
+                        "timestamp": true,
+                        "author": {
+                            "name": "{interaction.user.displayName}"
+                        },
+                        "fields": [
+                            {
+                                "name": "Log Kanalları",
+                                "value": ">Kanallar mevcut değil"
+                            }
+                        ]
+                    },
+                    "successMessage": {
+                        "color": "Green",
+                        "timestamp": true,
+                        "author": {
+                            "name": "{interaction.user.displayName}"
+                        },
+                        "fields": [
+                            {
+                                "name": "Log Kanalları",
+                                "value": ">Log Kanalları başarıyla silindi"
+                            }
+                        ]
+                    }
+                }
+            },
+            "ticketSetup": {
+                "enable": {
+                    "errorMessage": {
+                        "color": "Red",
+                        "timestamp": true,
+                        "fields": [
+                            {
+                                "name": "Ticket Sistemi",
+                                "value": "Ticket sistemi zaten etkin"
+                            }
+                        ]
+                    },
+                    "successMessage": {
+                        "color": "Green",
+                        "timestamp": true,
+                        "fields": [
+                            {
+                                "name": "Ticket Sunucusu",
+                                "value": "Ticket sistemi başarıyla etkinleştirildi"
+                            }
+                        ]
+                    }
+                },
+                "disable": {
+                    "errorMessage": {
+                        "color": "Red",
+                        "timestamp": true,
+                        "fields": [
+                            {
+                                "name": "Ticket Sistemi",
+                                "value": "Ticket sistemi zaten devre dışı"
+                            }
+                        ]
+                    },
+                    "successMessage": {
+                        "color": "Red",
+                        "timestamp": true,
+                        "fields": [
+                            {
+                                "name": "Ticket Sunucusu",
+                                "value": "Ticket sistemi başarıyla devre dışı bırakıldı"
+                            }
+                        ]
+                    }
+                }
+            },
+            "configSuggestions": {
+                "enable": {
+                    "errorMessage": {
+                        "color": "Green",
+                        "title": "Öneri Sistemi Sunucusu",
+                        "description": "Öneri sistemi zaten mevcut",
+                        "inline": false
+                    },
+                    "successMessage": {
+                        "color": "Green",
+                        "title": "Öneri Sistemi Sunucusu",
+                        "description": "Öneri başarıyla oluşturuldu",
+                        "inline": false
+                    }
+                },
+                "disable": {
+                    "errorMessage": {
+                        "color": "Red",
+                        "title": "Öneri Sistemi Sunucusu",
+                        "description": "Öneri sistemi zaten devre dışı",
+                        "inline": false
+                    },
+                    "successMessage": {
+                        "color": "Red",
+                        "title": "Öneri Sistemi Sunucusu",
+                        "description": "Öneri başarıyla kaldırıldı",
+                        "inline": false
+                    }
+                }
+            },
+            "giveawaySetup": {
+                "enable": {
+                    "errorMessage": {
+                        "color": "Green",
+                        "title": "Çekiliş Sunucusu",
+                        "description": "Çekiliş sistemi zaten mevcut",
+                        "inline": false
+                    },
+                    "successMessage": {
+                        "color": "Green",
+                        "title": "Çekiliş Sunucusu",
+                        "description": "Çekiliş başarıyla oluşturuldu",
+                        "inline": false
+                    }
+                },
+                "disable": {
+                    "errorMessage": {
+                        "color": "Red",
+                        "title": "Çekiliş Sunucusu",
+                        "description": "Çekiliş sistemi zaten devre dışı",
+                        "inline": false
+                    },
+                    "successMessage": {
+                        "color": "Red",
+                        "title": "Çekiliş Sunucusu",
+                        "description": "Çekiliş sistemi başarıyla devre dışı bırakıldı",
+                        "inline": false
+                    }
+                }
+            }
+        }
+    },
+    "buildCommands": {
+        "info": {
+            "name": "bilgi",
+            "description": "Sunucu bilgi sistemi",
+            "emojimap": {
+                "name": "emoji-haritası",
+                "description": "Sunucumuza özel kayıtlı emoji listesi"
+            },
+            "help": {
+                "name": "yardım",
+                "description": "Bot kullanım klavuzu"
+            },
+            "serverInfo": {
+                "name": "sunucu-bilgi",
+                "description": "Sunucumuz hakkında bilgiler"
+            },
+            "userInfo": {
+                "name": "üye-bilgi",
+                "description": "Üye hakkında bilgi al",
+                "options": {
+                    "name": "üye",
+                    "description": "Bilgi almak istediğin üyeyi etiketle"
+                }
+            }
+        },
+        "chatGuard": {
+            "name": "sohbet-koruma-sistemi",
+            "description": "Sohbet korumanızı ayarlayın",
+            "antiLink": {
+                "name": "anti-link",
+                "description": "Anti-link sistemini etkinleştirin veya devre dışı bırakın ve link erişimine sahip bir rol belirtin.",
+                "enable": {
+                    "name": "etkinleştir",
+                    "description": "Bu sunucu için otomatik rolünüzü etkinleştirin.",
+                    "roleOption": {
+                        "name": "link-erişim-rolü",
+                        "description": "Link gönderme erişimine sahip bir rol belirtin.",
+                        "required": true
+                    }
+                },
+                "disable": {
+                    "name": "devre-dışı-bırak",
+                    "description": "Bu sunucu için otomatik rolünüzü devre dışı bırakın."
+                }
+            },
+            "capitalLetter": {
+                "name": "büyük-harf",
+                "description": "Büyük harfle yazmayı yasaklama özelliğini etkinleştirin veya devre dışı bırakın.",
+                "enable": {
+                    "name": "etkinleştir",
+                    "description": "Büyük harfle yazmayı silmeyi etkinleştirin."
+                },
+                "disable": {
+                    "name": "devre-dışı-bırak",
+                    "description": "Büyük harfle yazmayı silmeyi devre dışı bırakın."
+                }
+            },
+            "slowMode": {
+                "name": "yavaş-mod",
+                "description": "Discord sohbet yavaş modunuzu yapılandırın.",
+                "enable": {
+                    "name": "etkinleştir",
+                    "description": "Discord sohbet yavaş modunuzu etkinleştirin.",
+                    "durationOption": {
+                        "name": "süre",
+                        "description": "Discord sohbet yavaş modu süresini belirtin.",
+                        "required": true
+                    },
+                    "channelOption": {
+                        "name": "kanal",
+                        "description": "Seçtiğiniz bir Discord sohbet odası için bir zamanlayıcı ayarlayın.",
+                        "channelTypes": "GuildText"
+                    }
+                },
+                "disable": {
+                    "name": "devre-dışı-bırak",
+                    "description": "Discord sohbet yavaş modunuzu devre dışı bırakın.",
+                    "channelOption": {
+                        "name": "kanal",
+                        "description": "Seçtiğiniz bir Discord sohbet odası için bir zamanlayıcı devre dışı bırakın.",
+                        "channelTypes": "GuildText"
+                    }
+                }
+            },
+            "forbidWord": {
+                "name": "yasak-kelime",
+                "description": "Yasaklanan kelimenizi ekleyin.",
+                "wordOption": {
+                    "name": "kelime",
+                    "description": "Kelime ekleyin.",
+                    "required": true
+                }
+            }
+        },
+        "playGames": {
+            "name": "oyun-oyna",
+            "description": "Metin kanalı oyunu oyna",
+            "gamble": {
+                "name": "kumar",
+                "description": "Bakiyenizin bir kısmını kumar oyna",
+                "options": {
+                    "amount": {
+                        "name": "miktar",
+                        "description": "Kumar oynamak istediğiniz miktar"
+                    }
+                }
+            },
+            "rps": {
+                "name": "tas-kağıt-makas",
+                "description": "Başka bir kullanıcıyla tas kağıt makas oyna",
+                "options": {
+                    "user": {
+                        "name": "kullanıcı",
+                        "description": "Oynamak istediğiniz kullanıcı"
+                    }
+                }
+            }
+        },
+        "modrateSystem": {
+            "name": "düzenleme-sistemi",
+            "description": "Sunucu üyelerini yönet",
+            "kick": {
+                "name": "at",
+                "description": "Bu sunucudan bir üyeyi atar.",
+                "options": {
+                    "targetUser": {
+                        "name": "hedef-üye",
+                        "description": "Atmak istediğiniz kullanıcı."
+                    },
+                    "reason": {
+                        "name": "sebep",
+                        "description": "Atma nedeniniz."
+                    }
+                }
+            },
+            "moveAll": {
+                "name": "herkesi-taşı",
+                "description": "Belirtilen kanaldaki tüm üyeleri hedef kanala taşı",
+                "options": {
+                    "source": {
+                        "name": "kanal",
+                        "description": "Taşınacak üyenin kaynak kanalı."
+                    },
+                    "target": {
+                        "name": "hedef-kanal",
+                        "description": "Üyenin taşınacağı hedef kanal."
+                    }
+                }
+            },
+            "removeRole": {
+                "name": "rolu-kaldır",
+                "description": "Seçilen kullanıcının tüm rollerini kaldır ve ona kayıt rolü ver.",
+                "options": {
+                    "targetUser": {
+                        "name": "hedef-üye",
+                        "description": "Rolleri kaldırmak istediğiniz kullanıcı."
+                    }
+                }
+            },
+            "timeout": {
+                "name": "zaman-aşımı",
+                "description": "Bir kullanıcıyı zaman aşımına uğrat.",
+                "options": {
+                    "targetUser": {
+                        "name": "hedef-üye",
+                        "description": "Zaman aşımına uğratmak istediğiniz kullanıcı."
+                    },
+                    "duration": {
+                        "name": "süre",
+                        "description": "Zaman aşımı süresi (30d, 1s, 1 gün)."
+                    },
+                    "reason": {
+                        "name": "sebep",
+                        "description": "Zaman aşımı nedeni."
+                    }
+                }
+            },
+            "clear": {
+                "name": "temizle",
+                "description": "Belirli bir miktarda mesajı bir hedeften veya kanaldan temizle.",
+                "options": {
+                    "amount": {
+                        "name": "mesaj-sayısı",
+                        "description": "Temizlenecek mesaj miktarı. (1-100)"
+                    },
+                    "target": {
+                        "name": "hedef-üye",
+                        "description": "Mesajlarını temizlemek için bir hedef seçin."
+                    }
+                }
+            },
+            "chanceUserName": {
+                "name": "kullanıcı-adı-değiştir",
+                "description": "Seçili kullanıcı adını değiştir.",
+                "options": {
+                    "targetUser": {
+                        "name": "hedef-üye",
+                        "description": "Kullanıcıyı seç."
+                    },
+                    "setName": {
+                        "name": "isim",
+                        "description": "Kullanıcı adını ayarla."
+                    }
+                }
+            },
+            "ban": {
+                "name": "ban",
+                "description": "Bu sunucudan bir üyeyi yasaklar.",
+                "options": {
+                    "targetUser": {
+                        "name": "hedef-üye",
+                        "description": "Yasaklamak istediğiniz kullanıcı."
+                    },
+                    "reason": {
+                        "name": "sebep",
+                        "description": "Yasaklama nedeniniz."
+                    }
+                }
+            }
+        },
+        "levelSystem": {
+            "name": "seviye-sistemi",
+            "description": "Seviye sistemi",
+            "subcommands": {
+                "daily": {
+                    "name": "günlük",
+                    "description": "Günlük ödüllerini al!"
+                },
+                "balance": {
+                    "name": "bakiye",
+                    "description": "Kendi/başkasının bakiyesini görüntüle",
+                    "options": {
+                        "user": {
+                            "name": "kullanıcı",
+                            "description": "Bakiyesini görmek istediğiniz kullanıcı."
+                        }
+                    }
+                },
+                "level": {
+                    "name": "seviye",
+                    "description": "Kendi/başkasının seviyesini göster",
+                    "options": {
+                        "targetUser": {
+                            "name": "hedef-kullanıcı",
+                            "description": "Seviyesini görmek istediğiniz kullanıcı."
+                        }
+                    }
+                }
+            }
+        },
+        "serverSystem": {
+            "name": "sunucu-sistemi",
+            "description": "Sunucu sistemini ayarla",
+            "configSuggestions": {
+                "name": "ayar-onerileri",
+                "description": "Önerileri yapılandır",
+                "enable": {
+                    "name": "etkinleştir",
+                    "description": "Öneri sistemini etkinleştir"
+                },
+                "disable": {
+                    "name": "devre-dışı-bırak",
+                    "description": "Öneri sistemini devre dışı bırak"
+                }
+            },
+            "joinToCreate": {
+                "name": "katılmak-icin-olustur",
+                "description": "Katılmak için ses kanalı sistemini kur veya devre dışı bırak",
+                "enable": {
+                    "name": "etkinleştir",
+                    "description": "Katılmak için ses kanalı sistemini etkinleştir",
+                    "channel": {
+                        "name": "kanal",
+                        "description": "Katılmak için ses kanalınızı belirtin"
+                    },
+                    "category": {
+                        "name": "kategori",
+                        "description": "Yeni ses kanalının oluşturulacağı kategoriyi belirtin"
+                    },
+                    "voiceLimit": {
+                        "name": "ses-limiti",
+                        "description": "Yeni ses kanalı için varsayılan limiti ayarlayın (2-15)"
+                    }
+                },
+                "disable": {
+                    "name": "devre-dışı-bırak",
+                    "description": "Katılmak için ses kanalı sistemini devre dışı bırak"
+                }
+            },
+            "setupRegister": {
+                "name": "kayit-kurulumu",
+                "description": "Kayıt kanalınızı kur",
+                "activateRoleSelectMenu": {
+                    "name": "rol-secim-menusu-aktifle",
+                    "description": "Rol seçim menünüzü aktifleştir, altı rol ekleyebilirsiniz",
+                    "setRoleType": {
+                        "name": "rol-tipi-ayarla",
+                        "description": "Rol tipinizi ayarlayın"
+                    },
+                    "setRoleContent": {
+                        "name": "rol-icerigini-ayarla",
+                        "description": "Rol içeriğinizi ayarlayın"
+                    },
+                    "setMaxChoice": {
+                        "name": "maks-secim-ayarla",
+                        "description": "Kullanıcının maksimum seçimini belirleyin (1-6)"
+                    },
+                    "setMinChoice": {
+                        "name": "min-secim-ayarla",
+                        "description": "Kullanıcının minimum seçimini belirleyin (0-2)"
+                    },
+                    "roleDefaultName": {
+                        "name": "rol-varsayilan-adi",
+                        "description": "Görünür varsayılan rol adınızı belirtin"
+                    },
+                    "setDefaultRole": {
+                        "name": "varsayilan-rolu-ayarla",
+                        "description": "Varsayılan rolünüzü ayarlayın"
+                    },
+                    "roleFirstName": {
+                        "name": "rol-ilk-ad",
+                        "description": "Görünür ilk rol adınızı belirtin, eğer eklerseniz, lütfen ilk rolü ayarlayın"
+                    },
+                    "setFirstRole": {
+                        "name": "ilk-rolu-ayarla",
+                        "description": "İlk rolünüzü ayarlayın"
+                    },
+                    "roleSecondName": {
+                        "name": "rol-ikinci-ad",
+                        "description": "Görünür ikinci rol adınızı belirtin, eğer eklerseniz, lütfen ikinci rolü ayarlayın"
+                    },
+                    "setSecondRole": {
+                        "name": "ikinci-rolu-ayarla",
+                        "description": "İkinci rolünüzü ayarlayın"
+                    },
+                    "roleThirdName": {
+                        "name": "rol-ucuncu-ad",
+                        "description": "Görünür üçüncü rol adınızı belirtin, eğer eklerseniz, lütfen üçüncü rolü ayarlayın"
+                    },
+                    "setThirdRole": {
+                        "name": "ucuncu-rolu-ayarla",
+                        "description": "Üçüncü rolünüzü ayarlayın"
+                    },
+                    "roleFourthName": {
+                        "name": "rol-dorduncu-ad",
+                        "description": "Görünür dördüncü rol adınızı belirtin, eğer eklerseniz, lütfen dördüncü rolü ayarlayın"
+                    },
+                    "setFourthRole": {
+                        "name": "dorduncu-rolu-ayarla",
+                        "description": "Dördüncü rolünüzü ayarlayın"
+                    },
+                    "roleFifthName": {
+                        "name": "rol-besinci-ad",
+                        "description": "Görünür beşinci rol adınızı belirtin, eğer eklerseniz, lütfen beşinci rolü ayarlayın"
+                    },
+                    "setFifthRole": {
+                        "name": "besinci-rolu-ayarla",
+                        "description": "Beşinci rolünüzü ayarlayın"
+                    }
+                },
+                "userInfoButton": {
+                    "name": "kullanici-bilgi-butonu",
+                    "description": "Bu komut, ad ve yaş hakkında sorular sormak için bir pencere oluşturabilir"
+                }
+            },
+            "setupLogSystem": {
+                "name": "log-sistemini-kur",
+                "description": "Log kanallarınızı kur",
+                "choiceLogChannels": {
+                    "name": "secim-log-kanallari",
+                    "description": "Manuel log kanallarını seçebilirsiniz",
+                    "setCategory": {
+                        "name": "kategori-ayarla",
+                        "description": "Kategorinizi ayarlayın"
+                    },
+                    "joinLogChannel": {
+                        "name": "katilma-log-kanali",
+                        "description": "Katılma log kanalınızı ayarlayın"
+                    },
+                    "leftLogChannel": {
+                        "name": "ayrilma-log-kanali",
+                        "description": "Ayrılma log kanalınızı ayarlayın"
+                    },
+                    "penaltyLogChannel": {
+                        "name": "ceza-log-kanali",
+                        "description": "Ceza log kanalınızı ayarlayın"
+                    },
+                    "addsLogChannel": {
+                        "name": "ekleme-log-kanali",
+                        "description": "Ekleme log kanalınızı ayarlayın"
+                    },
+                    "levelLogChannel": {
+                        "name": "seviye-log-kanali",
+                        "description": "Seviye log kanalınızı ayarlayın"
+                    },
+                    "messageLogChannel": {
+                        "name": "mesaj-log-kanali",
+                        "description": "Mesaj log kanalınızı ayarlayın"
+                    },
+                    "userLogChannel": {
+                        "name": "kullanici-log-kanali",
+                        "description": "Kullanıcı log kanalınızı ayarlayın"
+                    },
+                    "banLogChannel": {
+                        "name": "ban-log-kanali",
+                        "description": "Ban log kanalınızı ayarlayın"
+                    },
+                    "modLogChannel": {
+                        "name": "mod-log-kanali",
+                        "description": "Moderatör log kanalınızı ayarlayın"
+                    },
+                    "inviteLogChannel": {
+                        "name": "davet-log-kanali",
+                        "description": "Davet log kanalınızı ayarlayın"
+                    },
+                    "voiceChatLogChannel": {
+                        "name": "sesli-sohbet-log-kanali",
+                        "description": "Sesli sohbet log kanalınızı ayarlayın"
+                    },
+                    "tagLogChannel": {
+                        "name": "etiket-log-kanali",
+                        "description": "Etiket log kanalınızı ayarlayın"
+                    },
+                    "commandLogChannel": {
+                        "name": "komut-log-kanali",
+                        "description": "Komut log kanalınızı ayarlayın"
+                    }
+                },
+                "setupOneLogChannel": {
+                    "name": "tek-log-kanali-kur",
+                    "description": "Tüm logları tek bir kanala ayarlayabilirsiniz.",
+                    "setCategory": {
+                        "name": "kategori-ayarla",
+                        "description": "Kategorinizi ayarlayın"
+                    },
+                    "selectLogChannel": {
+                        "name": "log-kanali-sec",
+                        "description": "Log kanalınızı seçin"
+                    }
+                },
+                "createLogChannel": {
+                    "name": "log-kanali-olustur",
+                    "description": "Tüm logları otomatik olarak ayrı bir kanala ayarlayabilirsiniz"
+                },
+                "deleteLogChannel": {
+                    "name": "log-kanalini-sil",
+                    "description": "Log kanallarını silebilirsiniz"
+                }
+            },
+            "welcomeConfig": {
+                "name": "hosgeldin-ayar",
+                "description": "Hosgeldin mesajınızı ayarlayın veya devre dışı bırakın",
+                "enable": {
+                    "name": "etkinleştir",
+                    "description": "Sunucunuz için bir hosgeldin mesajı kurun",
+                    "welcomeChannel": {
+                        "name": "hosgeldin-kanali",
+                        "description": "Hosgeldin mesajlarının gönderileceği kanalı belirtin"
+                    },
+                    "registerChannel": {
+                        "name": "kayit-kanali",
+                        "description": "Kayıt işlemlerinin gerçekleşeceği kanala yönlendirin"
+                    }
+                },
+                "disable": {
+                    "name": "devre-dışı-bırak",
+                    "description": "Hosgeldin mesajı sistemini devre dışı bırak"
+                }
+            },
+            "ticketSetup": {
+                "name": "bilet-kurulumu",
+                "description": "Sunucuda bir bilet aç",
+                "enable": {
+                    "name": "etkinleştir",
+                    "description": "Sunucunuz için bilet sistemini etkinleştirin",
+                    "staffRole": {
+                        "name": "personel-rolu",
+                        "description": "İlgileneceğiniz personel rolünü belirtin"
+                    }
+                },
+                "disable": {
+                    "name": "devre-dışı-bırak",
+                    "description": "Sunucunuz için bilet sistemini devre dışı bırak"
+                }
+            },
+            "autoroleConfigure": {
+                "name": "otorol-ayarla",
+                "description": "Sunucunuz için otorolü yapılandır",
+                "enable": {
+                    "name": "etkinleştir",
+                    "description": "Sunucunuz için otorolü etkinleştir",
+                    "role": {
+                        "name": "kayıt-rolü",
+                        "description": "Kullanıcıların katılımında almak istediğiniz rolü belirtin"
+                    }
+                },
+                "disable": {
+                    "name": "devre-dışı-bırak",
+                    "description": "Sunucunuz için otorolü devre dışı bırak"
+                }
+            },
+            "giveawaySetup": {
+                "name": "cekilis-kurulumu",
+                "description": "Sunucuda bir çekiliş sistemi oluştur",
+                "enable": {
+                    "name": "etkinleştir",
+                    "description": "Sunucunuz için çekiliş sistemini etkinleştir"
+                },
+                "disable": {
+                    "name": "devre-dışı-bırak",
+                    "description": "Sunucunuz için çekiliş sistemini devre dışı bırak"
+                }
+            }
+        },
+        "music": {
+            "name": "müzik",
+            "description": "Müziğinizi çalın",
+            "dmPermission": false,
+            "play": {
+                "name": "oynat",
+                "description": "Bir şarkı adı yazın",
+                "options": {
+                    "query": {
+                        "name": "sorgu",
+                        "description": "YouTube URL'sini yapıştırın"
+                    }
+                }
+            },
+            "volume": {
+                "name": "ses",
+                "description": "Şarkı sesini ayarlayın",
+                "options": {
+                    "percent": {
+                        "name": "yüzde",
+                        "description": "10=10%"
+                    }
+                }
+            },
+            "queue": {
+                "name": "sıra",
+                "description": "Müzik sırası"
+            },
+            "skip": {
+                "name": "atla",
+                "description": "Müziği atla"
+            },
+            "pause": {
+                "name": "duraklat",
+                "description": "Müziği duraklat"
+            },
+            "resume": {
+                "name": "devamet",
+                "description": "Müziği devam ettir"
+            },
+            "stop": {
+                "name": "durdur",
+                "description": "Müziği durdur"
+            },
+            "nowPlaying": {
+                "name": "şu-an-çalan",
+                "description": "Şu Anda Çalan"
+            },
+            "shuffle": {
+                "name": "karıştır",
+                "description": "Mevcut çalma listesini karıştır"
+            },
+            "foward": {
+                "name": "ileri",
+                "description": "Şarkıda ileri sarma",
+                "options": {
+                    "seconds": {
+                        "name": "saniye",
+                        "description": "İleri sarmak için saniye miktarı. (10 = 10s)"
+                    }
+                }
+            },
+            "rewind": {
+                "name": "geri",
+                "description": "Şarkıda geri sarma",
+                "options": {
+                    "seconds": {
+                        "name": "saniye",
+                        "description": "Geri sarmak için saniye miktarı. (10 = 10s)"
+                    }
+                }
+            },
+            "loop": {
+                "name": "döngü",
+                "description": "Döngü seçeneklerini göster",
+                "options": {
+                    "name": "döngü-seçenekleri",
+                    "description": "Döngü seçenekleri: kapalı, şarkı, sıra"
                 }
             }
         }

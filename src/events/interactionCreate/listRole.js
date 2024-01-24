@@ -20,8 +20,8 @@ module.exports = async (interaction) => {
 
     const [type, member, action] = interaction.customId.split('.');
     if (type == "language_select_menu") return;
-    langData = await LanguageService.getLocalizedString(interaction.guildId, "listRole");
-
+    langData = await LanguageService.getLocalizedString(interaction.guildId, "events");
+    langData = langData.listRole
     // await interaction.deferReply({ ephemeral: true });
     const query = {
         guildId: interaction.guild.id,

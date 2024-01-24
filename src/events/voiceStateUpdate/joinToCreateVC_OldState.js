@@ -28,7 +28,8 @@ module.exports = async (oldState, newState) => {
         } finally {
             // Delete data from the database
             await joinChannelDb.deleteMany({ guildId: oldState.member.guild.id, UserId: oldState.member.id });
-            langData = await LanguageService.getLocalizedString(oldState.member.guild.id, 'jtcOldState');
+            langData = await LanguageService.getLocalizedString(oldState.member.guild.id, 'events');
+            langData = langData.jtcOldState
 
             // Send a notification to the user
             const embed = new EmbedBuilder()
@@ -42,7 +43,6 @@ module.exports = async (oldState, newState) => {
             try {
                 await oldState.member.send({ embeds: [embed] });
             } catch (error) {
-                console.error("Error sending message to user:", error);
             }
         }
     }

@@ -1,7 +1,7 @@
 const { ModalBuilder, TextInputBuilder, TextInputStyle, ActionRowBuilder, EmbedBuilder, ButtonBuilder, ButtonStyle } = require("discord.js");
 const giveawaySchema = require("../../models/giveaway");
 const LanguageService = require("../../utils/LanguageService"); // Dil servisi eklenmiş
-
+let langData
 /**
  * @param {Interaction} interaction
  */
@@ -13,11 +13,11 @@ module.exports = async (interaction) => {
     const targetGiveaway = await giveawaySchema.findOne({ giveawayId });
     const targetMessage = await interaction.channel.messages.fetch(targetGiveaway.messageId);
     const targetMessageEmbed = targetMessage.embeds[0];
-    
+
     // Dil bilgisini al
     const guildLanguage = await LanguageService.getGuildLanguage(interaction.guildId);
-    const langData = await LanguageService.getLocalizedString(interaction.guildId, "giveawayHandler");
-    
+    langData = await LanguageService.getLocalizedString(interaction.guildId, "events");
+    langData = langData.giveawayHandler 
     switch (action) {
         case "join":
             // Check if the giveaway is open for participation

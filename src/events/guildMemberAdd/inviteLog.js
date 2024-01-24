@@ -1,7 +1,7 @@
 const { EmbedBuilder } = require("discord.js");
 const logChannels = require("../../models/logChannels");
 const LanguageService = require('../../utils/LanguageService');
-
+let langData
 module.exports = async (member) => {
     // Üyenin sunucuya katıldığı sırada mevcut davet bağlantılarını çek
     let logChDB = await logChannels.findOne({ guildId: member.guild.id });
@@ -12,8 +12,8 @@ module.exports = async (member) => {
 
     const channel = member.guild.channels.cache.get(logChDB.joinLog);// LOG_KANAL_ID'yi kendi log kanalınızın ID'si ile değiştirin
     if (!channel) return;
-    const langData = await LanguageService.getLocalizedString(member.guild.id, 'memberJoinLog');
-
+    langData = await LanguageService.getLocalizedString(member.guild.id, 'events');
+    langData = langData.memberJoinLog
     const embed = new EmbedBuilder()
         .setColor('Green')
         .setTitle(langData.title)

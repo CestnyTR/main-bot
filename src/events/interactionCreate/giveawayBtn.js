@@ -2,6 +2,7 @@ const { Interaction, EmbedBuilder, ModalBuilder, TextInputBuilder, TextInputStyl
 const ms = require('ms');
 const giveawaySchema = require("../../models/giveaway");
 const LanguageService = require("../../utils/LanguageService");
+let langData
 
 /**
  * @param {Object} param0
@@ -12,8 +13,8 @@ module.exports = async (interaction) => {
     const command = interaction.customId;
     if (command !== "giveawayBtnId") return;
 
-    const langData = await LanguageService.getLocalizedString(interaction.guildId, "giveawayBtn");
-
+    langData = await LanguageService.getLocalizedString(interaction.guildId, "events");
+    langData = langData.giveawayBtn
     const embed = new EmbedBuilder();
     const giveawayModal = new ModalBuilder()
         .setCustomId(`giveawayModalId-${interaction.user.id}`)

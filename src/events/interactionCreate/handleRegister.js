@@ -14,8 +14,8 @@ module.exports = async (interaction) => {
     let guild = interaction.guild;
     const autoRole = await AutoRole.findOne({ guildId: guild.id });
     if (!autoRole) return;
-    langData = await LanguageService.getLocalizedString(interaction.guildId, "register");
-
+    langData = await LanguageService.getLocalizedString(interaction.guildId, "events");
+    langData = langData.register
     const registerRole = interaction.guild.roles.cache.get(autoRole.roleId);
     const hasRole = interaction.member.roles.cache.has(registerRole.id);
     if (!hasRole) return interaction.reply({

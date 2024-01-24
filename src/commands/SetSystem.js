@@ -7,180 +7,734 @@ const voiceDB = require('../models/JoinToCreate');
 const ticketSystemSchema = require("../models/TicketSystem")
 const welcomeSchema = require('../models/Welcome');
 const giveawaySystemSchema = require('../models/giveawaySys');
-
+const trLang = require("../lang/tr.json").buildCommands.serverSystem;
+const enLang = require("../lang/en.json").buildCommands.serverSystem;
+const LanguageService = require("../../utils/LanguageService");
+let langData
 module.exports = {
     data: new SlashCommandBuilder()
-        .setName("server-system")
-        .setDescription("Set server system ")
+        .setName(enLang.name)
+        .setNameLocalizations({
+            tr: trLang.name,
+        })
+        .setDescription(enLang.description)
+        .setDescriptionLocalizations({
+            tr: trLang.description,
+        })
         .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
         .setDMPermission(false)
+
         .addSubcommandGroup((addSubcommandGroup) => addSubcommandGroup
-            .setName("config-suggestions")
-            .setDescription("configure sugestions.")
+            .setName(enLang.configSuggestions.name)
+            .setNameLocalizations({
+                tr: trLang.configSuggestions.name,
+            })
+            .setDescription(enLang.configSuggestions.description)
+            .setDescriptionLocalizations({
+                tr: trLang.configSuggestions.description,
+            })
             .addSubcommand((subcommand) => subcommand
-                .setName('enable')
-                .setDescription("enable the Suggestions system.")
+                .setName(enLang.configSuggestions.enable.name)
+                .setNameLocalizations({
+                    tr: trLang.configSuggestions.enable.name,
+                })
+                .setDescription(enLang.configSuggestions.enable.description)
+                .setDescriptionLocalizations({
+                    tr: trLang.configSuggestions.enable.description,
+                })
             )
             .addSubcommand((subcommand) => subcommand
-                .setName('disable')
-                .setDescription("Disable the Suggestions system.")
+                .setName(enLang.configSuggestions.disable.name)
+                .setNameLocalizations({
+                    tr: trLang.configSuggestions.disable.name,
+                })
+                .setDescription(enLang.configSuggestions.disable.description)
+                .setDescriptionLocalizations({
+                    tr: trLang.configSuggestions.disable.description,
+                })
             )
         )
+
         .addSubcommandGroup((addSubcommandGroup) => addSubcommandGroup
-            .setName("join-to-create")
-            .setDescription("Setup or disable your join to create voice channel system")
-
-
+            .setName(enLang.joinToCreate.name)
+            .setNameLocalizations({
+                tr: trLang.joinToCreate.name,
+            })
+            .setDescription(enLang.joinToCreate.description)
+            .setDescriptionLocalizations({
+                tr: trLang.joinToCreate.description,
+            })
             .addSubcommand((subcommand) => subcommand
-                .setName("enable")
-                .setDescription("Enable your join to create voice channel system ")
-                .addChannelOption(option => option.setName("channel").setDescription("The channel you want to be your join to create voice channel").setRequired(true).addChannelTypes(ChannelType.GuildVoice))
-                .addChannelOption(option => option.setName("category").setDescription("The category you want for the new voice channel created in").setRequired(true).addChannelTypes(ChannelType.GuildCategory))
-                .addIntegerOption(option => option.setName("voice-limit").setDescription("Set default limit for the new voice channel (2-15)").setMinValue(2).setMaxValue(15))
-            )
-            .addSubcommand((subcommand) => subcommand
-                .setName("disable")
-                .setDescription("Disable your join to create voice channel system")
-            )
-        )
-        .addSubcommandGroup((addSubcommandGroup) => addSubcommandGroup
-            .setName("setup-register")
-            .setDescription("Setup your register chanel")
-            .addSubcommand((subcommand) => subcommand
-                .setName("activate-role-selecet-menu")
-                .setDescription("Activate your role select menu ,u can add six role")
-                .addStringOption((option) => option.setName("set-role-type").setDescription("set your role type").setRequired(true))
-                .addStringOption((option) => option.setName("set-role-content").setDescription("set your role content").setRequired(true))
-                .addIntegerOption((option) => option.setName("set-max-choice").setDescription("user maximum selection 1-6").setMinValue(1).setMaxValue(6).setRequired(true))
-                .addIntegerOption((option) => option.setName("set-min-choice").setDescription("user minimum  selection 0-2").setMinValue(0).setMaxValue(2).setRequired(true))
-                .addStringOption((option) => option.setName("role-default-name").setDescription("set your visible default role name").setRequired(true))
-                .addRoleOption((option) => option.setName("set-default-role").setDescription("set your default role ").setRequired(true))
-
-                .addStringOption((option) => option.setName("role-first-name").setDescription("set your first visible role name, if you add this please set first role"))
-                .addRoleOption((option) => option.setName("set-first-role").setDescription("set your first role "))
-
-                .addStringOption((option) => option.setName("role-second-name").setDescription("set your visible second role name, if you add this please set second role"))
-                .addRoleOption((option) => option.setName("set-second-role").setDescription("set your second role "))
-
-                .addStringOption((option) => option.setName("role-third-name").setDescription("set your visible third role name, if you add this please set third role"))
-                .addRoleOption((option) => option.setName("set-third-role").setDescription("set your third role "))
-
-                .addStringOption((option) => option.setName("role-fourth-name").setDescription("set your visible fourth role name, if you add this please set fourth role"))
-                .addRoleOption((option) => option.setName("set-fourth-role").setDescription("set your fourth role "))
-
-                .addStringOption((option) => option.setName("role-fifth-name").setDescription("set your visible fifth role name, if you add this please set fifth role"))
-                .addRoleOption((option) => option.setName("set-fifth-role").setDescription("set your fifth role "))
-            )
-            .addSubcommand((subcommand) => subcommand
-                .setName("user-info-button")
-                .setDescription("This command can create a modal for ask question name and age")
-            )
-        )
-        .addSubcommandGroup((addSubcommandGroup) => addSubcommandGroup
-            .setName("setup-log-system")
-            .setDescription("Setup your log chanels")
-
-
-            .addSubcommand((subcommand) => subcommand
-                .setName("choice-log-channels").setDescription("You can  choice manuel log channels")
-                .addChannelOption((option) => option.setName("set-category").setDescription("set your category").addChannelTypes(ChannelType.GuildCategory).setRequired(true))
-                .addChannelOption((option) => option.setName("join-log-channel").setDescription("set your joinLog channel ").addChannelTypes(ChannelType.GuildText).setRequired(true))
-                .addChannelOption((option) => option.setName("left-log-channel").setDescription("set your leftLog channel ").addChannelTypes(ChannelType.GuildText).setRequired(true))
-                .addChannelOption((option) => option.setName("penalty-log-channel").setDescription("set your penaltyLog channel ").addChannelTypes(ChannelType.GuildText).setRequired(true))
-                .addChannelOption((option) => option.setName("adds-log-channel").setDescription("set your addsLog channel ").addChannelTypes(ChannelType.GuildText).setRequired(true))
-                .addChannelOption((option) => option.setName("level-log-channel").setDescription("set your levelLog channel ").addChannelTypes(ChannelType.GuildText).setRequired(true))
-                .addChannelOption((option) => option.setName("message-log-channel").setDescription("set your messageLog channel ").addChannelTypes(ChannelType.GuildText).setRequired(true))
-                .addChannelOption((option) => option.setName("user-log-channel").setDescription("set your userLog channel ").addChannelTypes(ChannelType.GuildText).setRequired(true))
-                .addChannelOption((option) => option.setName("ban-log-channel").setDescription("set your banLog channel ").addChannelTypes(ChannelType.GuildText).setRequired(true))
-                .addChannelOption((option) => option.setName("mod-log-channel").setDescription("set your modLog channel ").addChannelTypes(ChannelType.GuildText).setRequired(true))
-                .addChannelOption((option) => option.setName("invite-log-channel").setDescription("set your inviteLog channel ").addChannelTypes(ChannelType.GuildText).setRequired(true))
-                .addChannelOption((option) => option.setName("voice-chat-log-channel").setDescription("set your voiceChatLog channel ").addChannelTypes(ChannelType.GuildText).setRequired(true))
-                .addChannelOption((option) => option.setName("tag-log-channel").setDescription("set your tagLog channel ").addChannelTypes(ChannelType.GuildText).setRequired(true))
-                .addChannelOption((option) => option.setName("command-log-channel").setDescription("set your joinLog channel ").addChannelTypes(ChannelType.GuildText).setRequired(true))
-            )
-            .addSubcommand((subcommand) => subcommand
-                .setName("setup-one-log-channel").setDescription("You can set  all logos in one channel.Please remember to set channel permissions after using")
-                .addChannelOption((option) => option.setName("set-category").setDescription("set your category").addChannelTypes(ChannelType.GuildCategory).setRequired(true))
-                .addChannelOption((option) => option.setName("select-log-channel").setDescription("set your log channel ").addChannelTypes(ChannelType.GuildText).setRequired(true))
-            )
-            .addSubcommand((subcommand) => subcommand
-                .setName("create-log-channel").setDescription("You can set automatically set all logs on separate channel.")
-            )
-            .addSubcommand((subcommand) => subcommand
-                .setName("delete-log-channel").setDescription("You can delete logs channel.")
-            )
-        )
-        .addSubcommandGroup((addSubcommandGroup) => addSubcommandGroup
-            .setName("welcome-config")
-            .setDescription("Set your welcome message or disable")
-
-            .addSubcommand((subcommand) => subcommand
-                .setName('enable')
-                .setDescription(`Setup a welcome message for your guild`)
+                .setName(enLang.joinToCreate.enable.name)
+                .setNameLocalizations({
+                    tr: trLang.joinToCreate.enable.name,
+                })
+                .setDescription(enLang.joinToCreate.enable.description)
+                .setDescriptionLocalizations({
+                    tr: trLang.joinToCreate.enable.description,
+                })
                 .addChannelOption(option => option
-                    .setName('welcome-channel')
-                    .setDescription(`Please indicate the channel where you would like the welcome messages to be sent.`)
+                    .setName(enLang.joinToCreate.enable.channel.name)
+                    .setNameLocalizations({
+                        tr: trLang.joinToCreate.enable.channel.name,
+                    })
+                    .setDescription(enLang.joinToCreate.enable.channel.description)
+                    .setDescriptionLocalizations({
+                        tr: trLang.joinToCreate.enable.channel.description,
+                    })
+                    .setRequired(true)
+                    .addChannelTypes(ChannelType.GuildVoice)
+                )
+                .addChannelOption(option => option
+                    .setName(enLang.joinToCreate.enable.category.name)
+                    .setNameLocalizations({
+                        tr: trLang.joinToCreate.enable.category.name,
+                    })
+                    .setDescription(enLang.joinToCreate.enable.category.description)
+                    .setDescriptionLocalizations({
+                        tr: trLang.joinToCreate.enable.category.description,
+                    })
+                    .setRequired(true)
+                    .addChannelTypes(ChannelType.GuildCategory)
+                )
+                .addIntegerOption(option => option
+                    .setName(enLang.joinToCreate.enable.voiceLimit.name)
+                    .setNameLocalizations({
+                        tr: trLang.joinToCreate.enable.voiceLimit.name,
+                    })
+                    .setDescription(enLang.joinToCreate.enable.voiceLimit.description)
+                    .setDescriptionLocalizations({
+                        tr: trLang.joinToCreate.enable.voiceLimit.description,
+                    })
+                    .setMinValue(2)
+                    .setMaxValue(15)
+                )
+            )
+            .addSubcommand((subcommand) => subcommand
+                .setName(enLang.joinToCreate.disable.name)
+                .setNameLocalizations({
+                    tr: trLang.joinToCreate.disable.name,
+                })
+                .setDescription(enLang.joinToCreate.disable.description)
+                .setDescriptionLocalizations({
+                    tr: trLang.joinToCreate.disable.description,
+                })
+            )
+        )
+
+        .addSubcommandGroup((addSubcommandGroup) => addSubcommandGroup
+            .setName(enLang.setupRegister.name)
+            .setNameLocalizations({
+                tr: trLang.setupRegister.name,
+            })
+            .setDescription(enLang.setupRegister.description)
+            .setDescriptionLocalizations({
+                tr: trLang.setupRegister.description,
+            })
+            .addSubcommand((subcommand) => subcommand
+                .setName(enLang.setupRegister.activateRoleSelectMenu.name)
+                .setNameLocalizations({
+                    tr: trLang.setupRegister.activateRoleSelectMenu.name,
+                })
+                .setDescription(enLang.setupRegister.activateRoleSelectMenu.description)
+                .setDescriptionLocalizations({
+                    tr: trLang.setupRegister.activateRoleSelectMenu.description,
+                })
+                .addStringOption((option) => option
+                    .setName(enLang.setupRegister.activateRoleSelectMenu.setRoleType.name)
+                    .setNameLocalizations({
+                        tr: trLang.setupRegister.activateRoleSelectMenu.setRoleType.name,
+                    })
+                    .setDescription(enLang.setupRegister.activateRoleSelectMenu.setRoleType.description)
+                    .setDescriptionLocalizations({
+                        tr: trLang.setupRegister.activateRoleSelectMenu.setRoleType.description,
+                    })
+                    .setRequired(true)
+                )
+                .addStringOption((option) => option
+                    .setName(enLang.setupRegister.activateRoleSelectMenu.setRoleContent.name)
+                    .setNameLocalizations({
+                        tr: trLang.setupRegister.activateRoleSelectMenu.setRoleContent.name,
+                    })
+                    .setDescription(enLang.setupRegister.activateRoleSelectMenu.setRoleContent.description)
+                    .setDescriptionLocalizations({
+                        tr: trLang.setupRegister.activateRoleSelectMenu.setRoleContent.description,
+                    })
+                    .setRequired(true)
+                )
+                .addIntegerOption((option) => option
+                    .setName(enLang.setupRegister.activateRoleSelectMenu.setMaxChoice.name)
+                    .setNameLocalizations({
+                        tr: trLang.setupRegister.activateRoleSelectMenu.setMaxChoice.name,
+                    })
+                    .setDescription(enLang.setupRegister.activateRoleSelectMenu.setMaxChoice.description)
+                    .setDescriptionLocalizations({
+                        tr: trLang.setupRegister.activateRoleSelectMenu.setMaxChoice.description,
+                    })
+                    .setMinValue(1)
+                    .setMaxValue(6)
+                    .setRequired(true)
+                )
+                .addIntegerOption((option) => option
+                    .setName(enLang.setupRegister.activateRoleSelectMenu.setMinChoice.name)
+                    .setNameLocalizations({
+                        tr: trLang.setupRegister.activateRoleSelectMenu.setMinChoice.name,
+                    })
+                    .setDescription(enLang.setupRegister.activateRoleSelectMenu.setMinChoice.description)
+                    .setDescriptionLocalizations({
+                        tr: trLang.setupRegister.activateRoleSelectMenu.setMinChoice.description,
+                    })
+                    .setMinValue(0)
+                    .setMaxValue(2)
+                    .setRequired(true)
+                )
+                .addStringOption((option) => option
+                    .setName(enLang.setupRegister.activateRoleSelectMenu.roleDefaultName.name)
+                    .setNameLocalizations({
+                        tr: trLang.setupRegister.activateRoleSelectMenu.roleDefaultName.name,
+                    })
+                    .setDescription(enLang.setupRegister.activateRoleSelectMenu.roleDefaultName.description)
+                    .setDescriptionLocalizations({
+                        tr: trLang.setupRegister.activateRoleSelectMenu.roleDefaultName.description,
+                    })
+                    .setRequired(true)
+                )
+                .addRoleOption((option) => option
+                    .setName(enLang.setupRegister.activateRoleSelectMenu.setDefaultRole.name)
+                    .setNameLocalizations({
+                        tr: trLang.setupRegister.activateRoleSelectMenu.setDefaultRole.name,
+                    })
+                    .setDescription(enLang.setupRegister.activateRoleSelectMenu.setDefaultRole.description)
+                    .setDescriptionLocalizations({
+                        tr: trLang.setupRegister.activateRoleSelectMenu.setDefaultRole.description,
+                    })
+                    .setRequired(true)
+                )
+                .addStringOption((option) => option
+                    .setName(enLang.setupRegister.activateRoleSelectMenu.roleFirstName.name)
+                    .setNameLocalizations({
+                        tr: trLang.setupRegister.activateRoleSelectMenu.roleFirstName.name,
+                    })
+                    .setDescription(enLang.setupRegister.activateRoleSelectMenu.roleFirstName.description)
+                    .setDescriptionLocalizations({
+                        tr: trLang.setupRegister.activateRoleSelectMenu.roleFirstName.description,
+                    })
+                )
+                .addRoleOption((option) => option
+                    .setName(enLang.setupRegister.activateRoleSelectMenu.setFirstRole.name)
+                    .setNameLocalizations({
+                        tr: trLang.setupRegister.activateRoleSelectMenu.setFirstRole.name,
+                    })
+                    .setDescription(enLang.setupRegister.activateRoleSelectMenu.setFirstRole.description)
+                    .setDescriptionLocalizations({
+                        tr: trLang.setupRegister.activateRoleSelectMenu.setFirstRole.description,
+                    })
+                )
+                .addStringOption((option) => option
+                    .setName(enLang.setupRegister.activateRoleSelectMenu.roleSecondName.name)
+                    .setNameLocalizations({
+                        tr: trLang.setupRegister.activateRoleSelectMenu.roleSecondName.name,
+                    })
+                    .setDescription(enLang.setupRegister.activateRoleSelectMenu.roleSecondName.description)
+                    .setDescriptionLocalizations({
+                        tr: trLang.setupRegister.activateRoleSelectMenu.roleSecondName.description,
+                    })
+                )
+                .addRoleOption((option) => option
+                    .setName(enLang.setupRegister.activateRoleSelectMenu.setSecondRole.name)
+                    .setNameLocalizations({
+                        tr: trLang.setupRegister.activateRoleSelectMenu.setSecondRole.name,
+                    })
+                    .setDescription(enLang.setupRegister.activateRoleSelectMenu.setSecondRole.description)
+                    .setDescriptionLocalizations({
+                        tr: trLang.setupRegister.activateRoleSelectMenu.setSecondRole.description,
+                    })
+                )
+                .addStringOption((option) => option
+                    .setName(enLang.setupRegister.activateRoleSelectMenu.roleThirdName.name)
+                    .setNameLocalizations({
+                        tr: trLang.setupRegister.activateRoleSelectMenu.roleThirdName.name,
+                    })
+                    .setDescription(enLang.setupRegister.activateRoleSelectMenu.roleThirdName.description)
+                    .setDescriptionLocalizations({
+                        tr: trLang.setupRegister.activateRoleSelectMenu.roleThirdName.description,
+                    })
+                )
+                .addRoleOption((option) => option
+                    .setName(enLang.setupRegister.activateRoleSelectMenu.setThirdRole.name)
+                    .setNameLocalizations({
+                        tr: trLang.setupRegister.activateRoleSelectMenu.setThirdRole.name,
+                    })
+                    .setDescription(enLang.setupRegister.activateRoleSelectMenu.setThirdRole.description)
+                    .setDescriptionLocalizations({
+                        tr: trLang.setupRegister.activateRoleSelectMenu.setThirdRole.description,
+                    })
+                )
+                .addStringOption((option) => option
+                    .setName(enLang.setupRegister.activateRoleSelectMenu.roleFourthName.name)
+                    .setNameLocalizations({
+                        tr: trLang.setupRegister.activateRoleSelectMenu.roleFourthName.name,
+                    })
+                    .setDescription(enLang.setupRegister.activateRoleSelectMenu.roleFourthName.description)
+                    .setDescriptionLocalizations({
+                        tr: trLang.setupRegister.activateRoleSelectMenu.roleFourthName.description,
+                    })
+                )
+                .addRoleOption((option) => option
+                    .setName(enLang.setupRegister.activateRoleSelectMenu.setFourthRole.name)
+                    .setNameLocalizations({
+                        tr: trLang.setupRegister.activateRoleSelectMenu.setFourthRole.name,
+                    })
+                    .setDescription(enLang.setupRegister.activateRoleSelectMenu.setFourthRole.description)
+                    .setDescriptionLocalizations({
+                        tr: trLang.setupRegister.activateRoleSelectMenu.setFourthRole.description,
+                    })
+                )
+                .addStringOption((option) => option
+                    .setName(enLang.setupRegister.activateRoleSelectMenu.roleFifthName.name)
+                    .setNameLocalizations({
+                        tr: trLang.setupRegister.activateRoleSelectMenu.roleFifthName.name,
+                    })
+                    .setDescription(enLang.setupRegister.activateRoleSelectMenu.roleFifthName.description)
+                    .setDescriptionLocalizations({
+                        tr: trLang.setupRegister.activateRoleSelectMenu.roleFifthName.description,
+                    })
+                )
+                .addRoleOption((option) => option
+                    .setName(enLang.setupRegister.activateRoleSelectMenu.setFifthRole.name)
+                    .setNameLocalizations({
+                        tr: trLang.setupRegister.activateRoleSelectMenu.setFifthRole.name,
+                    })
+                    .setDescription(enLang.setupRegister.activateRoleSelectMenu.setFifthRole.description)
+                    .setDescriptionLocalizations({
+                        tr: trLang.setupRegister.activateRoleSelectMenu.setFifthRole.description,
+                    })
+                )
+            )
+            .addSubcommand((subcommand) => subcommand
+                .setName(enLang.setupRegister.userInfoButton.name)
+                .setNameLocalizations({
+                    tr: trLang.setupRegister.userInfoButton.name,
+                })
+                .setDescription(enLang.setupRegister.userInfoButton.description)
+                .setDescriptionLocalizations({
+                    tr: trLang.setupRegister.userInfoButton.description,
+                })
+            )
+        )
+
+        .addSubcommandGroup((addSubcommandGroup) => addSubcommandGroup
+            .setName(enLang.setupLogSystem.name)
+            .setNameLocalizations({
+                tr: trLang.setupLogSystem.name,
+            })
+            .setDescription(enLang.setupLogSystem.description)
+            .setDescriptionLocalizations({
+                tr: trLang.setupLogSystem.description,
+            })
+            .addSubcommand((subcommand) => subcommand
+                .setName(enLang.setupLogSystem.choiceLogChannels.name)
+                .setNameLocalizations({
+                    tr: trLang.setupLogSystem.choiceLogChannels.name,
+                })
+                .setDescription(enLang.setupLogSystem.choiceLogChannels.description)
+                .setDescriptionLocalizations({
+                    tr: trLang.setupLogSystem.choiceLogChannels.description,
+                })
+                .addChannelOption((option) => option
+                    .setName(enLang.setupLogSystem.choiceLogChannels.setCategory.name)
+                    .setNameLocalizations({
+                        tr: trLang.setupLogSystem.choiceLogChannels.setCategory.name,
+                    })
+                    .setDescription(enLang.setupLogSystem.choiceLogChannels.setCategory.description)
+                    .setDescriptionLocalizations({
+                        tr: trLang.setupLogSystem.choiceLogChannels.setCategory.description,
+                    })
+                    .addChannelTypes(ChannelType.GuildCategory)
+                    .setRequired(true)
+                )
+                .addChannelOption((option) => option
+                    .setName(enLang.setupLogSystem.choiceLogChannels.joinLogChannel.name)
+                    .setNameLocalizations({
+                        tr: trLang.setupLogSystem.choiceLogChannels.joinLogChannel.name,
+                    })
+                    .setDescription(enLang.setupLogSystem.choiceLogChannels.joinLogChannel.description)
+                    .setDescriptionLocalizations({
+                        tr: trLang.setupLogSystem.choiceLogChannels.joinLogChannel.description,
+                    })
+                    .addChannelTypes(ChannelType.GuildText)
+                    .setRequired(true)
+                )
+                .addChannelOption((option) => option
+                    .setName(enLang.setupLogSystem.choiceLogChannels.leftLogChannel.name)
+                    .setNameLocalizations({
+                        tr: trLang.setupLogSystem.choiceLogChannels.leftLogChannel.name,
+                    })
+                    .setDescription(enLang.setupLogSystem.choiceLogChannels.leftLogChannel.description)
+                    .setDescriptionLocalizations({
+                        tr: trLang.setupLogSystem.choiceLogChannels.leftLogChannel.description,
+                    })
+                    .addChannelTypes(ChannelType.GuildText)
+                    .setRequired(true)
+                )
+                .addChannelOption((option) => option
+                    .setName(enLang.setupLogSystem.choiceLogChannels.penaltyLogChannel.name)
+                    .setNameLocalizations({
+                        tr: trLang.setupLogSystem.choiceLogChannels.penaltyLogChannel.name,
+                    })
+                    .setDescription(enLang.setupLogSystem.choiceLogChannels.penaltyLogChannel.description)
+                    .setDescriptionLocalizations({
+                        tr: trLang.setupLogSystem.choiceLogChannels.penaltyLogChannel.description,
+                    })
+                    .addChannelTypes(ChannelType.GuildText)
+                    .setRequired(true)
+                )
+                .addChannelOption((option) => option
+                    .setName(enLang.setupLogSystem.choiceLogChannels.addsLogChannel.name)
+                    .setNameLocalizations({
+                        tr: trLang.setupLogSystem.choiceLogChannels.addsLogChannel.name,
+                    })
+                    .setDescription(enLang.setupLogSystem.choiceLogChannels.addsLogChannel.description)
+                    .setDescriptionLocalizations({
+                        tr: trLang.setupLogSystem.choiceLogChannels.addsLogChannel.description,
+                    })
+                    .addChannelTypes(ChannelType.GuildText)
+                    .setRequired(true)
+                )
+                .addChannelOption((option) => option
+                    .setName(enLang.setupLogSystem.choiceLogChannels.levelLogChannel.name)
+                    .setNameLocalizations({
+                        tr: trLang.setupLogSystem.choiceLogChannels.levelLogChannel.name,
+                    })
+                    .setDescription(enLang.setupLogSystem.choiceLogChannels.levelLogChannel.description)
+                    .setDescriptionLocalizations({
+                        tr: trLang.setupLogSystem.choiceLogChannels.levelLogChannel.description,
+                    })
+                    .addChannelTypes(ChannelType.GuildText)
+                    .setRequired(true)
+                )
+                .addChannelOption((option) => option
+                    .setName(enLang.setupLogSystem.choiceLogChannels.messageLogChannel.name)
+                    .setNameLocalizations({
+                        tr: trLang.setupLogSystem.choiceLogChannels.messageLogChannel.name,
+                    })
+                    .setDescription(enLang.setupLogSystem.choiceLogChannels.messageLogChannel.description)
+                    .setDescriptionLocalizations({
+                        tr: trLang.setupLogSystem.choiceLogChannels.messageLogChannel.description,
+                    })
+                    .addChannelTypes(ChannelType.GuildText)
+                    .setRequired(true)
+                )
+                .addChannelOption((option) => option
+                    .setName(enLang.setupLogSystem.choiceLogChannels.userLogChannel.name)
+                    .setNameLocalizations({
+                        tr: trLang.setupLogSystem.choiceLogChannels.userLogChannel.name,
+                    })
+                    .setDescription(enLang.setupLogSystem.choiceLogChannels.userLogChannel.description)
+                    .setDescriptionLocalizations({
+                        tr: trLang.setupLogSystem.choiceLogChannels.userLogChannel.description,
+                    })
+                    .addChannelTypes(ChannelType.GuildText)
+                    .setRequired(true)
+                )
+                .addChannelOption((option) => option
+                    .setName(enLang.setupLogSystem.choiceLogChannels.banLogChannel.name)
+                    .setNameLocalizations({
+                        tr: trLang.setupLogSystem.choiceLogChannels.banLogChannel.name,
+                    })
+                    .setDescription(enLang.setupLogSystem.choiceLogChannels.banLogChannel.description)
+                    .setDescriptionLocalizations({
+                        tr: trLang.setupLogSystem.choiceLogChannels.banLogChannel.description,
+                    })
+                    .addChannelTypes(ChannelType.GuildText)
+                    .setRequired(true)
+                )
+                .addChannelOption((option) => option
+                    .setName(enLang.setupLogSystem.choiceLogChannels.modLogChannel.name)
+                    .setNameLocalizations({
+                        tr: trLang.setupLogSystem.choiceLogChannels.modLogChannel.name,
+                    })
+                    .setDescription(enLang.setupLogSystem.choiceLogChannels.modLogChannel.description)
+                    .setDescriptionLocalizations({
+                        tr: trLang.setupLogSystem.choiceLogChannels.modLogChannel.description,
+                    })
+                    .addChannelTypes(ChannelType.GuildText)
+                    .setRequired(true)
+                )
+                .addChannelOption((option) => option
+                    .setName(enLang.setupLogSystem.choiceLogChannels.inviteLogChannel.name)
+                    .setNameLocalizations({
+                        tr: trLang.setupLogSystem.choiceLogChannels.inviteLogChannel.name,
+                    })
+                    .setDescription(enLang.setupLogSystem.choiceLogChannels.inviteLogChannel.description)
+                    .setDescriptionLocalizations({
+                        tr: trLang.setupLogSystem.choiceLogChannels.inviteLogChannel.description,
+                    })
+                    .addChannelTypes(ChannelType.GuildText)
+                    .setRequired(true)
+                )
+                .addChannelOption((option) => option
+                    .setName(enLang.setupLogSystem.choiceLogChannels.voiceChatLogChannel.name)
+                    .setNameLocalizations({
+                        tr: trLang.setupLogSystem.choiceLogChannels.voiceChatLogChannel.name,
+                    })
+                    .setDescription(enLang.setupLogSystem.choiceLogChannels.voiceChatLogChannel.description)
+                    .setDescriptionLocalizations({
+                        tr: trLang.setupLogSystem.choiceLogChannels.voiceChatLogChannel.description,
+                    })
+                    .addChannelTypes(ChannelType.GuildText)
+                    .setRequired(true)
+                )
+                .addChannelOption((option) => option
+                    .setName(enLang.setupLogSystem.choiceLogChannels.tagLogChannel.name)
+                    .setNameLocalizations({
+                        tr: trLang.setupLogSystem.choiceLogChannels.tagLogChannel.name,
+                    })
+                    .setDescription(enLang.setupLogSystem.choiceLogChannels.tagLogChannel.description)
+                    .setDescriptionLocalizations({
+                        tr: trLang.setupLogSystem.choiceLogChannels.tagLogChannel.description,
+                    })
+                    .addChannelTypes(ChannelType.GuildText)
+                    .setRequired(true)
+                )
+                .addChannelOption((option) => option
+                    .setName(enLang.setupLogSystem.choiceLogChannels.commandLogChannel.name)
+                    .setNameLocalizations({
+                        tr: trLang.setupLogSystem.choiceLogChannels.commandLogChannel.name,
+                    })
+                    .setDescription(enLang.setupLogSystem.choiceLogChannels.commandLogChannel.description)
+                    .setDescriptionLocalizations({
+                        tr: trLang.setupLogSystem.choiceLogChannels.commandLogChannel.description,
+                    })
+                    .addChannelTypes(ChannelType.GuildText)
+                    .setRequired(true)
+                )
+            )
+            .addSubcommand((subcommand) => subcommand
+                .setName(enLang.setupLogSystem.setupOneLogChannel.name)
+                .setNameLocalizations({
+                    tr: trLang.setupLogSystem.setupOneLogChannel.name,
+                })
+                .setDescription(enLang.setupLogSystem.setupOneLogChannel.description)
+                .setDescriptionLocalizations({
+                    tr: trLang.setupLogSystem.setupOneLogChannel.description,
+                })
+                .addChannelOption((option) => option
+                    .setName(enLang.setupLogSystem.setupOneLogChannel.setCategory.name)
+                    .setNameLocalizations({
+                        tr: trLang.setupLogSystem.setupOneLogChannel.setCategory.name,
+                    })
+                    .setDescription(enLang.setupLogSystem.setupOneLogChannel.setCategory.description)
+                    .setDescriptionLocalizations({
+                        tr: trLang.setupLogSystem.setupOneLogChannel.setCategory.description,
+                    })
+                    .addChannelTypes(ChannelType.GuildCategory)
+                    .setRequired(true)
+                )
+                .addChannelOption((option) => option
+                    .setName(enLang.setupLogSystem.setupOneLogChannel.selectLogChannel.name)
+                    .setNameLocalizations({
+                        tr: trLang.setupLogSystem.setupOneLogChannel.selectLogChannel.name,
+                    })
+                    .setDescription(enLang.setupLogSystem.setupOneLogChannel.selectLogChannel.description)
+                    .setDescriptionLocalizations({
+                        tr: trLang.setupLogSystem.setupOneLogChannel.selectLogChannel.description,
+                    })
+                    .addChannelTypes(ChannelType.GuildText)
+                    .setRequired(true)
+                )
+            )
+            .addSubcommand((subcommand) => subcommand
+                .setName(enLang.setupLogSystem.createLogChannel.name)
+                .setNameLocalizations({
+                    tr: trLang.setupLogSystem.createLogChannel.name,
+                })
+                .setDescription(enLang.setupLogSystem.createLogChannel.description)
+                .setDescriptionLocalizations({
+                    tr: trLang.setupLogSystem.createLogChannel.description,
+                })
+            )
+            .addSubcommand((subcommand) => subcommand
+                .setName(enLang.setupLogSystem.deleteLogChannel.name)
+                .setNameLocalizations({
+                    tr: trLang.setupLogSystem.deleteLogChannel.name,
+                })
+                .setDescription(enLang.setupLogSystem.deleteLogChannel.description)
+                .setDescriptionLocalizations({
+                    tr: trLang.setupLogSystem.deleteLogChannel.description,
+                })
+            )
+        )
+
+        .addSubcommandGroup((addSubcommandGroup) => addSubcommandGroup
+            .setName(enLang.welcomeConfig.name)
+            .setNameLocalizations({
+                tr: trLang.welcomeConfig.name,
+            })
+            .setDescription(enLang.welcomeConfig.description)
+            .setDescriptionLocalizations({
+                tr: trLang.welcomeConfig.description,
+            })
+            .addSubcommand((subcommand) => subcommand
+                .setName(enLang.welcomeConfig.enable.name)
+                .setNameLocalizations({
+                    tr: trLang.welcomeConfig.enable.name,
+                })
+                .setDescription(enLang.welcomeConfig.enable.description)
+                .setDescriptionLocalizations({
+                    tr: trLang.welcomeConfig.enable.description,
+                })
+                .addChannelOption(option => option
+                    .setName(enLang.welcomeConfig.enable.welcomeChannel.name)
+                    .setNameLocalizations({
+                        tr: trLang.welcomeConfig.enable.welcomeChannel.name,
+                    })
+                    .setDescription(enLang.welcomeConfig.enable.welcomeChannel.description)
+                    .setDescriptionLocalizations({
+                        tr: trLang.welcomeConfig.enable.welcomeChannel.description,
+                    })
                     .setRequired(true)
                     .addChannelTypes(ChannelType.GuildText)
                 )
                 .addChannelOption(option => option
-                    .setName('register-channel')
-                    .setDescription(`Please directing you to the channel where you want your registration transactions to take place.`)
+                    .setName(enLang.welcomeConfig.enable.registerChannel.name)
+                    .setNameLocalizations({
+                        tr: trLang.welcomeConfig.enable.registerChannel.name,
+                    })
+                    .setDescription(enLang.welcomeConfig.enable.registerChannel.description)
+                    .setDescriptionLocalizations({
+                        tr: trLang.welcomeConfig.enable.registerChannel.description,
+                    })
+                    .setRequired(true)
                     .addChannelTypes(ChannelType.GuildText)
-                    .setRequired(true)
-                ))
-            .addSubcommand((subcommand) => subcommand
-                .setName('disable')
-                .setDescription('Disable the welcome message system.')
-            )
-        )
-        .addSubcommandGroup((addSubcommandGroup) => addSubcommandGroup
-            .setName("ticket-setup")
-            .setDescription('open a ticket in the guild ')
-
-            .addSubcommand((subcommand) => subcommand
-                .setName("enable")
-                .setDescription("Enable your ticket system for this server.")
-                .addRoleOption((option) => option
-                    .setName("staff-role")
-                    .setDescription('the staff role you want them to take care of')
-                    .setRequired(true)
-                )
-            ).addSubcommand((subcommand) => subcommand
-                .setName("disable")
-                .setDescription("Disable your ticket system for this server.")
-            )
-        )
-        .addSubcommandGroup((addSubcommandGroup) => addSubcommandGroup
-            .setName("autorole-configure")
-            .setDescription('Configure your auto-role for this server.')
-
-
-            .addSubcommand((subcommand) => subcommand
-                .setName("enable")
-                .setDescription("Enable your auto-role for this server.")
-                .addRoleOption((option) => option
-                    .setName("role")
-                    .setDescription('The role you want users to get on join.')
-                    .setRequired(true)
                 )
             )
             .addSubcommand((subcommand) => subcommand
-                .setName("disable")
-                .setDescription("Disable your auto-role for this server.")
+                .setName(enLang.welcomeConfig.disable.name)
+                .setNameLocalizations({
+                    tr: trLang.welcomeConfig.disable.name,
+                })
+                .setDescription(enLang.welcomeConfig.disable.description)
+                .setDescriptionLocalizations({
+                    tr: trLang.welcomeConfig.disable.description,
+                })
+            )
+        )
+
+        .addSubcommandGroup((addSubcommandGroup) => addSubcommandGroup
+            .setName(enLang.ticketSetup.name)
+            .setNameLocalizations({
+                tr: trLang.ticketSetup.name,
+            })
+            .setDescription(enLang.ticketSetup.description)
+            .setDescriptionLocalizations({
+                tr: trLang.ticketSetup.description,
+            })
+            .addSubcommand((subcommand) => subcommand
+                .setName(enLang.ticketSetup.enable.name)
+                .setNameLocalizations({
+                    tr: trLang.ticketSetup.enable.name,
+                })
+                .setDescription(enLang.ticketSetup.enable.description)
+                .setDescriptionLocalizations({
+                    tr: trLang.ticketSetup.enable.description,
+                })
+                .addRoleOption((option) => option
+                    .setName(enLang.ticketSetup.enable.staffRole.name)
+                    .setNameLocalizations({
+                        tr: trLang.ticketSetup.enable.staffRole.name,
+                    })
+                    .setDescription(enLang.ticketSetup.enable.staffRole.description)
+                    .setDescriptionLocalizations({
+                        tr: trLang.ticketSetup.enable.staffRole.description,
+                    })
+                    .setRequired(true)
+                )
+            )
+            .addSubcommand((subcommand) => subcommand
+                .setName(enLang.ticketSetup.disable.name)
+                .setNameLocalizations({
+                    tr: trLang.ticketSetup.disable.name,
+                })
+                .setDescription(enLang.ticketSetup.disable.description)
+                .setDescriptionLocalizations({
+                    tr: trLang.ticketSetup.disable.description,
+                })
             )
         )
         .addSubcommandGroup((addSubcommandGroup) => addSubcommandGroup
-            .setName("giveaway-setup")
-            .setDescription('Create a giveaway system in the guild ')
+            .setName(enLang.autoroleConfigure.name)
+            .setNameLocalizations({
+                tr: trLang.autoroleConfigure.name,
+            })
+            .setDescription(enLang.autoroleConfigure.description)
+            .setDescriptionLocalizations({
+                tr: trLang.autoroleConfigure.description,
+            })
             .addSubcommand((subcommand) => subcommand
-                .setName("enable")
-                .setDescription("Enable your giveaway system for this server.")
-            ).addSubcommand((subcommand) => subcommand
-                .setName("disable")
-                .setDescription("Disable your giveaway system for this server.")
+                .setName(enLang.autoroleConfigure.enable.name)
+                .setNameLocalizations({
+                    tr: trLang.autoroleConfigure.enable.name,
+                })
+                .setDescription(enLang.autoroleConfigure.enable.description)
+                .setDescriptionLocalizations({
+                    tr: trLang.autoroleConfigure.enable.description,
+                })
+                .addRoleOption((option) => option
+                    .setName(enLang.autoroleConfigure.enable.role.name)
+                    .setNameLocalizations({
+                        tr: trLang.autoroleConfigure.enable.role.name,
+                    })
+                    .setDescription(enLang.autoroleConfigure.enable.role.description)
+                    .setDescriptionLocalizations({
+                        tr: trLang.autoroleConfigure.enable.role.description,
+                    })
+                    .setRequired(true)
+                )
+            )
+            .addSubcommand((subcommand) => subcommand
+                .setName(enLang.autoroleConfigure.disable.name)
+                .setNameLocalizations({
+                    tr: trLang.autoroleConfigure.disable.name,
+                })
+                .setDescription(enLang.autoroleConfigure.disable.description)
+                .setDescriptionLocalizations({
+                    tr: trLang.autoroleConfigure.disable.description,
+                })
             )
         )
+        .addSubcommandGroup((addSubcommandGroup) => addSubcommandGroup
+            .setName(enLang.giveawaySetup.name)
+            .setNameLocalizations({
+                tr: trLang.giveawaySetup.name,
+            })
+            .setDescription(enLang.giveawaySetup.description)
+            .setDescriptionLocalizations({
+                tr: trLang.giveawaySetup.description,
+            })
+            .addSubcommand((subcommand) => subcommand
+                .setName(enLang.giveawaySetup.enable.name)
+                .setNameLocalizations({
+                    tr: trLang.giveawaySetup.enable.name,
+                })
+                .setDescription(enLang.giveawaySetup.enable.description)
+                .setDescriptionLocalizations({
+                    tr: trLang.giveawaySetup.enable.description,
+                })
+            )
+            .addSubcommand((subcommand) => subcommand
+                .setName(enLang.giveawaySetup.disable.name)
+                .setNameLocalizations({
+                    tr: trLang.giveawaySetup.disable.name,
+                })
+                .setDescription(enLang.giveawaySetup.disable.description)
+                .setDescriptionLocalizations({
+                    tr: trLang.giveawaySetup.disable.description,
+                })
+            )
+        )
+
+
     ,
     /**
      * 

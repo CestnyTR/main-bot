@@ -1,14 +1,14 @@
 const client = require("../../index.js");
 const { EmbedBuilder } = require("discord.js");
 const LanguageService = require("../../utils/LanguageService");
-
+let langData
 // const status = queue =>
 //     `Volume: \`${queue.volume}%\` | Filter: \`${queue.filters.names.join(', ') || 'Off'}\` | Loop: \`${queue.repeatMode ? (queue.repeatMode === 2 ? 'All Queue' : 'This Song') : 'Off'}\` | Autoplay: \`${queue.autoplay ? 'On' : 'Off'}\``;
 
 const status = async queue => {
     const guild = queue.textChannel.guild;
-    const langData = await LanguageService.getLocalizedString(guild.id, 'music');
-
+    langData = await LanguageService.getLocalizedString(guild.id, "events");
+    langData = langData.music
     const editedStatus = langData.queue.status
         .replace('{{volume}}', queue.volume)
         .replace('{{filter}}', queue.filters.names.join(', ') || langData.queue.defaultFilter)
@@ -23,7 +23,9 @@ const status = async queue => {
 client.distube
     .on('playSong', async (queue, song) => {
         const guild = queue.textChannel.guild;
-        const langData = await LanguageService.getLocalizedString(guild.id, 'music');
+        langData = await LanguageService.getLocalizedString(guild.id, "events");
+        langData = langData.music
+
         const embed = new EmbedBuilder()
             .setColor("Green")
             .setTitle(langData.playSong.title)
@@ -37,7 +39,9 @@ client.distube
     })
     .on('addSong', async (queue, song) => {
         const guild = queue.textChannel.guild;
-        const langData = await LanguageService.getLocalizedString(guild.id, 'music');
+        langData = await LanguageService.getLocalizedString(guild.id, "events");
+        langData = langData.music
+
         const embed = new EmbedBuilder()
             .setColor("Green")
             .setTitle(langData.addSong.title)
@@ -50,7 +54,9 @@ client.distube
     })
     .on('addList', async (queue, playlist) => {
         const guild = queue.textChannel.guild;
-        const langData = await LanguageService.getLocalizedString(guild.id, 'music');
+        langData = await LanguageService.getLocalizedString(guild.id, "events");
+        langData = langData.music
+
         const embed = new EmbedBuilder()
             .setColor("Green")
             .setTitle(langData.addList.title)
@@ -65,7 +71,8 @@ client.distube
         const myGuildId = '873218817566867477'; // Sizin sunucunuzun ID'si
         const ChannelID = "1185937683541930004";
         const fileName = "D:\\Fahri\\works\\discordBot\\main-bot\\src\\events\\distube\\distubeEvents.js";
-        const langData = await LanguageService.getLocalizedString(channel.guild.id, 'music');
+        langData = await LanguageService.getLocalizedString(channel.guild.id, "events");
+        langData = langData.music
 
         const embed = new EmbedBuilder()
             .setColor("Aqua")
@@ -84,7 +91,8 @@ client.distube
         else console.error(e);
     })
     .on('empty', async (channel) => {
-        const langData = await LanguageService.getLocalizedString(channel.guild.id, 'music');
+        langData = await LanguageService.getLocalizedString(channel.guild.id, "events");
+        langData = langData.music
 
         channel.send({
             embeds: [new EmbedBuilder().setColor("Red")
@@ -93,7 +101,8 @@ client.distube
         });
     })
     .on('searchNoResult', async (message, query) => {
-        const langData = await LanguageService.getLocalizedString(message.guild.id, 'music');
+        langData = await LanguageService.getLocalizedString(message.guild.id, "events");
+        langData = langData.music
 
         message.channel.send({
             embeds: [new EmbedBuilder().setColor("Red")
@@ -102,7 +111,8 @@ client.distube
         });
     })
     .on('finish', async (queue) => {
-        const langData = await LanguageService.getLocalizedString(queue.textChannel.guild.id, 'music');
+        langData = await LanguageService.getLocalizedString(queue.textChannel.guild.id, "events");
+        langData = langData.music
 
         queue.textChannel.send({
             embeds: [new EmbedBuilder().setColor("Green")

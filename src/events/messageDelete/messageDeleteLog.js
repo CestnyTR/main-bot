@@ -12,8 +12,8 @@ module.exports = async (message, member) => {
     if (!channel) return;
     const mes = message.content;
     if (!mes) return;
-    langData = await LanguageService.getLocalizedString(message.guild.id, 'messageDeleteLog');
-
+    langData = await LanguageService.getLocalizedString(message.guild.id, 'events');
+    langData = langData.messageDeleteLog
     const embed = new EmbedBuilder()
         .setColor('Red')
         .setAuthor({ name: `${message.member.user.tag}`, iconURL: message.member.displayAvatarURL() })

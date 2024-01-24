@@ -1,11 +1,11 @@
 const { EmbedBuilder, AuditLogEvent } = require("discord.js");
 const logChSchema = require("../../models/logChannels");
 const LanguageService = require("../../utils/LanguageService");
-
+let langData
 
 module.exports = async (guild, user) => {
-    const guildId=guild.guild.id;
-    let logChDB = await logChSchema.findOne({ guildId: guildId});
+    const guildId = guild.guild.id;
+    let logChDB = await logChSchema.findOne({ guildId: guildId });
     if (!logChDB) return;
     if (!logChDB.exist) return;
     const channel = await guild.guild.channels.cache.get(logChDB.banLog);
@@ -16,8 +16,8 @@ module.exports = async (guild, user) => {
     const name = banEntry.target.username;
     const id = banEntry.target.id;
     const img = banEntry.target.displayAvatarURL({ extension: 'jpg' })
-    const langData = await LanguageService.getLocalizedString(guildId, 'userBanned');
-
+    langData = await LanguageService.getLocalizedString(guildId, 'events');
+    langData = langData.userBanned
     const embed = new EmbedBuilder()
         .setTitle(langData.title)
         .setColor("Red")

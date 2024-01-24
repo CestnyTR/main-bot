@@ -1,33 +1,67 @@
 const { client, SlashCommandBuilder, ChatInputCommandInteraction, EmbedBuilder, ActionRowBuilder, StringSelectMenuBuilder, ButtonBuilder, ButtonStyle, PermissionFlagsBits } = require('discord.js');
+const trLang = require("../lang/tr.json").buildCommands.info;
+const enLang = require("../lang/en.json").buildCommands.info;
 module.exports = {
     data: new SlashCommandBuilder()
-        .setName("info")
-        .setDescription("The server info system")
+        .setName(enLang.name)
+        .setNameLocalizations({
+            tr: trLang.name,
+        })
+        .setDescription(enLang.description)
+        .setDescriptionLocalizations({
+            tr: trLang.description,
+        })
         .setDMPermission(false)
         .addSubcommand((subcommand) => subcommand
-            .setName('emojimap')
-            .setDescription('View the list of emojis on the server')
+            .setName(enLang.emojimap.name)
+            .setNameLocalizations({
+                tr: trLang.emojimap.name,
+            })
+            .setDescription(enLang.emojimap.description)
+            .setDescriptionLocalizations({
+                tr: trLang.emojimap.description,
+            })
         )
         .addSubcommand((subcommand) => subcommand
-            .setName("help")
-            .setDescription("Shows the list of commands and information about the bot")
+            .setName(enLang.help.name)
+            .setNameLocalizations({
+                tr: trLang.help.name,
+            })
+            .setDescription(enLang.help.description)
+            .setDescriptionLocalizations({
+                tr: trLang.help.description,
+            })
         )
         .addSubcommand((subcommand) => subcommand
-            .setName("server-info")
-            .setDescription('Shows info about the server')
+            .setName(enLang.serverInfo.name)
+            .setNameLocalizations({
+                tr: trLang.serverInfo.name,
+            })
+            .setDescription(enLang.serverInfo.description)
+            .setDescriptionLocalizations({
+                tr: trLang.serverInfo.description,
+            })
         )
         .addSubcommand((subcommand) => subcommand
-            .setName('user-info')
-            .setDescription(`Find information about a user in the guild`)
+            .setName(enLang.userInfo.name)
+            .setNameLocalizations({
+                tr: trLang.userInfo.name,
+            })
+            .setDescription(enLang.userInfo.description)
+            .setDescriptionLocalizations({
+                tr: trLang.userInfo.description,
+            })
             .addUserOption(option => option
-                .setName('user')
-                .setDescription(`The user you want to get information about`)
+                .setName(enLang.userInfo.options.name)
+                .setNameLocalizations({
+                    tr: trLang.userInfo.options.name,
+                })
+                .setDescription(enLang.userInfo.options.description)
+                .setDescriptionLocalizations({
+                    tr: trLang.userInfo.options.description,
+                })
                 .setRequired(false)
             )
-        )
-        .addSubcommand((subcommand) => subcommand
-            .setName("ping")
-            .setDescription('Replies with the bot ping!')
         )
     ,
     /**

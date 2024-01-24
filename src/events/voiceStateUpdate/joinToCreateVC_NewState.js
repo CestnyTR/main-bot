@@ -14,8 +14,8 @@ module.exports = async (oldState, newState) => {
     if (!joinData) return;
     if (!voiceChannel) return;
     if (voiceChannel.id === joinData.Channel) {
-        langData = await LanguageService.getLocalizedString(newState.member.guild.id, 'jtcNewState');
-
+        langData = await LanguageService.getLocalizedString(newState.member.guild.id, 'events');
+        langData=langData.jtcNewState
         if (joinChannelData) {
             try {
                 await newState.member.send({ content: langData.have.replace("{{joinChannelData.Channel}}", joinChannelData.Channel), ephemeral: true });

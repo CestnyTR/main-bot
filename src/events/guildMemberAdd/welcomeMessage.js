@@ -2,7 +2,7 @@ const { Guild, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, Attac
 const welcomeSchema = require('../../models/Welcome');
 const Canvas = require('canvas')
 const LanguageService = require("../../utils/LanguageService");
-
+let langData
 /**
  * @param {Object} param0 
  * @param {Guild} param0.member
@@ -17,8 +17,8 @@ module.exports = async (member) => {
 
     const channel = member.guild.channels.cache.get(channelId);
     if (!channel) return;
-    const langData = await LanguageService.getLocalizedString(guildId, 'welcome');
-
+    langData = await LanguageService.getLocalizedString(guildId, 'events');
+    langData = langData.welcome
     const canvas = Canvas.createCanvas(1024, 500) // Create Canvas
     const ctx = canvas.getContext('2d')
     const background = await Canvas.loadImage('https://cdn.discordapp.com/attachments/873226675570216990/1194029579556364418/umLOhA3.jpg?ex=65aeddb3&is=659c68b3&hm=cd17017e42df8d0cd5f6f8adf018f794bf69708f8cc17d3fb5afb136cbc748d3&') // Using Link

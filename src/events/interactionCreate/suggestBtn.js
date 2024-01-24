@@ -13,8 +13,8 @@ module.exports = async (interaction) => {
     const command = interaction.customId;
     if (command !== "suggestBtnId") return;
 
-    langData = await LanguageService.getLocalizedString(interaction.guildId, "suggestBtn");
-
+    langData = await LanguageService.getLocalizedString(interaction.guildId, "events");
+    langData = langData.suggestBtn
     const embed = new EmbedBuilder()
     const modal = new ModalBuilder()
         .setTitle(langData.modalTitle)

@@ -13,8 +13,8 @@ module.exports = async (message, member) => {
     const mes = message.attachments.first()?.url;
     if (!mes) return;
     if (message.content.length >= 1) return;
-    langData = await LanguageService.getLocalizedString(message.guild.id, 'messageDeleteLog');
-
+    langData = await LanguageService.getLocalizedString(message.guild.id, 'events');
+    langData = langData.messageDeleteLog
     const embed = new EmbedBuilder()
         .setColor('Red')
         .setAuthor({ name: `${message.member.user.tag}`, iconURL: message.member.displayAvatarURL() })
@@ -24,7 +24,7 @@ module.exports = async (message, member) => {
         )
         .setImage(mes)
         .setTimestamp()
-        .setFooter({ text: langData.footer.replace("{{message.id}}",message.id) });
+        .setFooter({ text: langData.footer.replace("{{message.id}}", message.id) });
     return channel.send({ embeds: [embed] });
 
 };

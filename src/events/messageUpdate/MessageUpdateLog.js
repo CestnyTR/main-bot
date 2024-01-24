@@ -13,8 +13,8 @@ module.exports = async (oldMessage, newMessage, client) => {
     const mes = oldMessage.content;
     if (!mes) return;
 
-    langData = await LanguageService.getLocalizedString(oldMessage.guildId, 'messageUpdatedLog');
-
+    langData = await LanguageService.getLocalizedString(oldMessage.guildId, 'events');
+    langData = langData.messageUpdatedLog
 
     if (oldMessage.content.includes('https://')) return;
     if (newMessage.content.includes('http://')) return;

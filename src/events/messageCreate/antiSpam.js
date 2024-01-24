@@ -16,8 +16,8 @@ const userMessages = new Map();
 module.exports = async (message) => {
     // Botun kendi mesajlarına yanıt vermemesi için kontrol
     if (message.author.bot || message.member.permissions.has('Administrator')) return;
-    langData = await LanguageService.getLocalizedString(message.guild.id, 'antiSpam');
-
+    langData = await LanguageService.getLocalizedString(message.guild.id, 'events');
+    langData = langData.antiSpam
     // Kullanıcının kimliği
     const userId = message.author.id;
 

@@ -13,8 +13,8 @@ module.exports = async (invite) => {
     // Log kanalını bul ve mesaj gönder
     const channel = invite.guild.channels.cache.get(logChDB.inviteLog);
     if (!channel) return;
-    langData = await LanguageService.getLocalizedString(invite.guild.id, "inviteCreateLog");
-
+    langData = await LanguageService.getLocalizedString(invite.guild.id, "events");
+    langData = langData.inviteCreateLog
     const embed = new EmbedBuilder()
         .setColor('Green')
         .setTitle(langData.title)

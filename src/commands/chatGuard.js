@@ -1,92 +1,193 @@
-const { SlashCommandBuilder, ChatInputCommandInteraction, ChannelType, EmbedBuilder } = require('discord.js');
+const { SlashCommandBuilder, ChatInputCommandInteraction, ChannelType, EmbedBuilder, PermissionFlagsBits } = require('discord.js');
 const linkAccessRole = require("../models/linkAccessRoleSettings")
 const capitalLetterDB = require('../models/CapitalLetter');
 const forbiddenDb = require('../models/Forbidden');
+
+const trLang = require("../lang/tr.json").buildCommands.chatGuard;
+const enLang = require("../lang/en.json").buildCommands.chatGuard;
+const LanguageService = require("../../utils/LanguageService");
+let langData
 module.exports = {
     data: new SlashCommandBuilder()
-        .setName("chat-guard-system")
-        .setDescription("Set your chat guard")
-        .addSubcommandGroup(addSubcommandGroup =>
-            addSubcommandGroup
-                .setName("anti-link")
-                .setDescription("Enable or disable the anti-link system and specify a role with link access.")
-                .addSubcommand(subsubcommand =>
-                    subsubcommand
-                        .setName("enable")
-                        .setDescription("Enable your auto-role for this server.")
-                        .addRoleOption(option =>
-                            option
-                                .setName("link-access-role")
-                                .setDescription('Specify a role with access to send links.')
+        .setName(enLang.name)
+        .setNameLocalizations({
+            tr: trLang.name,
+        })
+        .setDescription(enLang.description)
+        .setDescriptionLocalizations({
+            tr: trLang.description,
+        })
+        .setDefaultMemberPermissions(PermissionFlagsBits.ManageChannels)
+        .addSubcommandGroup(antiLinkGroup =>
+            antiLinkGroup
+                .setName(enLang.antiLink.name)
+                .setNameLocalizations({
+                    tr: trLang.antiLink.name,
+                })
+                .setDescription(enLang.antiLink.description)
+                .setDescriptionLocalizations({
+                    tr: trLang.antiLink.description,
+                })
+                .addSubcommand(enableAntiLink =>
+                    enableAntiLink
+                        .setName(enLang.antiLink.enable.name)
+                        .setNameLocalizations({
+                            tr: trLang.antiLink.enable.name,
+                        })
+                        .setDescription(enLang.antiLink.enable.description)
+                        .setDescriptionLocalizations({
+                            tr: trLang.antiLink.enable.description,
+                        })
+                        .addRoleOption(roleOption =>
+                            roleOption
+                                .setName(enLang.antiLink.enable.roleOption.name)
+                                .setNameLocalizations({
+                                    tr: trLang.antiLink.enable.roleOption.name,
+                                })
+                                .setDescription(enLang.antiLink.enable.roleOption.description)
+                                .setDescriptionLocalizations({
+                                    tr: trLang.antiLink.enable.roleOption.description,
+                                })
                                 .setRequired(true)
                         )
                 )
-                .addSubcommand(subsubcommand =>
-                    subsubcommand
-                        .setName("disable")
-                        .setDescription("Disable your auto-role for this server.")
+                .addSubcommand(disableAntiLink =>
+                    disableAntiLink
+                        .setName(enLang.antiLink.disable.name)
+                        .setNameLocalizations({
+                            tr: trLang.antiLink.disable.name,
+                        })
+                        .setDescription(enLang.antiLink.disable.description)
+                        .setDescriptionLocalizations({
+                            tr: trLang.antiLink.disable.description,
+                        })
                 )
         )
-        .addSubcommandGroup(subcommand =>
-            subcommand
-                .setName("capital-letter")
-                .setDescription("Activate or deactivate forbid writing with capital letter")
-                .addSubcommand(subsubcommand =>
-                    subsubcommand
-                        .setName("enable")
-                        .setDescription("Enable delete writing with capital letter")
+        .addSubcommandGroup(capitalLetterGroup =>
+            capitalLetterGroup
+                .setName(enLang.capitalLetter.name)
+                .setNameLocalizations({
+                    tr: trLang.capitalLetter.name,
+                })
+                .setDescription(enLang.capitalLetter.description)
+                .setDescriptionLocalizations({
+                    tr: trLang.capitalLetter.description,
+                })
+                .addSubcommand(enableCapitalLetter =>
+                    enableCapitalLetter
+                        .setName(enLang.capitalLetter.enable.name)
+                        .setNameLocalizations({
+                            tr: trLang.capitalLetter.enable.name,
+                        })
+                        .setDescription(enLang.capitalLetter.enable.description)
+                        .setDescriptionLocalizations({
+                            tr: trLang.capitalLetter.enable.description,
+                        })
                 )
-                .addSubcommand(subsubcommand =>
-                    subsubcommand
-                        .setName("disable")
-                        .setDescription("Disable don't delete writing with capital letter")
+                .addSubcommand(disableCapitalLetter =>
+                    disableCapitalLetter
+                        .setName(enLang.capitalLetter.disable.name)
+                        .setNameLocalizations({
+                            tr: trLang.capitalLetter.disable.name,
+                        })
+                        .setDescription(enLang.capitalLetter.disable.description)
+                        .setDescriptionLocalizations({
+                            tr: trLang.capitalLetter.disable.description,
+                        })
                 )
         )
-        .addSubcommandGroup(subcommand =>
-            subcommand
-                .setName("slow-mode")
-                .setDescription('Configure your auto-role for this server.')
-                .addSubcommand(subsubcommand =>
-                    subsubcommand
-                        .setName("enable")
-                        .setDescription("Enable your Discord chat slow mode")
-                        .addIntegerOption(option =>
-                            option
-                                .setName("duration")
-                                .setDescription('Set Discord chat slow mode timer')
+        .addSubcommandGroup(slowModeGroup =>
+            slowModeGroup
+                .setName(enLang.slowMode.name)
+                .setNameLocalizations({
+                    tr: trLang.slowMode.name,
+                })
+                .setDescription(enLang.slowMode.description)
+                .setDescriptionLocalizations({
+                    tr: trLang.slowMode.description,
+                })
+                .addSubcommand(enableSlowMode =>
+                    enableSlowMode
+                        .setName(enLang.slowMode.enable.name)
+                        .setNameLocalizations({
+                            tr: trLang.slowMode.enable.name,
+                        })
+                        .setDescription(enLang.slowMode.enable.description)
+                        .setDescriptionLocalizations({
+                            tr: trLang.slowMode.enable.description,
+                        })
+                        .addIntegerOption(durationOption =>
+                            durationOption
+                                .setName(enLang.slowMode.enable.durationOption.name)
+                                .setNameLocalizations({
+                                    tr: trLang.slowMode.enable.durationOption.name,
+                                })
+                                .setDescription(enLang.slowMode.enable.durationOption.description)
+                                .setDescriptionLocalizations({
+                                    tr: trLang.slowMode.enable.durationOption.description,
+                                })
                                 .setRequired(true)
                         )
-                        .addChannelOption(option =>
-                            option
-                                .setName("channel")
-                                .setDescription('Set a timer for a Discord chat room of your choice')
+                        .addChannelOption(channelOption =>
+                            channelOption
+                                .setName(enLang.slowMode.enable.channelOption.name)
+                                .setNameLocalizations({
+                                    tr: trLang.slowMode.enable.channelOption.name,
+                                })
+                                .setDescription(enLang.slowMode.enable.channelOption.description)
+                                .setDescriptionLocalizations({
+                                    tr: trLang.slowMode.enable.channelOption.description,
+                                })
                                 .addChannelTypes(ChannelType.GuildText)
                         )
                 )
-                .addSubcommand(subsubcommand =>
-                    subsubcommand
-                        .setName("disable")
-                        .setDescription("Disable your Discord chat slow mode")
-                        .addChannelOption(option =>
-                            option
-                                .setName("channel")
-                                .setDescription('Disable a timer for a Discord chat room of your choice')
+                .addSubcommand(disableSlowMode =>
+                    disableSlowMode
+                        .setName(enLang.slowMode.disable.name)
+                        .setNameLocalizations({
+                            tr: trLang.slowMode.disable.name,
+                        })
+                        .setDescription(enLang.slowMode.disable.description)
+                        .setDescriptionLocalizations({
+                            tr: trLang.slowMode.disable.description,
+                        })
+                        .addChannelOption(channelOption =>
+                            channelOption
+                                .setName(enLang.slowMode.disable.channelOption.name)
+                                .setNameLocalizations({
+                                    tr: trLang.slowMode.disable.channelOption.name,
+                                })
+                                .setDescription(enLang.slowMode.disable.channelOption.description)
+                                .setDescriptionLocalizations({
+                                    tr: trLang.slowMode.disable.channelOption.description,
+                                })
                                 .addChannelTypes(ChannelType.GuildText)
                         )
                 )
         )
-        .addSubcommand(subsubcommand =>
-            subsubcommand
-                .setName("forbid-word")
-                .setDescription("Add your forbidden word")
-                .addStringOption(option =>
-                    option
-                        .setName("word")
-                        .setDescription("Add word")
+        .addSubcommand(forbidWord =>
+            forbidWord
+                .setName(enLang.forbidWord.name)
+                .setNameLocalizations({
+                    tr: trLang.forbidWord.name,
+                })
+                .setDescription(enLang.forbidWord.description)
+                .setDescriptionLocalizations({
+                    tr: trLang.forbidWord.description,
+                })
+                .addStringOption(wordOption =>
+                    wordOption
+                        .setName(enLang.forbidWord.wordOption.name)
+                        .setNameLocalizations({
+                            tr: trLang.forbidWord.wordOption.name,
+                        })
+                        .setDescription(enLang.forbidWord.wordOption.description)
+                        .setDescriptionLocalizations({
+                            tr: trLang.forbidWord.wordOption.description,
+                        })
                         .setRequired(true)
                 )
-        )
-    ,
+        ),
 
     /**
     * 
@@ -94,10 +195,11 @@ module.exports = {
     * @param {ChatInputCommandInteraction} param0.interaction
     */
     run: async ({ interaction }) => {
+        langData = await LanguageService.getLocalizedString(interaction.guild.id, 'commands');
 
         if (!interaction.inGuild()) {
             interaction.reply({
-                content: 'You can only run this command inside a server.',
+                content: langData.inGuildError,
                 ephemeral: true,
             });
             return;
@@ -113,9 +215,10 @@ module.exports = {
             guildId: interaction.guild.id,
         };
         const embed = new EmbedBuilder()
-
+        langData = langData.chatGuard
         switch (mainSubCommand) {
             case "anti-link":
+                langData = langData.antiLink
                 // Check if the user has permission to use this command
                 const antiLinksubcommand = interaction.options.getSubcommand();
                 switch (antiLinksubcommand) {
@@ -131,7 +234,8 @@ module.exports = {
                                     .setDescription("Anti-Link System is already have that role.Use /anti-link disable for disable")
                                     .addFields({ name: "Link Access Role", value: `><@&${targetRoleId}>` })
 
-                                interaction.editReply({ embeds: [embed], ephemeral: true }); return;
+                                interaction.editReply({ embeds: [embed], ephemeral: true }); 
+                                return;
                             }
                             linkAccessDB.roleId = targetRoleId;
                         } else {

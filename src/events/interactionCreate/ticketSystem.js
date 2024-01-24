@@ -9,8 +9,8 @@ let langData
 module.exports = async (interaction) => {
 
     if (interaction.isButton() && interaction.customId == "ticketBtnId") {
-        langData = await LanguageService.getLocalizedString(interaction.guildId, "ticketSys");
-        langData = langData.ticketBtn
+        langData = await LanguageService.getLocalizedString(interaction.guildId, "events");
+        langData = langData.ticketSys.ticketBtn
         const ticketdb = findGuild(interaction.guild.id);
         const tickedModal = new ModalBuilder()
             .setCustomId("ticketModalId")
@@ -38,8 +38,8 @@ module.exports = async (interaction) => {
         return;
     }
     else if (interaction.isModalSubmit() && interaction.customId == "ticketModalId") {
-        langData = await LanguageService.getLocalizedString(interaction.guildId, "ticketSys");
-        langData = langData.ticketModal
+        langData = await LanguageService.getLocalizedString(interaction.guildId, "events");
+        langData = langData.ticketSys.ticketModal
         const ticketdb = await findGuild(interaction.guild.id);
         const topic = interaction.fields.getTextInputValue('topicId')
         const issue = interaction.fields.getTextInputValue('issueId')
@@ -94,8 +94,8 @@ module.exports = async (interaction) => {
         return;
     }
     else if (interaction.isButton() && interaction.customId == "closeTicketBtnId") {
-        langData = await LanguageService.getLocalizedString(interaction.guildId, "ticketSys");
-        langData = langData.closeTicketBtn
+        langData = await LanguageService.getLocalizedString(interaction.guildId, "events");
+        langData = langData.ticketSys.closeTicketBtn
         const ticketdb = findGuild(interaction.guild.id)
         interaction.channel.delete();
         const dmEmbed = new EmbedBuilder()
@@ -113,8 +113,8 @@ module.exports = async (interaction) => {
         return;
     }
     else if (interaction.isButton() && interaction.customId == "pingStaffId") {
-        langData = await LanguageService.getLocalizedString(interaction.guildId, "ticketSys");
-        langData = langData.pingStaff
+        langData = await LanguageService.getLocalizedString(interaction.guildId, "events");
+        langData = langData.ticketSys.pingStaff
         const ticketdb = findGuild(interaction.guild.id)
         const staffEmbed = new EmbedBuilder()
             .setTitle(langData.title)

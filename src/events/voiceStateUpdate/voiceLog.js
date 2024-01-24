@@ -36,8 +36,8 @@ module.exports = async (oldState, newState) => {
         if (joinedTime[key]) {
             const elapsedTimeInMilliseconds = currentTime - joinedTime[key];
             const elapsedTimeInMinutes = elapsedTimeInMilliseconds / 60_000;
-            langData = await LanguageService.getLocalizedString(newState.guild.id, 'voiceLog');
-
+            langData = await LanguageService.getLocalizedString(newState.guild.id, 'events');
+            langData = langData.voiceLog
             //* Send a notification to the user
             const spendTime = new EmbedBuilder()
                 .setColor('Green')
@@ -86,7 +86,8 @@ module.exports = async (oldState, newState) => {
                             const channel = await newState.guild.channels.cache.get(logChDB.levelLog);
                             if (!channel) return;
 
-                            langData = await LanguageService.getLocalizedString(newState.guild.id, 'userLevelUp');
+                            langData = await LanguageService.getLocalizedString(newState.guild.id, 'events');
+                            langData = langData.userLevelUp
 
                             const embed = new EmbedBuilder()
                                 .setColor("Green")
