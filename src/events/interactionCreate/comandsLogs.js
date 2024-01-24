@@ -1,33 +1,31 @@
 const { Interaction, EmbedBuilder } = require("discord.js");
 const logChSchema = require("../../models/logChannels");
+const LanguageService = require("../../utils/LanguageService");
 
 /**
  * @param {Object} param0
  * @param {Interaction} param0.interaction
  */
 module.exports = async (interaction) => {
-    try {
-        if (!interaction.inGuild()) return;
-        if (!interaction.isCommand()) return;
-        let logChDB = await logChSchema.findOne({ guildId: interaction.guildId });
-        if (!logChDB||!logChDB.exist) return;
-        const channel = await interaction.guild.channels.cache.get(logChDB.commandLog);
-        const server = interaction.guild.name;
-        const user = interaction.user.username;
-        const userID = interaction.user.id;
+    if (!interaction.inGuild()) return;
+    if (!interaction.isCommand()) return;
+    let logChDB = await logChSchema.findOne({ guildId: interaction.guildId });
+    if (!logChDB || !logChDB.exist) return;
+    const channel = await interaction.guild.channels.cache.get(logChDB.commandLog);
+    if (!channel) return;
+    const langData = await LanguageService.getLocalizedString(interaction.guildId, 'commandLog');
+    const server = interaction.guild.name;
+    const user = interaction.user.username;
+    const userID = interaction.user.id;
 
-        const embed = new EmbedBuilder()
-            .setColor("Green")
-            .setTitle('🌐 chat command used')
-            .addFields({ name: 'server name', value: `${server}` })
-            .addFields({ name: 'chat command', value: `${interaction}` })
-            .addFields({ name: 'Command user', value: `${user} / ${userID}` })
-            .setTimestamp()
-            .setFooter({ text: 'chat command used' }); // pass an object with a `text` property
+    const embed = new EmbedBuilder()
+        .setColor("Green")
+        .setTitle(langData.title)
+        .addFields({ name: langData.serverName, value: `${server}` })
+        .addFields({ name: langData.chatCommand, value: `${interaction}` })
+        .addFields({ name: langData.commandUser, value: `${user} / ${userID}` })
+        .setTimestamp()
+        .setFooter({ text: langData.footer });
 
-        await channel.send({ embeds: [embed] });
-    } catch (error) {
-        console.error("error in comandsLog.js" + error);
-    }
-
+    await channel.send({ embeds: [embed] });
 }

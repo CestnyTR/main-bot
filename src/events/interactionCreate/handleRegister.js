@@ -1,6 +1,7 @@
-const { Interaction, ModalBuilder, TextInputBuilder, TextInputStyle, ActionRowBuilder, EmbedBuilder, ButtonBuilder, ButtonStyle } = require("discord.js");
+const { Interaction, ModalBuilder, TextInputBuilder, TextInputStyle, ActionRowBuilder } = require("discord.js");
 const AutoRole = require('../../models/AutoRole');
-
+const LanguageService = require("../../utils/LanguageService"); // Dil servisi eklenmiş
+let langData
 /**
  * @param {Interaction} interaction
  */
@@ -9,60 +10,73 @@ module.exports = async (interaction) => {
 
     const command = interaction.customId;
     if (command !== "register") return;
+
     let guild = interaction.guild;
     const autoRole = await AutoRole.findOne({ guildId: guild.id });
     if (!autoRole) return;
+    langData = await LanguageService.getLocalizedString(interaction.guildId, "register");
 
     const registerRole = interaction.guild.roles.cache.get(autoRole.roleId);
     const hasRole = interaction.member.roles.cache.has(registerRole.id);
     if (!hasRole) return interaction.reply({
-        content: "You already singed our server",
+        content: langData.alreadySigned,
         ephemeral: true,
     });
-    const modal = new ModalBuilder()
-        .setTitle(`REGISTER "${guild}" SERVER`)
-        .setCustomId(`register_${interaction.member}`);
-    const nameTextInput = new TextInputBuilder()
-        .setCustomId('member-name')
-        .setLabel("Whats your real name?")
-        .setPlaceholder("Fahri")
-        .setStyle(TextInputStyle.Short)
-        .setRequired(true)
-        .setMaxLength(50);
-    const ageTextInput2 = new TextInputBuilder()
-        .setCustomId('member-age')
-        .setLabel("how old are you age?")
-        .setStyle(TextInputStyle.Short)
-        .setPlaceholder("25")
-        .setRequired(true)
-        .setMaxLength(2);
 
-    const nameActionRow = new ActionRowBuilder().addComponents(nameTextInput);
-    const ageActionRow = new ActionRowBuilder().addComponents(ageTextInput2);
-    modal.addComponents(nameActionRow, ageActionRow);
+    const modal = createRegisterModal(interaction.member);
     await interaction.showModal(modal);
-    const filter = (i) => i.customId === `register_${interaction.member}`;
 
+    const filter = (i) => i.customId === `register_${interaction.member}`;
     const modalInteraction = await interaction.awaitModalSubmit({
         filter,
         time: 1000 * 60 * 3,
     }).catch((error) => console.log(error));
 
     await modalInteraction.reply({
-        content: 'Creating new a name ,please wait...',
+        content: langData.creatingName,
         ephemeral: true,
-    })
+    });
+
     const memberName = modalInteraction.fields.getTextInputValue('member-name');
-    const memberage = modalInteraction.fields.getTextInputValue('member-age');
-    const userName = memberName + " || " + memberage;
+    const memberAge = modalInteraction.fields.getTextInputValue('member-age');
+    const userName = `${memberName} || ${memberAge}`;
+
     interaction.member.setNickname(userName)
-        .then(userName => {
-            modalInteraction.editReply(`Kullanıcı adı değiştirildi: ${userName}`);
+        .then((newUserName) => {
+            modalInteraction.editReply(langData.usernameChanged.replace("{{newUserName}}", newUserName));
             interaction.member.roles.remove(registerRole);
-        }).catch(error => {
-            modalInteraction.editReply('Kullanıcı adı değiştirme hatası:', error);
+        })
+        .catch((error) => {
+            modalInteraction.editReply(langData.usernameChangeError.replace("{{error}}", error));
             return;
-
         });
+};
 
+function createRegisterModal(member) {
+    const modal = new ModalBuilder()
+        .setTitle(langData.modalTitle.replace("{{guildName}}", member.guild.name))
+        .setCustomId(`register_${member}`);
+
+    const nameTextInput = createTextInput('member-name', langData.realNameLabel, 'Fahri', 50);
+    const ageTextInput = createTextInput('member-age', langData.ageLabel, '25', 2);
+
+    const nameActionRow = createActionRow(nameTextInput);
+    const ageActionRow = createActionRow(ageTextInput);
+
+    modal.addComponents(nameActionRow, ageActionRow);
+    return modal;
+}
+
+function createTextInput(customId, label, placeholder, maxLength) {
+    return new TextInputBuilder()
+        .setCustomId(customId)
+        .setLabel(label)
+        .setPlaceholder(placeholder)
+        .setStyle(TextInputStyle.Short)
+        .setRequired(true)
+        .setMaxLength(maxLength);
+}
+
+function createActionRow(component) {
+    return new ActionRowBuilder().addComponents(component);
 }

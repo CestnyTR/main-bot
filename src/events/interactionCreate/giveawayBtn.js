@@ -1,7 +1,7 @@
-const { Interaction, EmbedBuilder, ModalBuilder, TextInputBuilder, TextInputStyle, ActionRowBuilder, PermissionFlagsBits, ButtonBuilder, ButtonStyle, ChannelType, } = require("discord.js");
+const { Interaction, EmbedBuilder, ModalBuilder, TextInputBuilder, TextInputStyle, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require("discord.js");
 const ms = require('ms');
-const giveawaySystemSchema = require("../../models/giveawaySys")
 const giveawaySchema = require("../../models/giveaway");
+const LanguageService = require("../../utils/LanguageService");
 
 /**
  * @param {Object} param0
@@ -11,78 +11,92 @@ module.exports = async (interaction) => {
     if (!interaction.isButton() || !interaction.customId) return;
     const command = interaction.customId;
     if (command !== "giveawayBtnId") return;
-    const embed = new EmbedBuilder()
+
+    const langData = await LanguageService.getLocalizedString(interaction.guildId, "giveawayBtn");
+
+    const embed = new EmbedBuilder();
     const giveawayModal = new ModalBuilder()
-        .setCustomId(`giveawayModalId-${interaction.user.id}`) // Çekiliş ID'sini kullanarak benzersiz bir customId oluştur
-        .setTitle("Start giveaway");
+        .setCustomId(`giveawayModalId-${interaction.user.id}`)
+        .setTitle(langData.startGiveaway);
+
     const prizeInput = new TextInputBuilder()
         .setCustomId("prizeId")
-        .setLabel("Prize")
+        .setLabel(langData.prizeLabel)
         .setStyle(TextInputStyle.Short)
-        .setPlaceholder("What is the prize of your giveaway ?")
+        .setPlaceholder(langData.prizePlaceholder)
         .setMinLength(3)
         .setMaxLength(25)
         .setRequired(true);
+
     const winnersCountInput = new TextInputBuilder()
         .setCustomId("winnersCountId")
-        .setLabel("winners Count")
+        .setLabel(langData.winnersCountLabel)
         .setStyle(TextInputStyle.Short)
-        .setPlaceholder("What is the winners count of your giveaway ?")
+        .setPlaceholder(langData.winnersCountPlaceholder)
         .setMinLength(1)
         .setMaxLength(2)
         .setRequired(true);
+
     const backupWinnersCountInput = new TextInputBuilder()
         .setCustomId("backupWinnersCountId")
-        .setLabel("backup winners Count")
+        .setLabel(langData.backupWinnersCountLabel)
         .setStyle(TextInputStyle.Short)
-        .setPlaceholder("What is the backup winners count of your giveaway ?")
+        .setPlaceholder(langData.backupWinnersCountPlaceholder)
         .setMinLength(1)
         .setMaxLength(3)
         .setRequired(true);
+
     const endDateCountInput = new TextInputBuilder()
         .setCustomId("endDateId")
-        .setLabel("End Date Count")
+        .setLabel(langData.endDateLabel)
         .setStyle(TextInputStyle.Short)
-        .setPlaceholder("What is the end date of your giveaway (30m, 1h, 1 day)?")
+        .setPlaceholder(langData.endDatePlaceholder)
         .setMinLength(1)
         .setMaxLength(10)
         .setRequired(true);
+
     const prizeInputRow = new ActionRowBuilder().addComponents(prizeInput);
     const winnersCountInputRow = new ActionRowBuilder().addComponents(winnersCountInput);
     const backupWinnersCountInputRow = new ActionRowBuilder().addComponents(backupWinnersCountInput);
     const endDateCountInputRow = new ActionRowBuilder().addComponents(endDateCountInput);
+
     giveawayModal.addComponents(prizeInputRow, winnersCountInputRow, backupWinnersCountInputRow, endDateCountInputRow);
     await interaction.showModal(giveawayModal);
+
     const filter = (i) => i.customId === `giveawayModalId-${interaction.user.id}`;
     const modalInteraction = await interaction.awaitModalSubmit({
         filter,
         time: 1000 * 60 * 3,
     }).catch((error) => console.log(error));
 
-    await modalInteraction.deferReply({ ephemeral: true })
+    await modalInteraction.deferReply({ ephemeral: true });
 
     const prizeText = modalInteraction.fields.getTextInputValue('prizeId');
     const winnersCount = modalInteraction.fields.getTextInputValue('winnersCountId');
     const backupWinnersCount = modalInteraction.fields.getTextInputValue('backupWinnersCountId');
-    // Validate winnersCount and backupWinnersCount
+
     if (isNaN(winnersCount) || isNaN(backupWinnersCount)) {
-        await modalInteraction.editReply('Please enter valid numeric values for Winners Count and Backup Winners Count.');
+        await modalInteraction.editReply(langData.invalidNumericValues);
         return;
     }
+
     const time = modalInteraction.fields.getTextInputValue('endDateId');
-    // Validate the time input
     const durationInMilliseconds = ms(time);
+
     if (isNaN(durationInMilliseconds)) {
-        await modalInteraction.editReply('Please enter a valid duration (e.g., "30m", "1h", "1d").');
+        await modalInteraction.editReply(langData.invalidDuration);
         return;
     }
+
     let giveawayMessage;
+
     try {
-        giveawayMessage = await interaction.channel.send('Creating giveaway, please wait...');
+        giveawayMessage = await interaction.channel.send(langData.creatingGiveaway);
     } catch (error) {
-        modalInteraction.editReply('Failed to create giveaway message in this channel. I may not have enough permissions.')
+        modalInteraction.editReply(langData.failedToCreateGiveaway);
         return;
     }
+
     const newGiveAway = new giveawaySchema({
         authorId: interaction.user.id,
         guildId: interaction.guildId,
@@ -90,49 +104,52 @@ module.exports = async (interaction) => {
         prize: prizeText,
         winnerscount: winnersCount,
         backupWinnersCount: backupWinnersCount,
-    })
+    });
+
     await newGiveAway.save();
-    modalInteraction.editReply("Giveaway created");
-    //! giveaway embed
+    modalInteraction.editReply(langData.giveawayCreated.replace("{{user}}", interaction.user));
+
     embed
         .setAuthor({
             name: interaction.user.username,
             iconURL: interaction.user.displayAvatarURL({ size: 256 }),
         })
         .addFields([
-            { name: 'GiveAway', value: prizeText },
-            { name: 'Status', value: '⏳ Pending' , inline: false},
-            { name: 'Giveaway entries ', value: "0", inline: false },
-            { name: 'Winners count ', value: winnersCount , inline: true},
-            { name: 'Backup Winners count ', value: backupWinnersCount, inline: true },
-            { name: 'Giveaway duration', value: time, inline: true }
-
-
+            { name: langData.giveaway, value: prizeText },
+            { name: langData.status, value: '⏳ ' + langData.pending, inline: false },
+            { name: langData.giveawayEntries, value: "0", inline: false },
+            { name: langData.winnersCount, value: winnersCount, inline: true },
+            { name: langData.backupWinnersCount, value: backupWinnersCount, inline: true },
+            { name: langData.giveawayDuration, value: time, inline: true }
         ])
         .setColor('Yellow');
-    //! Buttons
+
     const closeGiveawayBtn = new ButtonBuilder()
         .setEmoji("🔒")
-        .setLabel('Close Giveaway')
+        .setLabel(langData.closeGiveaway)
         .setStyle(ButtonStyle.Danger)
         .setCustomId(`giveaway.${newGiveAway.giveawayId}.close`);
+
     const doAGiveawayBtn = new ButtonBuilder()
         .setEmoji("✅")
-        .setLabel('do a  Giveaway')
+        .setLabel(langData.doAGiveaway)
         .setStyle(ButtonStyle.Secondary)
         .setCustomId(`giveaway.${newGiveAway.giveawayId}.do`);
+
     const joinGiveawayBtn = new ButtonBuilder()
         .setEmoji("✅")
-        .setLabel('join Giveaway')
+        .setLabel(langData.joinGiveaway)
         .setStyle(ButtonStyle.Success)
         .setCustomId(`giveaway.${newGiveAway.giveawayId}.join`);
-    const firstRow = new ActionRowBuilder().addComponents(joinGiveawayBtn,);
-    const secondaRow = new ActionRowBuilder().addComponents(doAGiveawayBtn, closeGiveawayBtn,);
+
+    const firstRow = new ActionRowBuilder().addComponents(joinGiveawayBtn);
+    const secondRow = new ActionRowBuilder().addComponents(doAGiveawayBtn, closeGiveawayBtn);
 
     giveawayMessage.edit({
-        content: `${interaction.user} giveaway Created!`,
+        content: langData.giveawayCreated.replace("{{user}}", interaction.user),
         embeds: [embed],
-        components: [firstRow, secondaRow]
-    })
+        components: [firstRow, secondRow]
+    });
+
     return;
-}
+};

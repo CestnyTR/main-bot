@@ -1,6 +1,7 @@
 const { Guild, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, AttachmentBuilder } = require('discord.js');
 const welcomeSchema = require('../../models/Welcome');
 const Canvas = require('canvas')
+const LanguageService = require("../../utils/LanguageService");
 
 /**
  * @param {Object} param0 
@@ -16,6 +17,8 @@ module.exports = async (member) => {
 
     const channel = member.guild.channels.cache.get(channelId);
     if (!channel) return;
+    const langData = await LanguageService.getLocalizedString(guildId, 'welcome');
+
     const canvas = Canvas.createCanvas(1024, 500) // Create Canvas
     const ctx = canvas.getContext('2d')
     const background = await Canvas.loadImage('https://cdn.discordapp.com/attachments/873226675570216990/1194029579556364418/umLOhA3.jpg?ex=65aeddb3&is=659c68b3&hm=cd17017e42df8d0cd5f6f8adf018f794bf69708f8cc17d3fb5afb136cbc748d3&') // Using Link
@@ -49,7 +52,7 @@ module.exports = async (member) => {
     }
 
     // Member Count
-    const member_count = `You Are Our #${member.guild.memberCount}th Member`
+    const member_count = langData.memberCount.replace('{{count}}', member.guild.memberCount);
     ctx.font = '34px sans-serif' // Font For Displaying Member Count
     ctx.textAlign = 'center' // Keeping The Text In Center
     ctx.fillStyle = '#21FBA1' //Colour Of Member Count
@@ -68,7 +71,7 @@ module.exports = async (member) => {
     }) // Sending Image As Attachment
 
     let message = data.Message
-    if (!message || message === null) message = `Welcome To ${member.guild.name}`
+    if (!message || message === null) message = langData.svMessage.replace('{{guildName}}', member.guild.name);
     let rule = data.registerChannel
     if (!rule || rule === null) rule = registerChannelId
 
@@ -76,14 +79,14 @@ module.exports = async (member) => {
         .setColor('Green')
         .setTimestamp()
         .setAuthor({
-            name: `Welcome To ${member.guild.name}`,
+            name: langData.title,
             iconURL: member.guild.iconURL()
         })
         .setImage('attachment://welcome.png')
         .setDescription(`
-                Welcome To **${member.guild.name}** <@${member.id}>
-                You must go to this channel to register <#${rule}>
-                        `)
+        ${langData.message} <@${member.id}>
+        ${langData.registerChannel} <#${registerChannelId}>
+        `);
 
     const row = new ActionRowBuilder();
     row.components.push(

@@ -1,41 +1,41 @@
-const { EmbedBuilder, AuditLogEvent } = require("discord.js");
+const { EmbedBuilder } = require("discord.js");
 const logChSchema = require("../../models/logChannels");
-
+const LanguageService = require("../../utils/LanguageService");
+let langData
 
 module.exports = async (oldMessage, newMessage, client) => {
-    try {
-        let logChDB = await logChSchema.findOne({ guildId: oldMessage.guildId });
-        if (!logChDB) return;
-        if (!logChDB.exist) return;
-        const channel = await oldMessage.guild.channels.cache.get(logChDB.messageLog);
-        if (!channel) return;
+    let logChDB = await logChSchema.findOne({ guildId: oldMessage.guildId });
+    if (!logChDB) return;
+    if (!logChDB.exist) return;
+    const channel = await oldMessage.guild.channels.cache.get(logChDB.messageLog);
+    if (!channel) return;
+    if (oldMessage.author.bot) return;
+    const mes = oldMessage.content;
+    if (!mes) return;
 
-        oldMessage.guild.fetchAuditLogs({
-            type: AuditLogEvent.MessageUpdate,
-        })
-            .then(async audit => {
-                if (oldMessage.author.bot) return;
-                const mes = oldMessage.content;
-                if (!mes) return;
-                if (oldMessage.content.includes('https://')) return;
-                if (newMessage.content.includes('http://')) return;
-                const embed = new EmbedBuilder()
-                    .setColor("Green")
-                    .setTitle('🌐 chat message updated ')
-                    .addFields({ name: 'server name', value: `${oldMessage.guild.name}` })
-                    .setDescription(`**Message sent by **<@${oldMessage.member.user.id}> \n**Edited in** <#${oldMessage.channel.id}> \n[Jump To Message](https://discord.com/channels/${oldMessage.guild.id}/${oldMessage.channel.id}/${newMessage.id})`)
-                    .addFields({ name: 'Before message', value: `${oldMessage}` })
-                    .addFields({ name: 'After Message', value: `${newMessage}` })
-                    .addFields({ name: 'Command user', value: `${oldMessage.author.username} / ${oldMessage.author.id}` })
-                    .setTimestamp()
-                    .setFooter({ text: 'chat message updated used' });
-                return channel.send({ embeds: [embed] });
-            })
+    langData = await LanguageService.getLocalizedString(oldMessage.guildId, 'messageUpdatedLog');
 
 
+    if (oldMessage.content.includes('https://')) return;
+    if (newMessage.content.includes('http://')) return;
+    const embed = new EmbedBuilder()
+        .setColor("Green")
+        .setTitle(langData.title)
+        .setDescription(langData.desc
+            .replace("{{oldMessage.member.user.id}}", oldMessage.member.user.id)
+            .replace("{{oldMessage.channel.id}}", oldMessage.channel.id)
+            .replace("{{oldMessage.guild.id}}", oldMessage.guild.id)
+            .replace("{{oldMessage.channel.id}}", oldMessage.channel.id)
+            .replace("{{newMessage.id}}", newMessage.id)
 
-
-    } catch (error) {
-        console.error(error);
-    }
+        )
+        .addFields(
+            { name: langData.svName, value: `${oldMessage.guild.name}` },
+            { name: langData.beforeMessage, value: `${oldMessage}` },
+            { name: langData.afterMessage, value: `${newMessage}` },
+            { name: langData.commandMessage, value: `${oldMessage.author.username} / ${oldMessage.author.id}` }
+        )
+        .setTimestamp()
+        .setFooter({ text: 'chat message updated used' });
+    return channel.send({ embeds: [embed] });
 };

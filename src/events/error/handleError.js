@@ -1,4 +1,4 @@
-const { EmbedBuilder, DiscordjsError ,Client} = require("discord.js");
+const { EmbedBuilder, DiscordjsError, Client } = require("discord.js");
 /**
  * @param {Object} param0 
  * @param {DiscordjsError} param0.err
@@ -11,6 +11,7 @@ module.exports = async (err, client) => {
     const errorMessage = err.message || "Bilinmeyen bir hata oluştu";
 
     console.error("Discord API Error:", errorMessage);
+    console.error("Discord API Error extended version:", err);
 
 
     // Hata stack bilgisinden dosya adını çıkartma

@@ -1,6 +1,7 @@
 const { Interaction, EmbedBuilder, ModalBuilder, TextInputBuilder, TextInputStyle, ActionRowBuilder, PermissionFlagsBits, ButtonBuilder, ButtonStyle, ChannelType, } = require("discord.js");
 const ticketSystemSchema = require("../../models/TicketSystem")
-
+const LanguageService = require("../../utils/LanguageService"); // Dil servisi eklenmiş
+let langData
 /**
  * @param {Object} param0
  * @param {Interaction} param0.interaction
@@ -8,23 +9,25 @@ const ticketSystemSchema = require("../../models/TicketSystem")
 module.exports = async (interaction) => {
 
     if (interaction.isButton() && interaction.customId == "ticketBtnId") {
+        langData = await LanguageService.getLocalizedString(interaction.guildId, "ticketSys");
+        langData = langData.ticketBtn
         const ticketdb = findGuild(interaction.guild.id);
         const tickedModal = new ModalBuilder()
             .setCustomId("ticketModalId")
-            .setTitle("Support Ticket");
+            .setTitle(langData.modalTitle);
         const topicInput = new TextInputBuilder()
             .setCustomId("topicId")
-            .setLabel("Topic")
+            .setLabel(langData.topic)
             .setStyle(TextInputStyle.Short)
-            .setPlaceholder("What is the topic of your issue ?")
+            .setPlaceholder(langData.topicPlaceHolder)
             .setMinLength(3)
             .setMaxLength(25)
             .setRequired(true);
         const issueInput = new TextInputBuilder()
             .setCustomId("issueId")
-            .setLabel("Issue")
+            .setLabel(langData.issue)
             .setStyle(TextInputStyle.Paragraph)
-            .setPlaceholder("What is the issue of your facing ?")
+            .setPlaceholder(langData.issuePlaceholder)
             .setMinLength(15)
             .setMaxLength(250)
             .setRequired(true);
@@ -35,6 +38,8 @@ module.exports = async (interaction) => {
         return;
     }
     else if (interaction.isModalSubmit() && interaction.customId == "ticketModalId") {
+        langData = await LanguageService.getLocalizedString(interaction.guildId, "ticketSys");
+        langData = langData.ticketModal
         const ticketdb = await findGuild(interaction.guild.id);
         const topic = interaction.fields.getTextInputValue('topicId')
         const issue = interaction.fields.getTextInputValue('issueId')
@@ -61,17 +66,17 @@ module.exports = async (interaction) => {
 
         }).then(async (channel) => {
             const ticketOpenedEmbed = new EmbedBuilder()
-                .setTitle('Ticket Opened')
-                .setDescription("Ticked created, please wait for staff member to respond.")
+                .setTitle(langData.embedOpened)
+                .setDescription(langData.embedOpenDesc)
                 .setTimestamp()
                 .addFields(
-                    { name: 'User', value: `\`\`\`${interaction.user.username}\`\`\`` },
-                    { name: 'Topic', value: `\`\`\`${topic}\`\`\`` },
-                    { name: 'Issue', value: `\`\`\`${issue}\`\`\`` },
+                    { name: langData.user, value: `\`\`\`${interaction.user.username}\`\`\`` },
+                    { name: langData.topic, value: `\`\`\`${topic}\`\`\`` },
+                    { name: langData.issue, value: `\`\`\`${issue}\`\`\`` },
                 );
             const closeTicketBtn = new ButtonBuilder()
                 .setEmoji("🔒")
-                .setLabel('Close Ticket')
+                .setLabel(langData.btnClose)
                 .setStyle(ButtonStyle.Danger)
                 .setCustomId("closeTicketBtnId");
             const pingBtn = new ButtonBuilder()
@@ -81,7 +86,7 @@ module.exports = async (interaction) => {
             const row = new ActionRowBuilder().addComponents(closeTicketBtn, pingBtn);
             await channel.send({ embeds: [ticketOpenedEmbed], components: [row] })
             await interaction.reply({
-                content: `${interaction.user.tag}, your ticket has been succesfully created! you can view it here ${channel}`,
+                content: langData.success.replace("{{interaction.user.tag}}", interaction.user.tag).replace("{{channel}}", channel),
                 ephemeral: true,
             });
         })
@@ -89,16 +94,18 @@ module.exports = async (interaction) => {
         return;
     }
     else if (interaction.isButton() && interaction.customId == "closeTicketBtnId") {
+        langData = await LanguageService.getLocalizedString(interaction.guildId, "ticketSys");
+        langData = langData.closeTicketBtn
         const ticketdb = findGuild(interaction.guild.id)
         interaction.channel.delete();
         const dmEmbed = new EmbedBuilder()
-            .setTitle("Ticket Closed")
-            .setDescription("Thank you for contacting support. Your ticket has been successfully closed. If you need assistance again please press the button below")
+            .setTitle(langData.title)
+            .setDescription(langData.desc)
             .setColor("Blue")
             .setTimestamp()
-            .setFooter({ text: `Sent from ${interaction.guild.name}` })
+            .setFooter({ text: langData.footer.replace("{{interaction.guild.name}}", interaction.guild.name) })
         const dmButton = new ButtonBuilder()
-            .setLabel('Return')
+            .setLabel(langData.btnLabel)
             .setStyle(ButtonStyle.Link)
             .setURL(`https://discord.com/channels/${interaction.guild.id}/${ticketdb.channelId}`)
         const dmRow = new ActionRowBuilder().addComponents(dmButton);
@@ -106,13 +113,15 @@ module.exports = async (interaction) => {
         return;
     }
     else if (interaction.isButton() && interaction.customId == "pingStaffId") {
+        langData = await LanguageService.getLocalizedString(interaction.guildId, "ticketSys");
+        langData = langData.pingStaff
         const ticketdb = findGuild(interaction.guild.id)
         const staffEmbed = new EmbedBuilder()
-            .setTitle("Staff Pinged")
-            .setDescription("The staff have been pinged please wait.")
+            .setTitle(langData.title)
+            .setDescription(langData.desc)
             .setColor("Blue")
             .setTimestamp()
-            .setFooter({ text: "Staff pinged at" });
+            .setFooter({ text: langData.footer });
         await interaction.reply({
             content: `<@&${ticketdb.staffRoleId}>`,
             embeds: [staffEmbed]

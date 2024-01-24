@@ -1,7 +1,9 @@
 const { Message, EmbedBuilder } = require("discord.js")
+const LanguageService = require("../../utils/LanguageService");
+let langData
 
 // Spam engelleme için gerekli ayarlar
-const spamDetectionThreshold = 5; // Belirli bir süre içinde kaç mesajın spam sayılacağı
+const spamDetectionThreshold = 3; // Belirli bir süre içinde kaç mesajın spam sayılacağı
 const spamDetectionInterval = 2000; // Spam algılama süresi (milisaniye cinsinden)
 const timeOut = 30_000; // Spam algılama süresi (milisaniye cinsinden)
 const deleteMessageCount = 30; // Silinecek mesaj sayısı algılama süresi (milisaniye cinsinden)
@@ -14,6 +16,7 @@ const userMessages = new Map();
 module.exports = async (message) => {
     // Botun kendi mesajlarına yanıt vermemesi için kontrol
     if (message.author.bot || message.member.permissions.has('Administrator')) return;
+    langData = await LanguageService.getLocalizedString(message.guild.id, 'antiSpam');
 
     // Kullanıcının kimliği
     const userId = message.author.id;
@@ -23,8 +26,8 @@ module.exports = async (message) => {
     userMessages.set(userId, userMessageCount + 1);
     const antiSpamEmbed = new EmbedBuilder()
         .setColor('Red')
-        .setAuthor({ name: 'Member Time out' })
-        .setDescription(`>Spam Message ${message.author}`)
+        .setAuthor({ name: langData.title })
+        .setDescription(langData.desc)
         .setTimestamp()
     // Belirlenen süre içinde kullanıcının gönderdiği mesaj sayısı eşik değerini geçerse
     if (userMessageCount >= spamDetectionThreshold) {
@@ -38,7 +41,7 @@ module.exports = async (message) => {
         // Spam olarak işaretle ve kullanıcıya 30 saniyeliğine konuşma cezası ver
         message.author.send({ embeds: [antiSpamEmbed], ephermeral: true })
         const targetUser = await message.guild.members.fetch(userId);
-        await targetUser.timeout(timeOut, "spam mesage");
+        await targetUser.timeout(timeOut, langData.reason);
 
         // İsterseniz burada ek bir eylem de gerçekleştirebilirsiniz.
     }

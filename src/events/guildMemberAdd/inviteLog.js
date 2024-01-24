@@ -1,26 +1,38 @@
 const { EmbedBuilder } = require("discord.js");
 const logChannels = require("../../models/logChannels");
+const LanguageService = require('../../utils/LanguageService');
+
 module.exports = async (member) => {
     // Üyenin sunucuya katıldığı sırada mevcut davet bağlantılarını çek
-    const invites = await member.guild.invites.fetch();
     let logChDB = await logChannels.findOne({ guildId: member.guild.id });
+
     if (!logChDB && !logChDB.exist) return;
-    // Üyenin katıldığı sırada kullanılan davet bağlantısını bul
-    const inviteUsed = invites.find(invite => invite.uses < invite.uses + 1);
-    // Davet edenin bilgilerini kontrol et
-    if (!inviteUsed) return console.log(`Üye ${member.user.tag}, herhangi bir davet bağlantısı ile katıldı.`);
+
+    console.log(member);
+
     const channel = member.guild.channels.cache.get(logChDB.joinLog);// LOG_KANAL_ID'yi kendi log kanalınızın ID'si ile değiştirin
     if (!channel) return;
+    const langData = await LanguageService.getLocalizedString(member.guild.id, 'memberJoinLog');
+
     const embed = new EmbedBuilder()
         .setColor('Green')
-        .setTitle('Member Joined via Invite')
+        .setTitle(langData.title)
         .addFields(
-            { name: 'Member:', value: `<@${member.id}>`, inline: true },
-            { name: 'Invite Code:', value: inviteUsed.code, inline: true },
-            { name: 'Inviter:', value: `<@${inviteUsed.inviter.id}>`, inline: true },
-            { name: 'Invites Used:', value: inviteUsed.uses.toString(), inline: true },
+            { name: langData.member, value: `<@${member.id}>`, inline: true },
+            { name: langData.bot, value: member.bot === false ? langData.true : langData.false, inline: true },
+            { name: langData.joinDate, value: member.joinedAt.toLocaleString(), inline: true }, // Katılma tarihi
+            { name: langData.creationDate, value: member.user.createdAt.toLocaleString(), inline: true }, // Hesap oluşturulma tarihi
+            { name: langData.accountAge, value: calculateAccountAge(member.user.createdAt), inline: true }, // Hesap yaşı (fonksiyon kullanılarak hesaplanıyor)
         )
         .setTimestamp()
-        .setFooter({ text: 'Member Join System' });
-    await channel.send({ embeds: [embed] });
+        .setFooter({ text: langData.footer });
+    channel.send({ embeds: [embed] });
 };
+
+// Hesap yaşını hesaplamak için yardımcı bir fonksiyon
+function calculateAccountAge(creationDate) {
+    const now = new Date();
+    const accountAge = now - creationDate;
+    const days = Math.floor(accountAge / (1000 * 60 * 60 * 24));
+    return `${days} gün`;
+}

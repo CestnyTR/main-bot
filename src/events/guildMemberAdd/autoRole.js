@@ -1,29 +1,28 @@
 const { Client, GuildMember } = require('discord.js');
 const AutoRole = require('../../models/AutoRole');
-
+const LanguageService = require('../../utils/LanguageService');
 /**
  * @param {Object} param0 
  * @param {GuildMember} param0.member
  */
 module.exports = async (member) => {
-    try {
-        let guild = member.guild;
-        if (!guild) return;
+    let guild = member.guild;
+    if (!guild) return;
 
-        const autoRole = await AutoRole.findOne({ guildId: guild.id });
-        if (!autoRole) return;
+    const autoRole = await AutoRole.findOne({ guildId: guild.id });
+    if (!autoRole) return;
 
-        await member.roles.add(autoRole.roleId);
+    await member.roles.add(autoRole.roleId);
+    // Dil dosyasını yükle
+    const langData = await LanguageService.getLocalizedString(guild.id, 'autoRoleAdded');
 
-        const userName = "Name || Age";
-        member.setNickname(userName).catch(error => {
-            console.log(+'Kullanıcı adı değiştirme hatası:', error);
-            return;
+    const userName = langData.defaultUserName;
+    member.setNickname(userName).catch(async (error) => {
+        // Kullanıcıya hata mesajını gönder
+        member.send(langData.nicknameError).catch(console.error);
+        return;
+    });
 
-        });
-
-
-    } catch (error) {
-        console.log(`Error giving role automatically: ${error}`);
-    }
+    // Kullanıcıya başarı mesajını gönder
+    member.send(langData.success).catch(console.error);
 };

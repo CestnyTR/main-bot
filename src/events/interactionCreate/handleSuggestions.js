@@ -1,6 +1,8 @@
 const { Interaction } = require("discord.js");
 const Suggestion = require("../../models/Suggestion");
 const formatResults = require("../../utils/formatResults");
+const LanguageService = require("../../utils/LanguageService"); // Dil servisi eklenmiş
+let langData
 
 /**
  * @param {Interaction} interaction
@@ -10,6 +12,7 @@ module.exports = async (interaction) => {
     const [type, suggestionId, action] = interaction.customId.split('.');
 
     if (type !== 'suggestion') return;
+    langData = await LanguageService.getLocalizedString(interaction.guildId, "suggestHandler");
 
     await interaction.deferReply({ ephemeral: true });
 
@@ -18,16 +21,16 @@ module.exports = async (interaction) => {
     const targetMessageEmbed = targetMessage.embeds[0];
     if (action === 'approve') {
         if (!interaction.memberPermissions.has('Administrator')) {
-            await interaction.editReply('you do not have permission to approve suggestions')
+            await interaction.editReply(langData.approvePermissionError)
             return;
         }
         targetSuggestion.status = 'approved';
         targetMessageEmbed.data.color = 0x84e660;
-        targetMessageEmbed.fields[1].value = '✅ Approved';
+        targetMessageEmbed.fields[1].value = langData.approve;
 
         await targetSuggestion.save();
 
-        interaction.editReply('Suggestion approved!')
+        interaction.editReply(langData.approveSuccess);
         targetMessage.edit({
             embeds: [targetMessageEmbed],
             components: [],
@@ -36,15 +39,15 @@ module.exports = async (interaction) => {
     }
     if (action === 'reject') {
         if (!interaction.memberPermissions.has('Administrator')) {
-            await interaction.editReply('you do not have permission to approve Reject');
+            await interaction.editReply(langData.rejectPermissionError);
             return;
         }
         targetSuggestion.status = 'rejected';
         targetMessageEmbed.data.color = 0xff6161;
-        targetMessageEmbed.fields[1].value = '❌ Rejected'
+        targetMessageEmbed.fields[1].value = langData.reject;
 
         await targetSuggestion.save();
-        interaction.editReply('Suggestion Rejected !')
+        interaction.editReply(langData.rejectSuccess)
         targetMessage.edit({
             embeds: [targetMessageEmbed],
             components: [],
@@ -55,12 +58,12 @@ module.exports = async (interaction) => {
 
     if (action === 'upvote') {
         if (hasVoted) {
-            await interaction.editReply('You have already casted your vote for this suggestion')
+            await interaction.editReply(langData.alreadyVotedError)
             return;
         }
         targetSuggestion.upvotes.push(interaction.user.id);
         await targetSuggestion.save();
-        interaction.editReply('Upvoted suggestion')
+        interaction.editReply(langData.upvoteSuccess)
         targetMessageEmbed.fields[2].value = formatResults(
             targetSuggestion.upvotes,
             targetSuggestion.downvotes,
@@ -72,12 +75,12 @@ module.exports = async (interaction) => {
     }
     if (action === 'downvote') {
         if (hasVoted) {
-            await interaction.editReply('You have already casted your vote for this suggestion')
+            await interaction.editReply(langData.alreadyVotedError)
             return;
         }
         targetSuggestion.downvotes.push(interaction.user.id);
         await targetSuggestion.save();
-        interaction.editReply('downvote suggestion')
+        interaction.editReply(upvoteSuccess.downvoteSuccess)
         targetMessageEmbed.fields[2].value = formatResults(
             targetSuggestion.upvotes,
             targetSuggestion.downvotes,

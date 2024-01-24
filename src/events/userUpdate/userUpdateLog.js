@@ -1,6 +1,7 @@
 const { EmbedBuilder } = require("discord.js");
 const logChannels = require("../../models/logChannels");
-
+const LanguageService = require("../../utils/LanguageService");
+let langData
 module.exports = async (oldMember, newMember, client) => {
     getExistingGuildIds().then(async (guildIds) => {
         for (const guildId of guildIds) {
@@ -13,17 +14,19 @@ module.exports = async (oldMember, newMember, client) => {
 
             // Eğer kullanıcının avatarı değiştiyse
             if (oldMember.avatar !== newMember.avatar) {
+                langData = await LanguageService.getLocalizedString(guildId, 'userUpdateLog');
+
                 const oldImg = oldMember.displayAvatarURL({ format: 'jpg', dynamic: true });
                 const newImg = newMember.displayAvatarURL({ format: 'jpg', dynamic: true, });
 
                 const avatarChangeLog = new EmbedBuilder()
                     .setColor('#00ff00')
-                    .setTitle('Kullanıcı Avatar Değiştirdi')
-                    .setDescription(`${newMember.username} avatarını değiştirdi.`)
+                    .setTitle(langData.title)
+                    .setDescription(langData.desc.replace("{{newMember.username}}", newMember.username))
                     .addFields(
-                        { name: 'Old avatar', value: `[before](${oldImg}) `, inline: true },
+                        { name: langData.oldAvatar, value: langData.before.replace("{{oldImg}}", oldImg), inline: true },
                         { name: '>', value: `>`, inline: true },
-                        { name: 'New avatar', value: `[after](${newImg})`, inline: true },
+                        { name: langData.newAvatar, value: langData.after.replace("{{newImg}}", newImg), inline: true },
                     )
                     .setThumbnail(newImg)
                     .setTimestamp();

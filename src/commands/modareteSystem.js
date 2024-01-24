@@ -243,9 +243,9 @@ module.exports = {
                     return;
                 }
 
-                const targetUserRolePosition = targetUser.roles.highest.position; // Highest role of the target user
-                const requestUserRolePosition = interaction.member.roles.highest.position; // Highest role of the user running the cmd
-                const botRolePosition = interaction.guild.members.me.roles.highest.position; // Highest role of the bot
+                 targetUserRolePosition = targetUser.roles.highest.position; // Highest role of the target user
+                 requestUserRolePosition = interaction.member.roles.highest.position; // Highest role of the user running the cmd
+                 botRolePosition = interaction.guild.members.me.roles.highest.position; // Highest role of the bot
 
                 if (targetUserRolePosition >= requestUserRolePosition) {
                     await interaction.editReply("You can't timeout that user because they have the same/higher role than you.");

@@ -1,0 +1,316 @@
+{
+    "channelCreate": {
+        "title": "Channel Created!",
+        "description": "Channel: <#{{id}}> : {{name}}",
+        "footer": "Channel ID: {{id}}"
+    },
+    "channelDelete": {
+        "title": "Channel Deleted",
+        "description": "Deleted Channel Name: **{{name}}**",
+        "footer": "Channel ID: {{id}}"
+    },
+    "music": {
+        "queue": {
+            "status": "Volume: {{volume}}% | Filter: {{filter}} | Loop: {{loop}} | Autoplay: {{autoplay}}",
+            "defaultFilter": "Off",
+            "allQueue": "All Queue",
+            "thisSong": "This Song",
+            "off": "Off",
+            "on": "On"
+        },
+        "playSong": {
+            "title": "Now Playing",
+            "description": "🎶 | Playing `{{songName}}` - `{{duration}}`\nRequested by: {{user}}\n{{status}}"
+        },
+        "addSong": {
+            "title": "Song Added to Queue",
+            "description": "🎶 | Added `{{songName}}` - `{{duration}}` to the queue by {{user}}"
+        },
+        "addList": {
+            "title": "Playlist Added to Queue",
+            "description": "🎶 | Added `{{playlistName}}` playlist ({{songCount}} songs) to queue\n{{status}}"
+        },
+        "empty": {
+            "title": "Voice Channel Empty",
+            "description": "⛔ | Voice channel is empty! Leaving the channel..."
+        },
+        "searchNoResult": {
+            "title": "Search No Result",
+            "description": "`⛔ | No result found for `{{query}}`!`"
+        },
+        "finish": {
+            "title": "Queue Finished",
+            "description": "🏁 | Queue finished!"
+        }
+    },
+    "userBanned": {
+        "title": "User Banned",
+        "description": "User: {{username}} (`{{userID}}`)",
+        "bannedBy": "Banned By",
+        "reason": "Reason",
+        "noReason": "No reason provided"
+    },
+    "userUnbanned": {
+        "title": "User Ban Removed",
+        "color": "Green",
+        "description": "User: {{username}} (`{{userID}}`)",
+        "unbannedFrom": "Unbans from",
+        "noBanLog": "No ban logs found"
+    },
+    "autoRoleAdded": {
+        "success": "Auto role added successfully.",
+        "nicknameError": "An error occurred while changing the username.",
+        "defaultUserName": "Name || Age"
+    },
+    "memberJoinLog": {
+        "title": "Member Join Log",
+        "member": "Member",
+        "bot": "Is it bot ?",
+        "true": "Yes",
+        "false": "No",
+        "joinDate": "Join Date",
+        "creationDate": "Account Creation Date",
+        "accountAge": "Account Age",
+        "footer": "Join Log Footer"
+    },
+    "memberLeftLog": {
+        "title": "Member left the server"
+    },
+    "welcome": {
+        "memberCount": "You Are Our #{{count}}th Member",
+        "svMessage": "Welcome To {{guildName}}",
+        "title": "Welcome to the Server",
+        "message": "Welcome to our awesome server!",
+        "registerChannel": "Please go to the register channel to complete the registration."
+    },
+    "userLog": {
+        "title": "Member Update System",
+        "oldName": "Old Name",
+        "newName": "New Name",
+        "footer": "Member Update System"
+    },
+    "commandLog": {
+        "title": "🌐 chat command used",
+        "serverName": "Server Name",
+        "chatCommand": "Chat Command",
+        "commandUser": "Command user",
+        "footer": "chat command used"
+    },
+    "giveawayBtn": {
+        "startGiveaway": "Start Giveaway",
+        "prizeLabel": "Prize",
+        "prizePlaceholder": "What is the prize of your giveaway?",
+        "winnersCountLabel": "Winners Count",
+        "winnersCountPlaceholder": "What is the winners count of your giveaway?",
+        "backupWinnersCountLabel": "Backup Winners Count",
+        "backupWinnersCountPlaceholder": "What is the backup winners count of your giveaway?",
+        "endDateLabel": "End Date",
+        "endDatePlaceholder": "What is the end date of your giveaway? (e.g., '30m', '1h', '1d')",
+        "invalidNumericValues": "Please enter valid numeric values for Winners Count and Backup Winners Count.",
+        "invalidDuration": "Please enter a valid duration (e.g., '30m', '1h', '1d').",
+        "creatingGiveaway": "Creating giveaway, please wait...",
+        "failedToCreateGiveaway": "Failed to create giveaway message in this channel. I may not have enough permissions.",
+        "giveawayCreated": "{{user}} giveaway Created!",
+        "giveaway": "GiveAway",
+        "status": "Status",
+        "pending": "Pending",
+        "giveawayEntries": "Giveaway entries",
+        "winnersCount": "Winners count",
+        "backupWinnersCount": "Backup Winners count",
+        "giveawayDuration": "Giveaway duration",
+        "closeGiveaway": "Close Giveaway",
+        "doAGiveaway": "do a Giveaway",
+        "joinGiveaway": "join Giveaway"
+    },
+    "giveawayHandler": {
+        "giveawayNotOpen": "This giveaway is not open for participation.",
+        "leftGiveaway": "You have left the giveaway.",
+        "joinedGiveaway": "You have joined the giveaway!",
+        "giveawayEntries": "Giveaway Entries",
+        "noPermissionCloseGiveaway": "You do not have permission to close this giveaway.",
+        "giveawayClosed": "Giveaway closed!",
+        "noPermissionDoGiveaway": "You do not have permission to do this giveaway.",
+        "noParticipants": "No participants found for this giveaway.",
+        "giveawayFinalized": "Giveaway finalized!",
+        "giveawayWinners": "Giveaway Winners",
+        "backupWinners": "Backup Winners"
+    },
+    "register": {
+        "alreadySigned": "You already signed our server.",
+        "creatingName": "Creating a new name, please wait...",
+        "usernameChanged": "Username changed: {{newUserName}}",
+        "usernameChangeError": "Error changing username: {{error}}",
+        "modalTitle": "REGISTER {{guildName}} SERVER",
+        "realNameLabel": "What's your real name?",
+        "ageLabel": "How old are you?"
+    },
+    "suggestHandler": {
+        "permissionError": "You do not have permission to perform this action.",
+        "approveSuccess": "Suggestion approved!",
+        "approve": "✅ Approved",
+        "rejectSuccess": "Suggestion rejected!",
+        "reject": "❌ Rejected",
+        "upvoteSuccess": "Upvoted suggestion!",
+        "downvoteSuccess": "Downvoted suggestion!",
+        "alreadyVotedError": "You have already casted your vote for this suggestion",
+        "approvePermissionError": "You do not have permission to approve suggestions",
+        "rejectPermissionError": "You do not have permission to reject suggestions"
+    },
+    "suggestBtn": {
+        "modalTitle": "create a suggestion",
+        "textInputLabel": "what would you like to suggest ?",
+        "creatingSuggest": "Creating suggestion, please wait...",
+        "failedToCreateSuggest": "Failed to create suggestions message in this channel. I may not have enough permissions.",
+        "successCreateSuggest": "Suggestion created",
+        "created": "{{interaction.user}} Suggestion Created!",
+        "embeds": {
+            "suggest": "Suggestion",
+            "status": "Status",
+            "statusValue": "⏳ Pending",
+            "votes": "Votes"
+        },
+        "upvote": "Upvote",
+        "downvote": "Downvote",
+        "approve": "Approve",
+        "reject": "Reject"
+    },
+    "listRole": {
+        "findError": "I couldn't find that role please contant with server admin",
+        "roleRemove": "The role {{label}} has been removed.",
+        "roleAdd": "The role {{label}} has been added."
+    },
+    "ticketSys": {
+        "ticketBtn": {
+            "modalTitle": "Destek talebi",
+            "topic": "Topic",
+            "topicPlaceHolder": "What is the topic of your issue ?",
+            "issue": "Issue",
+            "issuePlaceholder": "What is the issue of your facing ?"
+        },
+        "ticketModal": {
+            "embedOpened": "Ticket Opened",
+            "embedOpenDesc": "Ticked created, please wait for staff member to respond.",
+            "user": "User",
+            "topic": "Topic",
+            "issue": "Issue",
+            "btnClose": "Close Ticket",
+            "success": "{{interaction.user.tag}}, your ticket has been succesfully created! you can view it here {{channel}}"
+        },
+        "closeTicketBtn": {
+            "title": "Ticket Closed",
+            "desc": "Thank you for contacting support. Your ticket has been successfully closed. If you need assistance again please press the button below",
+            "footer": "Sent from {{interaction.guild.name}}",
+            "btnLabel": "Return"
+        },
+        "pingStaff": {
+            "title": "Staff Pinged",
+            "desc": "The staff have been pinged please wait.",
+            "footer": "Staff pinged at"
+        }
+    },
+    "inviteCreateLog": {
+        "title": "Invite Created",
+        "code": "Invite Code :",
+        "name": "inviter name :",
+        "id": "inviter id :",
+        "expires": "invite expires :",
+        "footer": "Invite Created System"
+    },
+    "antiLink": {
+        "reason": "sending link without permisions",
+        "warningEmbed": "Anti-Link System",
+        "warningEmbedDesc": ":no_entry_sign: You have been given the muted role for 2 minutes , Because you are not allowed to send links in this server!",
+        "logEmbed": "Member Time out",
+        "logEmbedDesc": ">sending link without permisions\n><@{{id}}>  {{name}}\n>The link : {{content}}"
+    },
+    "antiSpam": {
+        "title": "Member Time out",
+        "desc": ">You got timeout for sending more than 3 messages per second.",
+        "reason": "spam mesage"
+    },
+    "fixSentence": {
+        "title": "Fixing problems",
+        "please": "PLEASE",
+        "desc": "Please {{message.author}} stay with your rules don't use bad or unwanted words",
+        "correctSentence": "Correct sentence"
+    },
+    "userLevelUp": {
+        "title": "🌐 user level up",
+        "serverName": "server name",
+        "desc": "{{member}} you have leveled up to **level {{level.level}}**.",
+        "footer": "Level system"
+    },
+    "messageDeleteLog": {
+        "imgDesc": "**Image sent by **<@{{message.member.user.id}}> **Deleted in** <#{{message.channel.id}}>",
+        "desc": "**Message sent by **<@{{message.member.user.id}}> **Deleted in** <#{{message.channel.id}}>\n{{mes}}",
+        "footer": "Message ID: {{message.id}}"
+    },
+    "messageUpdatedLog": {
+        "title": "🌐 chat message updated",
+        "desc": "**Message sent by **<@{{oldMessage.member.user.id}}> \n**Edited in** <#{{oldMessage.channel.id}}> \n[Jump To Message](https://discord.com/channels/{{oldMessage.guild.id}}/{{oldMessage.channel.id}}/{{newMessage.id}})",
+        "svName": "server name",
+        "beforeMessage": "Before message",
+        "afterMessage": "After message",
+        "commandMessage": "Command message"
+    },
+    "userUpdateLog": {
+        "title": "User Changed Avatar",
+        "desc": "{{newMember.username}} Changed Avatar",
+        "oldAvatar": "Old avatar",
+        "newAvatar": "New avatar",
+        "before": "[before]({{oldImg}})",
+        "after": "[after]({{newImg}})"
+    },
+    "jtcNewState": {
+        "have": "You already have a voice channel open right now **<#{{joinChannelData.Channel}}>**",
+        "chName": "{{newState.member.user.username}}-room",
+        "author": "Join To Created System",
+        "footer": "Channel Created",
+        "title": ">Channel Created",
+        "name": "Channel Created",
+        "value": ">Your voice Channel has been \n> Created in **{{newState.member.guild.name}}** \n> Your voice Channel is **<#{{channel.id}}>**"
+    },
+    "jtcOldState": {
+        "author": "Join To Created System",
+        "title": ">Channel Deleted",
+        "name": "Channel Delete",
+        "footer": "Channel deleted",
+        "value": ">Your voice Channel has been \n> deleted in **{{newState.member.guild.name}}**"
+    },
+    "voiceLog": {
+        "footer": "Voice state info",
+        "title": ">{{guildName}} Server",
+        "svJoin":"Server joinned",
+        "chName":"Channel Name",
+        "timeSpend":"Time Spent",
+        "minute":">{{elapsedTimeInMinutes.toFixed(1)}} minute"
+    },
+    "commands": {
+        "info": {
+            "name": "info",
+            "description": "The server info system",
+            "subcommands": {
+                "emojimap": {
+                    "emojimap": "emojimap",
+                    "description": "View the list of emojis on the server"
+                },
+                "help": {
+                    "help": "help",
+                    "description": "Shows the list of commands and information about the bot"
+                },
+                "server-info": {
+                    "server-info": "server-info",
+                    "description": "Shows info about the server"
+                },
+                "user-info": {
+                    "user-info": "user-info",
+                    "description": "Find information about a user in the guild"
+                },
+                "ping": {
+                    "ping": "ping",
+                    "description": "Replies with the bot ping!"
+                }
+            }
+        }
+    }
+}

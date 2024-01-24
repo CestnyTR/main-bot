@@ -1,0 +1,316 @@
+{
+    "channelCreate": {
+        "title": "Kanal Oluşturuldu!",
+        "description": "Kanal: <#{{id}}> : {{name}}",
+        "footer": "Kanal ID: {{id}}"
+    },
+    "channelDelete": {
+        "title": "Kanal Silindi",
+        "description": "Silinen kanal adı: **{{name}}**",
+        "footer": "Kanal ID: {{id}}"
+    },
+    "music": {
+        "queue": {
+            "status": "Ses: {{volume}}% | Filtre: {{filter}} | Döngü: {{loop}} | Otomatik Çalma: {{autoplay}}",
+            "defaultFilter": "Kapalı",
+            "allQueue": "Tüm Kuyruk",
+            "thisSong": "Bu Şarkı",
+            "off": "Kapalı",
+            "on": "Açık"
+        },
+        "playSong": {
+            "title": "Şimdi Çalıyor",
+            "description": "🎶 | `{{songName}}` şarkısı çalıyor - `{{duration}}`\nTarafından istendi: {{user}}\n{{status}}"
+        },
+        "addSong": {
+            "title": "Şarkı Kuyruğa Eklendi",
+            "description": "🎶 | `{{songName}}` şarkısı, {{user}} tarafından kuyruğa eklendi - `{{duration}}`"
+        },
+        "addList": {
+            "title": "Çalma Listesi Kuyruğa Eklendi",
+            "description": "🎶 | `{{playlistName}}` çalma listesi ({{songCount}} şarkı) kuyruğa eklendi\n{{status}}"
+        },
+        "empty": {
+            "title": "Ses Kanalı Boş",
+            "description": "⛔ | Ses kanalı boş! Kanaldan ayrılıyor..."
+        },
+        "searchNoResult": {
+            "title": "Arama Sonuç Bulunamadı",
+            "description": "`⛔ | '{{query}}' için sonuç bulunamadı!`"
+        },
+        "finish": {
+            "title": "Kuyruk Tamamlandı",
+            "description": "🏁 | Kuyruk tamamlandı!"
+        }
+    },
+    "userBanned": {
+        "title": "Kullanıcı Yasaklandı",
+        "description": "Kullanıcı: {{username}} (`{{userID}}`)",
+        "bannedBy": "Yasaklayan",
+        "reason": "Sebep",
+        "noReason": "Belirtilmemiş"
+    },
+    "userUnbanned": {
+        "title": "Kullanıcı Yasak Kaldırıldı",
+        "color": "Green",
+        "description": "Kullanıcı: {{username}} (`{{userID}}`)",
+        "unbannedFrom": "Yasaktan Kurtarılan",
+        "noBanLog": "Yasak kaydı bulunamadı"
+    },
+    "autoRoleAdded": {
+        "success": "Otomatik rol başarıyla eklendi.",
+        "nicknameError": "Kullanıcı adını değiştirirken bir hata oluştu.",
+        "defaultUserName": "İsim || Yaş"
+    },
+    "memberJoinLog": {
+        "title": "Üye Katılım Logu",
+        "member": "Üye",
+        "bot": "Bot hesap mı ?",
+        "true": "Evet",
+        "false": "Hayır",
+        "joinDate": "Katılma Tarihi",
+        "creationDate": "Hesap Oluşturulma Tarihi",
+        "accountAge": "Hesap Yaşı",
+        "footer": "Katılım Logu Altbilgisi"
+    },
+    "memberLeftLog": {
+        "title": "Üye sunucuyu terketti"
+    },
+    "welcome": {
+        "memberCount": "Siz {{count}}. Üyemizsiniz",
+        "svMessage": "{{guildName}}'a Hoş Geldiniz",
+        "title": "Sunucumuza Hoş Geldiniz",
+        "message": "Harika sunucumuza hoş geldiniz!",
+        "registerChannel": "Kaydınızı tamamlamak için lütfen kayıt kanalına gidin."
+    },
+    "userLog": {
+        "title": "Üye değişiklik sistemi",
+        "oldName": "Eski adı",
+        "newName": "Yeni adı",
+        "footer": "Üye değişiklik sistemi"
+    },
+    "commandLog": {
+        "title": "🌐 Bot komutu kullanıldı",
+        "serverName": "Sunucu adı",
+        "chatCommand": "Komut adı",
+        "commandUser": "Komutu kullanan",
+        "footer": "Log sistemi"
+    },
+    "giveawayBtn": {
+        "startGiveaway": "Çekiliş Başlat",
+        "prizeLabel": "Ödül",
+        "prizePlaceholder": "Çekiliş ödülü nedir?",
+        "winnersCountLabel": "Kazananlar Sayısı",
+        "winnersCountPlaceholder": "Çekiliş kazananlarının sayısı nedir?",
+        "backupWinnersCountLabel": "Yedek Kazananlar Sayısı",
+        "backupWinnersCountPlaceholder": "Yedek kazananlarının sayısı nedir?",
+        "endDateLabel": "Bitiş Tarihi",
+        "endDatePlaceholder": "Çekilişin bitiş tarihi nedir? (örn: 30m, 1s, 1g)",
+        "invalidNumericValues": "Lütfen geçerli sayısal değerler girin.",
+        "invalidDuration": "Lütfen geçerli bir süre girin (örn: '30m', '1s', '1g').",
+        "creatingGiveaway": "Çekiliş oluşturuluyor, lütfen bekleyin...",
+        "failedToCreateGiveaway": "Bu kanalda çekiliş mesajı oluşturulamadı. Yeterli iznim olmayabilir.",
+        "giveawayCreated": "{{user}} çekilişi oluşturuldu!",
+        "giveaway": "Çekiliş",
+        "status": "Durum",
+        "pending": "Beklemede",
+        "giveawayEntries": "Çekiliş Katılımları",
+        "winnersCount": "Kazananlar Sayısı",
+        "backupWinnersCount": "Yedek Kazananlar Sayısı",
+        "giveawayDuration": "Çekiliş Süresi",
+        "closeGiveaway": "Çekilişi Kapat",
+        "doAGiveaway": "Çekilişi Yap",
+        "joinGiveaway": "Çekilişe Katıl"
+    },
+    "giveawayHandler": {
+        "giveawayNotOpen": "Bu çekiliş katılım için açık değil.",
+        "leftGiveaway": "Çekilişten ayrıldınız.",
+        "joinedGiveaway": "Çekilişe katıldınız!",
+        "giveawayEntries": "Çekiliş Katılımları",
+        "noPermissionCloseGiveaway": "Bu çekilişi kapatma izniniz yok.",
+        "giveawayClosed": "Çekiliş kapatıldı!",
+        "noPermissionDoGiveaway": "Bu çekilişi yapma izniniz yok.",
+        "noParticipants": "Bu çekiliş için katılımcı bulunamadı.",
+        "giveawayFinalized": "Çekiliş tamamlandı!",
+        "giveawayWinners": "Çekiliş Kazananları",
+        "backupWinners": "Yedek Kazananlar"
+    },
+    "register": {
+        "alreadySigned": "Zaten sunucumuza kayıtlı bulunuyorsunuz.",
+        "creatingName": "Yeni bir isim oluşturuluyor, lütfen bekleyin...",
+        "usernameChanged": "Kullanıcı adı değiştirildi: {{newUserName}}",
+        "usernameChangeError": "Kullanıcı adını değiştirme hatası: {{error}}",
+        "modalTitle": "{{guildName}} SUNUCUSUNA KAYIT OL",
+        "realNameLabel": "Gerçek adınız nedir?",
+        "ageLabel": "Kaç yaşındasınız?"
+    },
+    "suggestHandler": {
+        "permissionError": "Bu işlemi gerçekleştirmek için izniniz yok.",
+        "approveSuccess": "Öneri onaylandı!",
+        "approve": "✅ Onaylandı",
+        "rejectSuccess": "Öneri reddedildi!",
+        "reject": "❌ reddedildi",
+        "upvoteSuccess": "Öneriye oy verildi!",
+        "downvoteSuccess": "Öneriye karşı oy verildi!",
+        "alreadyVotedError": "Bu öneri için zaten oy kullandınız",
+        "approvePermissionError": "Önerileri onaylama izniniz yok",
+        "rejectPermissionError": "Önerileri reddetme izniniz yok"
+    },
+    "suggestBtn": {
+        "modalTitle": "Bir öneri oluştur",
+        "textInputLabel": "Ne önermek istersiniz?",
+        "creatingSuggest": "Öneri oluşturuluyor, lütfen bekleyin...",
+        "failedToCreateSuggest": "Bu kanalda öneri mesajı oluşturulamadı. Yeterli iznim olmayabilir.",
+        "successCreateSuggest": "Öneri oluşturuldu",
+        "created": "{{interaction.user}} Öneri Oluşturuldu!",
+        "embeds": {
+            "suggest": "Öneri",
+            "status": "Durum",
+            "statusValue": "⏳ Beklemede",
+            "votes": "Oylar"
+        },
+        "upvote": "Evet",
+        "downvote": "Hayır",
+        "approve": "Onayla",
+        "reject": "Reddet"
+    },
+    "listRole": {
+        "findError": "Bu rolü bulamıyorum, lütfen sunucu yöneticisi ile iletişime geçin.",
+        "roleRemove": "{{label}} rolü kaldırıldı.",
+        "roleAdd": "{{label}} rolü eklendi."
+    },
+    "ticketSys": {
+        "ticketBtn": {
+            "modalTitle": "Destek Talebi",
+            "topic": "Konu",
+            "topicPlaceHolder": "Sorununuzun konusu nedir?",
+            "issue": "Sorun",
+            "issuePlaceholder": "Karşılaştığınız sorun nedir?"
+        },
+        "ticketModal": {
+            "embedOpened": "Talep Açıldı",
+            "embedOpenDesc": "Talep oluşturuldu, lütfen bir personel üyesinin cevaplamasını bekleyin.",
+            "user": "Kullanıcı",
+            "topic": "Konu",
+            "issue": "Sorun",
+            "btnClose": "Talebi Kapat",
+            "success": "{{interaction.user.tag}}, talebiniz başarıyla oluşturuldu! Buradan görüntüleyebilirsiniz: {{channel}}"
+        },
+        "closeTicketBtn": {
+            "title": "Talep Kapatıldı",
+            "desc": "Destek için bize başvurduğunuz için teşekkür ederiz. Talebiniz başarıyla kapatıldı. Yardıma ihtiyacınız olursa lütfen aşağıdaki düğmeye basın.",
+            "footer": "{{interaction.guild.name}} tarafından gönderildi",
+            "btnLabel": "Geri Dön"
+        },
+        "pingStaff": {
+            "title": "Personel Çağrısı Yapıldı",
+            "desc": "Personel çağrıldı, lütfen bekleyin.",
+            "footer": "Personel çağrıldı"
+        }
+    },
+    "inviteCreateLog": {
+        "title": "Davet Oluşturuldu",
+        "code": "Davet Kodu:",
+        "name": "Davet Edenin Adı:",
+        "id": "Davet Edenin ID'si:",
+        "expires": "Davet Geçerlilik Süresi:",
+        "footer": "Davet Oluşturma Sistemi"
+    },
+    "antiLink": {
+        "reason": "İzinsiz Link gönderme",
+        "warningEmbed": "Anti-Link Sistemi",
+        "warningEmbedDesc": ":no_entry_sign: İzin verilmeyen bir sunucuda link gönderdiğiniz için susturulmuş rolü verildi. 2 dakika boyunca susturulacaksınız!",
+        "logEmbed": "Üye Zaman Aşımı",
+        "logEmbedDesc": "> İzinsiz link gönderme \n> <@{{id}}> {{name}}\n> link: {{content}}"
+    },
+    "antiSpam": {
+        "title": "Üye Zaman Aşımı",
+        "desc": "> Saniyede 3'ten fazla mesaj gönderdiğiniz için zaman aşımına uğradınız.",
+        "reason": "Spam Mesaj"
+    },
+    "fixSentence": {
+        "title": "Sorunları Düzeltme",
+        "please": "LÜTFEN",
+        "desc": "Lütfen {{message.author}} kurallarınıza uyun, kötü veya istenmeyen kelimeleri kullanmayın.",
+        "correctSentence": "Doğru Cümle"
+    },
+    "userLevelUp": {
+        "title": "🌐 Kullanıcı Seviye Atladı",
+        "serverName": "Sunucu Adı",
+        "desc": "{{member}} sen **{{level.level}}. seviyeye** yükseldin.",
+        "footer": "Seviye Sistemi"
+    },
+    "messageDeleteLog": {
+        "imgDesc": "**<@{{message.member.user.id}}> tarafından gönderilen resim silindi** <#{{message.channel.id}}>",
+        "desc": "**<@{{message.member.user.id}}> tarafından gönderilen mesaj silindi** <#{{message.channel.id}}>\n{{mes}}",
+        "footer": "Mesaj ID: {{message.id}}"
+    },
+    "messageUpdatedLog": {
+        "title": "🌐 Sohbet Mesajı Güncellendi",
+        "desc": "**<@{{oldMessage.member.user.id}}> tarafından gönderilen mesaj düzenlendi** \n**<#{{oldMessage.channel.id}}> kanalında düzenlendi** \n[Mesaja Git](https://discord.com/channels/{{oldMessage.guild.id}}/{{oldMessage.channel.id}}/{{newMessage.id}})",
+        "svName": "Sunucu Adı",
+        "beforeMessage": "Önceki Mesaj",
+        "afterMessage": "Sonraki Mesaj",
+        "commandMessage": "Komut Mesajı"
+    },
+    "userUpdateLog": {
+        "title": "Kullanıcı Avatarını Değiştirdi",
+        "desc": "{{newMember.username}} Avatarını Değiştirdi",
+        "oldAvatar": "Eski avatar",
+        "newAvatar": "Yeni avatar",
+        "before": "[Önceki]({{oldImg}})",
+        "after": "[Sonraki]({{newImg}})"
+    },
+    "jtcNewState": {
+        "have": "Zaten şu anda açık bir ses kanalınız var **<#{{joinChannelData.Channel}}>**",
+        "chName": "{{newState.member.user.username}}-oda",
+        "author": "Katıl Oluştur Sistemi",
+        "footer": "Kanal Oluşturuldu",
+        "title": ">Kanal Oluşturuldu",
+        "name": "Kanal Oluşturuldu",
+        "value": ">Ses kanalınız oluşturuldu \n> **{{newState.member.guild.name}}** sunucusunda \n> Ses kanalınız **<#{{channel.id}}>**"
+    },
+    "jtcOldState": {
+        "author": "Katıl Oluştur Sistemi",
+        "title": ">Kanal Silindi",
+        "name": "Kanal Silindi",
+        "footer": "Kanal Silindi",
+        "value": ">Ses kanalınız silindi \n> **{{newState.member.guild.name}}** sunucusunda"
+    },
+    "voiceLog": {
+        "footer": "Ses Durumu Bilgisi",
+        "title": ">{{guildName}} Sunucusu",
+        "svJoin": "Sunucuya Katılındı",
+        "chName": "Kanal Adı",
+        "timeSpend": "Harcanan Zaman",
+        "minute": ">{{elapsedTimeInMinutes.toFixed(1)}} dakika"
+    },
+    "commands": {
+        "info": {
+            "name": "info",
+            "description": "Sunucu bilgi sistemi",
+            "subcommands": {
+                "emojimap": {
+                    "emojimap": "emojimap",
+                    "description": "Sunucudaki emoji listesini görüntüle"
+                },
+                "help": {
+                    "help": "help",
+                    "description": "Komutların listesini ve bot hakkında bilgiyi göster"
+                },
+                "server-info": {
+                    "server-info": "server-info",
+                    "description": "Sunucu hakkında bilgi göster"
+                },
+                "user-info": {
+                    "user-info": "user-info",
+                    "description": "Sunucudaki bir kullanıcı hakkında bilgi bul"
+                },
+                "ping": {
+                    "ping": "ping",
+                    "description": "Bot ping'i ile yanıt ver"
+                }
+            }
+        }
+    }
+}

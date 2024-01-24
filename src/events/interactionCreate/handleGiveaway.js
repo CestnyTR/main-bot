@@ -1,5 +1,6 @@
 const { ModalBuilder, TextInputBuilder, TextInputStyle, ActionRowBuilder, EmbedBuilder, ButtonBuilder, ButtonStyle } = require("discord.js");
 const giveawaySchema = require("../../models/giveaway");
+const LanguageService = require("../../utils/LanguageService"); // Dil servisi eklenmiş
 
 /**
  * @param {Interaction} interaction
@@ -12,11 +13,16 @@ module.exports = async (interaction) => {
     const targetGiveaway = await giveawaySchema.findOne({ giveawayId });
     const targetMessage = await interaction.channel.messages.fetch(targetGiveaway.messageId);
     const targetMessageEmbed = targetMessage.embeds[0];
+    
+    // Dil bilgisini al
+    const guildLanguage = await LanguageService.getGuildLanguage(interaction.guildId);
+    const langData = await LanguageService.getLocalizedString(interaction.guildId, "giveawayHandler");
+    
     switch (action) {
         case "join":
             // Check if the giveaway is open for participation
             if (targetGiveaway.status !== 'pending') {
-                await interaction.editReply('This giveaway is not open for participation.');
+                await interaction.editReply(langData.giveawayNotOpen);
                 return;
             }
 
@@ -26,11 +32,11 @@ module.exports = async (interaction) => {
             if (participantIndex !== -1) {
                 // User is already a participant, so remove them from the participants array
                 targetGiveaway.participants.splice(participantIndex, 1);
-                await interaction.editReply('You have left the giveaway.');
+                await interaction.editReply(langData.leftGiveaway);
             } else {
                 // User is not a participant, so add them to the participants array
                 targetGiveaway.participants.push(interaction.user.id);
-                await interaction.editReply('You have joined the giveaway!');
+                await interaction.editReply(langData.joinedGiveaway);
             }
 
             // Save the updated giveaway data
@@ -38,7 +44,7 @@ module.exports = async (interaction) => {
 
             // Update the "Giveaway entries" count in the embed
             const updatedParticipantsCount = targetGiveaway.participants.length;
-            targetMessageEmbed.fields.find(field => field.name === 'Giveaway entries').value = updatedParticipantsCount.toString();
+            targetMessageEmbed.fields.find(field => field.name === langData.giveawayEntries).value = updatedParticipantsCount.toString();
 
             // Edit the message with the updated embed
             await targetMessage.edit({
@@ -46,33 +52,33 @@ module.exports = async (interaction) => {
             });
             break;
 
-
         case "close":
             if (!interaction.memberPermissions.has('Administrator')) {
-                await interaction.editReply('you do not have permission to close this giveaway')
+                await interaction.editReply(langData.noPermissionCloseGiveaway);
                 return;
             }
             targetGiveaway.status = 'close';
             targetMessageEmbed.data.color = 0x84e660;
-            targetMessageEmbed.fields[1].value = '❌ closed';
+            targetMessageEmbed.fields[1].value = langData.giveawayClosed;
             await targetGiveaway.save();
             await giveawaySchema.deleteOne({ giveawayId: targetGiveaway.giveawayId });
 
-            interaction.editReply('giveaway closed !')
+            interaction.editReply(langData.giveawayClosed);
             targetMessage.edit({
                 embeds: [targetMessageEmbed],
                 components: [],
             });
             break;
+
         case "do":
             if (!interaction.memberPermissions.has('Administrator')) {
-                await interaction.editReply('You do not have permission to do this giveaway');
+                await interaction.editReply(langData.noPermissionDoGiveaway);
                 return;
             }
 
             // Check if there are participants
             if (targetGiveaway.participants.length === 0) {
-                await interaction.editReply('No participants found for this giveaway');
+                await interaction.editReply(langData.noParticipants);
                 return;
             }
 
@@ -96,13 +102,13 @@ module.exports = async (interaction) => {
                 backupWinnerList = backupWinners.map((backupWinner, index) => `${index + 1}. <@${backupWinner}>`).join('\n');
             }
 
-            await interaction.editReply('Giveaway finalized');
+            await interaction.editReply(langData.giveawayFinalized);
 
             // Send a public message with the winners and backup winners if there are any
             if (backupWinnerList) {
-                await interaction.channel.send(`🎉 **Giveaway Winners:**\n${winnerList}\n\n🎉 **Backup Winners:**\n${backupWinnerList}`);
+                await interaction.channel.send(`🎉 **${langData.giveawayWinners}:**\n${winnerList}\n\n🎉 **${langData.backupWinners}:**\n${backupWinnerList}`);
             } else {
-                await interaction.channel.send(`🎉 **Giveaway Winners:**\n${winnerList}`);
+                await interaction.channel.send(`🎉 **${langData.giveawayWinners}:**\n${winnerList}`);
             }
             break;
     }

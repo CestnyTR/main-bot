@@ -1,6 +1,8 @@
 const { Interaction } = require("discord.js");
 const rolesInfoSchema = require("../../models/RolesInfo");
 const AutoRole = require('../../models/AutoRole');
+const LanguageService = require("../../utils/LanguageService"); // Dil servisi eklenmiş
+let langData
 
 /**
  *
@@ -17,6 +19,9 @@ module.exports = async (interaction) => {
 
 
     const [type, member, action] = interaction.customId.split('.');
+    if (type == "language_select_menu") return;
+    langData = await LanguageService.getLocalizedString(interaction.guildId, "listRole");
+
     // await interaction.deferReply({ ephemeral: true });
     const query = {
         guildId: interaction.guild.id,
@@ -36,7 +41,7 @@ module.exports = async (interaction) => {
         _roles.push(interaction.guild.roles.cache.get(rolId[i]))
     }
     if (!_roles) {
-        interaction.editReply("I couldn't find that role please contant with server admin");
+        interaction.editReply(langData.findError);
         return;
     }
     for (let i in _roles) {
@@ -44,14 +49,14 @@ module.exports = async (interaction) => {
         if (hasRole) {
             await interaction.member.roles.remove(_roles[i]);
             const label = listLabel(rolesInfo.listRoles, _roles[i]);
-            await interaction.editReply(`The role ${label} has been removed.`);
+            await interaction.editReply(langData.roleRemove.replace('{{label}}', label));
             break;
         }
     }
     for (let i in interaction.values) {
         await interaction.member.roles.add(interaction.values[i]);
         const label = listLabel(rolesInfo.listRoles, interaction.values[i]);
-        await interaction.editReply(`The role ${label} has been added.`);
+        await interaction.editReply(langData.roleAdd.replace('{{label}}', label));
         break;
     }
 }

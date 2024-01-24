@@ -2,7 +2,6 @@ const { SlashCommandBuilder, ChatInputCommandInteraction, ChannelType, EmbedBuil
 const linkAccessRole = require("../models/linkAccessRoleSettings")
 const capitalLetterDB = require('../models/CapitalLetter');
 const forbiddenDb = require('../models/Forbidden');
-
 module.exports = {
     data: new SlashCommandBuilder()
         .setName("chat-guard-system")

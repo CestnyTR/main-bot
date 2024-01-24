@@ -2,6 +2,8 @@ const { ModalBuilder, TextInputBuilder, TextInputStyle, ActionRowBuilder, EmbedB
 const GuildConfiguration = require("../../models/GuildConfiguration")
 const Suggestion = require("../../models/Suggestion");
 const formatResults = require("../../utils/formatResults");
+const LanguageService = require("../../utils/LanguageService"); // Dil servisi eklenmiş
+let langData
 /**
  * @param {Interaction} interaction
  */
@@ -10,13 +12,16 @@ module.exports = async (interaction) => {
 
     const command = interaction.customId;
     if (command !== "suggestBtnId") return;
+
+    langData = await LanguageService.getLocalizedString(interaction.guildId, "suggestBtn");
+
     const embed = new EmbedBuilder()
     const modal = new ModalBuilder()
-        .setTitle('create a suggestion')
+        .setTitle(langData.modalTitle)
         .setCustomId(`suggestion-${interaction.user.id}`);
     const textInput = new TextInputBuilder()
         .setCustomId('suggestion-input')
-        .setLabel("what would you like to suggest ?")
+        .setLabel(langData.textInputLabel)
         .setStyle(TextInputStyle.Paragraph)
         .setRequired(true)
         .setMaxLength(1000);
@@ -32,9 +37,9 @@ module.exports = async (interaction) => {
     await modalInteraction.deferReply({ ephemeral: true })
     let suggesstionMessage;
     try {
-        suggesstionMessage = await interaction.channel.send('Creating suggestion, please wait...');
+        suggesstionMessage = await interaction.channel.send(langData.creatingSuggest);
     } catch (error) {
-        modalInteraction.editReply('Failed to create suggestions message in this channel. I may not have enough permissions.')
+        modalInteraction.editReply(langData.failedToCreateSuggest)
         return;
     }
     const suggesstionText = modalInteraction.fields.getTextInputValue('suggestion-input');
@@ -45,7 +50,7 @@ module.exports = async (interaction) => {
         content: suggesstionText,
     })
     await newSuggestion.save();
-    modalInteraction.editReply("Suggestion created");
+    modalInteraction.editReply(langData.successCreateSuggest);
     //! sugggestion embed
     embed
         .setAuthor({
@@ -53,31 +58,31 @@ module.exports = async (interaction) => {
             iconURL: interaction.user.displayAvatarURL({ size: 256 }),
         })
         .addFields([
-            { name: 'Suggestion', value: suggesstionText },
-            { name: 'Status', value: '⏳ Pending' },
-            { name: 'Votes', value: formatResults() }
+            { name: langData.embeds.suggest, value: suggesstionText },
+            { name: langData.embeds.status, value: langData.embeds.statusValue },
+            { name: langData.embeds.votes, value: formatResults() }
         ])
         .setColor('Yellow');
     //! Buttons
     const upvoteButton = new ButtonBuilder()
         .setEmoji('👍🏼')
-        .setLabel("Upvote")
+        .setLabel(langData.upvote)
         .setStyle(ButtonStyle.Primary)
         .setCustomId(`suggestion.${newSuggestion.suggestionId}.upvote`)
     const downvoteButton = new ButtonBuilder()
         .setEmoji('👎🏼')
-        .setLabel("Downvote")
+        .setLabel(langData.downvote)
         .setStyle(ButtonStyle.Primary)
         .setCustomId(`suggestion.${newSuggestion.suggestionId}.downvote`)
     const approveButton = new ButtonBuilder()
         .setEmoji("✅")
-        .setLabel("Approve")
+        .setLabel(langData.approve)
         .setStyle(ButtonStyle.Success)
         .setCustomId(`suggestion.${newSuggestion.suggestionId}.approve`)
 
     const rejectButton = new ButtonBuilder()
         .setEmoji("🗑")
-        .setLabel("Reject")
+        .setLabel(langData.reject)
         .setStyle(ButtonStyle.Danger)
         .setCustomId(`suggestion.${newSuggestion.suggestionId}.reject`)
 
@@ -86,7 +91,7 @@ module.exports = async (interaction) => {
     const secondaRow = new ActionRowBuilder().addComponents(approveButton, rejectButton);
 
     suggesstionMessage.edit({
-        content: `${interaction.user} Suggestion Created!`,
+        content: langData.created.replace("{{interaction.user}}", interaction.user),
         embeds: [embed],
         components: [firstRow, secondaRow]
     })

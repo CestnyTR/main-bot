@@ -1,5 +1,6 @@
 const { EmbedBuilder } = require("discord.js");
-
+const LanguageService = require("../../utils/LanguageService");
+let langData
 const calculateLevelXp = require('../../utils/calculateLevelXp');
 const Level = require('../../models/Level');
 const cooldowns = new Set();
@@ -25,67 +26,62 @@ module.exports = async (message) => {
         userId: message.author.id,
         guildId: message.guild.id,
     };
+    const level = await Level.findOne(query);
 
-    try {
-        const level = await Level.findOne(query);
+    if (level) {
+        langData = await LanguageService.getLocalizedString(message.guild.id, 'userLevelUp');
 
-        if (level) {
-            level.xp += xpToGive;
+        level.xp += xpToGive;
 
-            if (level.xp > calculateLevelXp(level.level)) {
-                level.xp = 0;
-                level.level += 1;
+        if (level.xp > calculateLevelXp(level.level)) {
+            level.xp = 0;
+            level.level += 1;
 
-                let logChDB = await logChSchema.findOne({ guildId: message.guildId });
-
-                if (logChDB) {
-                    if (!logChDB.exist) return;
-                    const channel = await message.guild.channels.cache.get(logChDB.messageLog);
-                    if (!channel) return;
-                    const embed = new EmbedBuilder()
-                        .setColor("Green")
-                        .setTitle('🌐 user level up')
-                        .addFields({ name: 'server name', value: `${message.member} you have leveled up to **level ${level.level}**.` })
-                        .setTimestamp()
-                        .setFooter({ text: 'chat message updated used' });
-                    channel.send({ embeds: [embed] });
-                } else {
-                    const embed = new EmbedBuilder()
-                        .setColor("Green")
-                        .setTitle('🌐 user level up ')
-                        .addFields({ name: 'server name', value: `${message.member} you have leveled up to **level ${level.level}**.` })
-                        .setTimestamp()
-                        .setFooter({ text: 'chat message updated used' });
-                    message.channel.send({ embeds: [embed] });
-                }
+            let logChDB = await logChSchema.findOne({ guildId: message.guildId });
+            const embed = new EmbedBuilder()
+                .setColor("Green")
+                .setTitle(langData.title)
+                .addFields({
+                    name: langData.serverName, value: langData.desc
+                        .replace("{{member}}", message.member)
+                        .replace("{{level.level}}", level.level)
+                })
+                .setTimestamp()
+                .setFooter({ text: langData.footer });
+            if (logChDB) {
+                if (!logChDB.exist) return;
+                const channel = await message.guild.channels.cache.get(logChDB.messageLog);
+                if (!channel) return;
+                channel.send({ embeds: [embed] });
+            } else {
+                message.channel.send({ embeds: [embed] });
             }
-
-            await level.save().catch((e) => {
-                console.log(`Error saving updated level ${e}`);
-                return;
-            });
-            cooldowns.add(message.author.id);
-            setTimeout(() => {
-                cooldowns.delete(message.author.id);
-            }, 60000);
         }
 
-        // if (!level)
-        else {
-            // create new level
-            const newLevel = new Level({
-                userId: message.author.id,
-                guildId: message.guild.id,
-                xp: xpToGive,
-            });
-
-            await newLevel.save();
-            cooldowns.add(message.author.id);
-            setTimeout(() => {
-                cooldowns.delete(message.author.id);
-            }, 60000);
-        }
-    } catch (error) {
-        console.log(`Error giving xp: ${error}`);
+        await level.save().catch((e) => {
+            console.log(`Error saving updated level ${e}`);
+            return;
+        });
+        cooldowns.add(message.author.id);
+        setTimeout(() => {
+            cooldowns.delete(message.author.id);
+        }, 60000);
     }
+
+    // if (!level)
+    else {
+        // create new level
+        const newLevel = new Level({
+            userId: message.author.id,
+            guildId: message.guild.id,
+            xp: xpToGive,
+        });
+
+        await newLevel.save();
+        cooldowns.add(message.author.id);
+        setTimeout(() => {
+            cooldowns.delete(message.author.id);
+        }, 60000);
+    }
+
 };
