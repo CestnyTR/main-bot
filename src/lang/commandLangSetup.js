@@ -1,4 +1,5 @@
-function chatGuard() {
+// commandLangSetup.js
+async function chatGuard() {
     // chatGuard.js
 
     const trLang = require("../tr.json").buildCommands.chatGuard;
@@ -165,7 +166,7 @@ function chatGuard() {
     }
     return chatGuard;
 }
-function game() {
+async function game() {
     // game.js
 
     const trLang = require("../lang/tr.json").buildCommands.playGames;
@@ -218,14 +219,15 @@ function game() {
     }
     return game
 }
-function info() {
+async function info() {
     // info.js
     const trLang = require("../lang/tr.json").buildCommands.info;
     //? const enLang = require("../lang/en.json").buildCommands.info;
     const info = {
-        name: {
-            tr: trLang.name,
-        },
+        name: [
+            { tr: await trLang.name }
+        ]
+        ,
         description: {
             tr: trLang.description,
         },
@@ -282,7 +284,7 @@ function info() {
     }
     return info;
 }
-function levelSystem() {
+async function levelSystem() {
     const trLang = require("../lang/tr.json").buildCommands.levelSystem;
     //? const enLang = require("../lang/en.json").buildCommands.levelSystem;
     const levelSystem = {
@@ -353,7 +355,7 @@ function levelSystem() {
     }
     return levelSystem;
 }
-function modareteSystem() {
+async function modareteSystem() {
     const trLang = require("../lang/tr.json").buildCommands.modrateSystem;
     //? const enLang = require("../lang/en.json").buildCommands.modrateSystem;
     const modrateSystem = {
@@ -594,7 +596,7 @@ function modareteSystem() {
     }
     return modrateSystem;
 }
-function musicSystem() {
+async function musicSystem() {
     const trLang = require("../lang/tr.json").buildCommands.music;
     //? const enLang = require("../lang/en.json").buildCommands.music;
     const musicSystem = {
@@ -787,7 +789,7 @@ function musicSystem() {
     }
     return musicSystem;
 }
-function setSystem() {
+async function setSystem() {
     const trLang = require("../lang/tr.json").buildCommands.serverSystem;
     //? const enLang = require("../lang/en.json").buildCommands.serverSystem;
     const setSystem = {

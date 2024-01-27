@@ -341,68 +341,33 @@
             },
             "help": {
                 "helpMenu": {
-                    "menu": {
-                        "customId": "menu",
-                        "placeholder": "Select a topic",
-                        "options": [
-                            {
-                                "label": "Public commands",
-                                "description": "Shows all public commands",
-                                "value": "menu1"
-                            },
-                            {
-                                "label": "Moderation commands",
-                                "description": "Shows all moderation commands",
-                                "value": "menu2"
-                            },
-                            {
-                                "label": "Music commands",
-                                "description": "Shows the music commands",
-                                "value": "menu3"
-                            }
-                        ]
+                    "placeholder": "Bir konu seçin",
+                    "publicCommands": {
+                        "label": "Genel komutlar",
+                        "description": "Tüm genel komutları gösterir"
                     },
-                    "funButton": {
-                        "customId": "funbutton",
-                        "label": "Fun commands",
-                        "style": "Secondary"
+                    "moderationCommands": {
+                        "label": "Moderasyon komutları",
+                        "description": "Tüm moderasyon komutlarını gösterir"
                     },
-                    "generalCommands": {
-                        "customId": "back",
-                        "label": "Back",
-                        "style": "Primary"
+                    "musicCommands": {
+                        "label": "Müzik komutları",
+                        "description": "Müzik komutlarını gösterir"
                     },
+                    "funButton": "Eğlence komutları",
+                    "generalCommands": "Geri",
                     "inviteMe": {
-                        "label": "Invite me",
-                        "style": "Link",
-                        "url": "https://discord.com/api/oauth2/authorize?client_id=1170412463993409586&permissions=8&scope=bot%20applications.commands"
+                        "label": "Beni davet et",
+                        "url": "https://discord.com/api/oauth2/authorize?client_id=1189621583287943199&permissions=8&scope=bot+applications.commands"
                     }
                 },
-                "helpEmbed": {
-                    "color": "Blue",
-                    "description": "CestnyTR is a multi-function bot with general commands, Admin commands, Moderation commands, Fun commands. Ticket and others will be added soon",
-                    "timestamp": true
-                },
-                "publicCommands": {
-                    "color": "Green",
-                    "description": "`/help`: Shows help menu\n`/avatar`: Shows avatar\n`/askGpt`: Ask a question to chatgpt\n`/invite`: Give the bot's invite link\n`/botStats`: Checks the status of the bot\n`/mcStats`: Checks status of a minecraft server\n`/serverInfo`: Gives information about the server\n`/userInfo`: Gives information about a user",
-                    "timestamp": true
-                },
-                "funCommands": {
-                    "color": "Yellow",
-                    "description": "`/tweet`: fake-tweets a post\n`/meme`: Generates a random meme\n`/pixelate`: Pixelate a user's avatar\n`/slap`: Slaps a user",
-                    "timestamp": true
-                },
-                "moderationCommands": {
-                    "color": "Red",
-                    "description": "`/ban`: Bans a user\n`/unban`: Unbans a user\n`/kick`: Kicks a user\n`/mute`: Mutes a user\n`/unmute`: Unmutes a user\n`/purge`: Purges specific numbers of messages\n`/setupLogs`: Setups log channel in your server\n`/warningsAdd`: Add warnings to a user\n`/warningsCheck`: Checks numbers of warnings a user has\n`/warningsRemove`: Clears a specific number of warns from a user\n`/warningsClear`: Clear all warns from a user",
-                    "timestamp": true
-                },
-                "musicCommands": {
-                    "color": "Purple",
-                    "description": "`/play`: Plays a music\n`/forward`: Forwards a music\n`/loop`: Loops a music\n`/nowPlaying`: Shows information about the current playing song\n`/pause`: Pauses the playing music\n`/resume`: Resumes a paused music\n`/queue`: Get the list of your currently active queue\n`/shuffle`: Shuffle current playlist.\n`/rewind`: Rewinds the playing music\n`/volume`: Change the volume\n`/stop`: Stops the music",
-                    "timestamp": true
-                }
+                "helpEmbed": "CestnyTR genel komutları, Yönetici komutları, Moderasyon komutları ve Eğlence komutları içeren çok işlevli bir bottur. Yakında Ticket ve diğerleri eklenecek.",
+                "publicCommands": "`/help`: Yardım menüsünü gösterir\n`/avatar`: Avatarı gösterir\n`/askGpt`: Chatgpt'ye bir soru sorar\n`/invite`: Botun davet bağlantısını verir\n`/botStats`: Botun durumunu kontrol eder\n`/mcStats`: Minecraft sunucusunun durumunu kontrol eder\n`/serverInfo`: Sunucu hakkında bilgi verir\n`/userInfo`: Bir kullanıcı hakkında bilgi verir",
+                "funCommands": "`/tweet`: Sahte bir tweet gönderir\n`/meme`: Rastgele bir meme oluşturur\n`/pixelate`: Bir kullanıcının avatarını pixelleştirir\n`/slap`: Bir kullanıcıyı tokatlar",
+                "moderationCommands": "`/ban`: Bir kullanıcıyı yasaklar\n`/unban`: Bir kullanıcının yasağını kaldırır\n`/kick`: Bir kullanıcıyı atar\n`/mute`: Bir kullanıcıyı susturur\n`/unmute`: Bir kullanıcının susturmasını kaldırır\n`/purge`: Belirli sayıda mesajı temizler\n`/setupLogs`: Sunucunuzda log kanalını ayarlar\n`/warningsAdd`: Bir kullanıcıya uyarı ekler\n`/warningsCheck`: Bir kullanıcının kaç uyarısı olduğunu kontrol eder\n`/warningsRemove`: Bir kullanıcının belirli sayıdaki uyarısını temizler\n`/warningsClear`: Bir kullanıcının tüm uyarılarını temizler",
+                "musicCommands": "`/play`: Bir müzik çalar\n`/forward`: Bir müziği ileri sarar\n`/loop`: Bir müziği tekrarlar\n`/nowPlaying`: Şu anda çalınan şarkı hakkında bilgi verir\n`/pause`: Çalınan müziği duraklatır\n`/resume`: Duraklatılmış bir müziği devam ettirir\n`/queue`: Şu anda aktif olan kuyruğunuzu alır\n`/shuffle`: Mevcut çalma listesini karıştırır.\n`/rewind`: Çalınan müziği geri sarar\n`/volume`: Ses seviyesini değiştirir\n`/stop`: Müziği durdurur",
+                "interactErrMenu": "Sadece {{user}} seçim menüsü ile etkileşimde bulunabilir!",
+                "interactErrBtn": "Sadece {{user}} düğmelerle etkileşimde bulunabilir!"
             },
             "serverInfo": {
                 "permissionError": "Bu komutu yürütmek için yeterli izniniz yok.",
