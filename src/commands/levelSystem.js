@@ -6,6 +6,8 @@ const User = require('../models/User');
 const dailyAmount = 1000;
 const trLang = require("../lang/tr.json").buildCommands.levelSystem;
 const enLang = require("../lang/en.json").buildCommands.levelSystem;
+const LanguageService = require("../utils/LanguageService");
+let langData
 module.exports = {
     data: new SlashCommandBuilder()
         .setName(enLang.name)
@@ -77,9 +79,11 @@ module.exports = {
      * @param {ChatInputCommandInteraction} param0.interaction
      */
     run: async ({ interaction }) => {
+        langData = await LanguageService.getLocalizedString(interaction.guild.id, 'commands');
+
         if (!interaction.inGuild()) {
             interaction.reply({
-                content: 'You can only run this command inside a server.',
+                content: langData.inGuildError,
                 ephemeral: true,
             });
             return;
@@ -88,22 +92,20 @@ module.exports = {
             userId: interaction.member.id,
             guildId: interaction.guild.id,
         };
-
+        langData = langData.levelSys;
         const mainSubCommand = interaction.options.getSubcommand();
         switch (mainSubCommand) {
             case "daily":
                 await interaction.deferReply();
 
                 let user = await User.findOne(query);
-
+                langData = langData.daily
                 if (user) {
                     const lastDailyDate = user.lastDaily.toDateString();
                     const currentDate = new Date().toDateString();
 
                     if (lastDailyDate === currentDate) {
-                        interaction.editReply(
-                            'You have already collected your dailies today. Come back tomorrow!'
-                        );
+                        interaction.editReply(langData.alreadyCollected);
                         return;
                     }
 
@@ -118,30 +120,29 @@ module.exports = {
                 user.balance += dailyAmount;
                 await user.save();
 
-                interaction.editReply(
-                    `${dailyAmount} was added to your balance. Your new balance is ${user.balance}`
-                );
+                interaction.editReply(langData.amountAdded.replace("{{dailyAmount}}", dailyAmount).replace("userBalance", user.balance));
                 break;
             case "balance":
                 const targetUserIdBalance = interaction.options.get('user')?.value || interaction.member.id;
-
+                langData = langData.balance;
                 await interaction.deferReply();
 
                 const balanceUser = await User.findOne({ userId: targetUserIdBalance, guildId: interaction.guild.id });
 
                 if (!balanceUser) {
-                    interaction.editReply(`<@${targetUserIdBalance}> doesn't have a profile yet.`);
+                    interaction.editReply(langData.noProfile.replace("{{targetUserIdBalance}}", targetUserIdBalance));
                     return;
                 }
 
                 interaction.editReply(
                     targetUserIdBalance === interaction.member.id
-                        ? `Your balance is **${balanceUser.balance}**`
-                        : `<@${targetUserIdBalance}>'s balance is **${balanceUser.balance}**`
+                        ? langData.yourBalance.replace("{{userBalance}}", balanceUser.balance)
+                        : langData.otherUserBalance.replace("{{targetUserIdBalance}}", targetUserIdBalance).replace("{{userBalance}}", balanceUser.balance)
                 );
                 break;
             case "level":
                 await interaction.deferReply();
+                langData = langData.level;
 
                 const mentionedUserId = interaction.options.get('target-user')?.value;
                 const targetUserIdLevel = mentionedUserId || interaction.member.id;
@@ -154,8 +155,8 @@ module.exports = {
                 if (!fetchedLevel) {
                     interaction.editReply(
                         mentionedUserId
-                            ? `${targetUserObj.user.tag} doesn't have any levels yet. Try again when they chat a little more.`
-                            : "You don't have any levels yet. Chat a little more and try again."
+                            ? langData.noLevels.replace("{{userTag}}", targetUserObj.user.tag)
+                            : langData.noLevelsSelf
                     );
                     return;
                 }

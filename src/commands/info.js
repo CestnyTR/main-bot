@@ -1,6 +1,8 @@
 const { client, SlashCommandBuilder, ChatInputCommandInteraction, EmbedBuilder, ActionRowBuilder, StringSelectMenuBuilder, ButtonBuilder, ButtonStyle, PermissionFlagsBits } = require('discord.js');
 const trLang = require("../lang/tr.json").buildCommands.info;
 const enLang = require("../lang/en.json").buildCommands.info;
+const LanguageService = require("../utils/LanguageService");
+let langData
 module.exports = {
     data: new SlashCommandBuilder()
         .setName(enLang.name)
@@ -70,9 +72,10 @@ module.exports = {
     * @param {ChatInputCommandInteraction} param0.interaction
     */
     run: async ({ interaction, client }) => {
+        langData = await LanguageService.getLocalizedString(interaction.guild.id, 'commands');
         if (!interaction.inGuild()) {
             interaction.reply({
-                content: 'You can only run this command inside a server.',
+                content: langData.inGuildError,
                 ephemeral: true,
             });
             return;
@@ -81,8 +84,10 @@ module.exports = {
         const queryGuild = {
             guildId: interaction.guild.id,
         };
+        langData = langData.info
         switch (mainSubCommand) {
             case "emojimap":
+                langData = langData.emojimap;
                 const emojis = interaction.guild.emojis.cache.map((e) => `${e} | \`${e}\``);
                 const pageSize = 10;
                 const pages = Math.ceil(emojis.length / pageSize);
@@ -92,10 +97,12 @@ module.exports = {
                     const start = page * pageSize;
                     const end = start + pageSize;
                     const emojiList = emojis.slice(start, end)
-                        .join('\n') || 'This server does not have emojis';
-
+                        .join('\n') || langData.noEmojis;
                     const emojimapEmbed = new EmbedBuilder()
-                        .setTitle(`Emojis (Pagina ${page + 1} de ${pages})`)
+                        .setTitle(langData.title
+                            .replace("{{currentPage}}", page + 1)
+                            .replace("{{totalPages}}", totalPages)
+                        )
                         .setDescription(`${emojiList}`);
                     return emojimapEmbed;
                 }
@@ -103,11 +110,11 @@ module.exports = {
                     .addComponents(
                         new ButtonBuilder()
                             .setCustomId('previous')
-                            .setLabel('Former')
+                            .setLabel(langData.buttonLabels.previous)
                             .setStyle(ButtonStyle.Primary),
                         new ButtonBuilder()
                             .setCustomId('next')
-                            .setLabel('Next')
+                            .setLabel((langData.buttonLabels.next))
                             .setStyle(ButtonStyle.Primary),
                     );
 
@@ -138,10 +145,11 @@ module.exports = {
                 });
                 break;
             case "help":
+                langData = langData.help;
                 const helpmenu = new ActionRowBuilder()
                     .addComponents(
                         new StringSelectMenuBuilder()
-                            .setCustomId("menu")
+                            .setCustomId("helpMenu")
                             .setPlaceholder("Select a topic")
                             .addOptions(
                                 {
@@ -219,7 +227,7 @@ module.exports = {
                 const helpCollector = await helpMessage.createMessageComponentCollector()
 
                 helpCollector.on(`collect`, async (i) => {
-                    if (i.customId === 'menu') {
+                    if (i.customId === 'helpMenu') {
                         const value = i.values[0];
                         if (i.user.id !== interaction.user.id) {
                             return await i.reply({ content: `Only ${interaction.user.tag} can interact with the select menu!`, ephemeral: true })
@@ -254,9 +262,10 @@ module.exports = {
                 })
                 break;
             case "server-info":
-                if (!interaction.memberPermissions.has('Administrator')) {
+                langData = langData.serverInfo;
+                if (!interaction.memberPermissions.has('ManageChannels')) {
                     await interaction.reply({
-                        content: "You dont have enough Permissions",
+                        content: langData.permissionError,
                         ephemeral: true,
                     });
                     return;
@@ -265,55 +274,61 @@ module.exports = {
                 const serverInfoEmbed = new EmbedBuilder({
                     author: { name: guild.name, iconURL: guild.iconURL({ size: 256 }) },
                     fields: [
-                        { name: 'Owner', value: (await guild.fetchOwner()).user.tag, inline: true },
-                        { name: 'Text Channels', value: guild.channels.cache.filter((c) => c.type === 0).toJSON().length, inline: true },
-                        { name: 'Voice Channels', value: guild.channels.cache.filter((c) => c.type === 2).toJSON().length, inline: true },
-                        { name: 'Categories', value: guild.channels.cache.filter((c) => c.type === 4).toJSON().length, inline: true },
-                        { name: 'Members', value: guild.memberCount, inline: true },
-                        { name: 'Roles', value: guild.roles.cache.size, inline: true },
-                        { name: 'Role List', value: guild.roles.cache.toJSON().join(', ') }
+                        { name: langData.owner, value: (await guild.fetchOwner()).user.tag, inline: true },
+                        { name: langData.textChannels, value: guild.channels.cache.filter((c) => c.type === 0).toJSON().length, inline: true },
+                        { name: langData.voiceChannels, value: guild.channels.cache.filter((c) => c.type === 2).toJSON().length, inline: true },
+                        { name: langData.categories, value: guild.channels.cache.filter((c) => c.type === 4).toJSON().length, inline: true },
+                        { name: langData.members, value: guild.memberCount, inline: true },
+                        { name: langData.roles, value: guild.roles.cache.size, inline: true },
+                        { name: langData.roleList, value: guild.roles.cache.toJSON().join(', ') }
                     ],
-                    footer: { text: `ID: ${guild.id} | Server Created: ${guild.createdAt.toDateString()}` }
+                    footer: {
+                        text: langData.footer.replace("{{guildId}}", guild.id).replace("{{createdAt}}", guild.createdAt.toDateString())
+                    }
                 })
                 interaction.reply({ embeds: [serverInfoEmbed], ephemeral: true })
                 break;
             case "user-info":
+                langData = langData.userInfo
                 const user = interaction.options.getUser('user') || interaction.user;
                 const member = await interaction.guild.members.fetch(user.id);
                 const userAvatar = user.displayAvatarURL({ size: 32 });
-                const nick = member.displayName || 'None';
-                const botStatus = user.bot ? 'Yes' : 'No';
+                const nick = member.displayName || langData.none;
+                const botStatus = user.bot ? langData.yes : langData.no;
                 const userInfoEmbed = new EmbedBuilder()
-                    .setTitle(`${user.username}'s Information`)
-                    .setColor('Red')
+                    .setColor('Green')
+                    .setTitle(langData.title.replace("{{username}}", user.username))
                     .setThumbnail(userAvatar)
+
+                    .addFields(
+                        {
+                            name: langData.joinedDiscord,
+                            value: `<t:${Math.floor(user.createdAt.getTime() / 1000)}:R>`,
+                            inline: true,
+                        },
+                        {
+                            name: langData.joinedServer,
+                            value: `<t:${Math.floor(member.joinedAt.getTime() / 1000)}:R>`,
+                            inline: true,
+                        },
+                        {
+                            name: langData.nickname,
+                            value: nick,
+                            inline: false,
+                        },
+                        {
+                            name: langData.boostedServer,
+                            value: member.premiumSince ? langData.yes : langData.no,
+                            inline: false,
+                        },
+                        {
+                            name: langData.bot,
+                            value: botStatus,
+                            inline: false,
+                        }
+                    )
                     .setTimestamp()
-                    .setFooter({ text: `User ID: ${user.id}` })
-                    .addFields({
-                        name: '<:arrow:1174741041404989502> Joined Discord',
-                        value: `<t:${Math.floor(user.createdAt.getTime() / 1000)}:R>`,
-                        inline: true,
-                    })
-                    .addFields({
-                        name: '<:arrow:1174741041404989502>  Joined Server',
-                        value: `<t:${Math.floor(member.joinedAt.getTime() / 1000)}:R>`,
-                        inline: true,
-                    })
-                    .addFields({
-                        name: '<:namecard:1174742568332963932> Nickname:',
-                        value: nick,
-                        inline: false,
-                    })
-                    .addFields({
-                        name: '<:discordboost:1174743833649623050> Boosted Server',
-                        value: member.premiumSince ? 'Yes' : 'No',
-                        inline: false,
-                    })
-                    .addFields({
-                        name: '<:botverify:1174744270276677763> BOT',
-                        value: botStatus,
-                        inline: false,
-                    })
+                    .setFooter({ text: langData.footer.replace("{{userId}}", user.id) })
                 await interaction.reply({ embeds: [userInfoEmbed], ephemeral: true });
                 break;
             case "ping":
@@ -323,9 +338,7 @@ module.exports = {
 
                 const ping = reply.createdTimestamp - interaction.createdTimestamp;
 
-                interaction.editReply(
-                    `Pong! Client ${ping}ms | Websocket: ${client.ws.ping}ms`
-                );
+                interaction.editReply(langData.ping.replace("{{ping}}", ping).replace("{{websocketPing}}", client.ws.ping));
                 break;
         }
 

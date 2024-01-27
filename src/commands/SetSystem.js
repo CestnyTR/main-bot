@@ -9,7 +9,7 @@ const welcomeSchema = require('../models/Welcome');
 const giveawaySystemSchema = require('../models/giveawaySys');
 const trLang = require("../lang/tr.json").buildCommands.serverSystem;
 const enLang = require("../lang/en.json").buildCommands.serverSystem;
-const LanguageService = require("../../utils/LanguageService");
+const LanguageService = require("../utils/LanguageService");
 let langData
 module.exports = {
     data: new SlashCommandBuilder()
@@ -742,12 +742,17 @@ module.exports = {
      * @param {ChatInputCommandInteraction} param0.interaction
      */
     run: async ({ interaction }) => {
+        langData = await LanguageService.getLocalizedString(interaction.guild.id, 'commands');
+
         if (!interaction.inGuild()) {
-            interaction.reply({ content: 'You can only run this command inside a server.', ephemeral: true });
+            interaction.reply({
+                content: langData.inGuildError,
+                ephemeral: true,
+            });
             return;
         }
         if (!interaction.memberPermissions.has('Administrator')) {
-            await interaction.reply({ content: "You dont have enough Permissions", ephemeral: true });
+            await interaction.reply({ content: langData.permissionsError, ephemeral: true });
             return;
         }
         const mainSubCommand = interaction.options.getSubcommandGroup();
@@ -755,9 +760,12 @@ module.exports = {
         const queryGuild = {
             guildId: interaction.guild.id,
         };
-        const embed = new EmbedBuilder()
+        const embed = new EmbedBuilder();
+        langData = langData.setSys;
         switch (mainSubCommand) {
             case "setup-register":
+                langData = langData.setupRegister;
+
                 const rgSubcommand = interaction.options.getSubcommand();
                 switch (rgSubcommand) {
                     case "activate-role-selecet-menu":
@@ -785,7 +793,7 @@ module.exports = {
                         const fifthRole = interaction.options.get('set-fifth-role')?.value || null;
                         let _listRoles = [{
                             label: defaultRoleName,
-                            description: `get the roll of ${defaultRoleName}`,
+                            description: langData.getTheRoll + `${defaultRoleName}`,
                             value: defaultRole,
                         }];
                         function listRolePush(role) {
@@ -794,35 +802,35 @@ module.exports = {
                         if (firstRoleName && firstRole) {
                             listRolePush({
                                 label: firstRoleName,
-                                description: `get the roll of ${firstRoleName}`,
+                                description: langData.getTheRoll + `${firstRoleName}`,
                                 value: firstRole,
                             })
                         }
                         if (secondRoleName && secondRole) {
                             listRolePush({
                                 label: secondRoleName,
-                                description: `get the roll of ${secondRoleName}`,
+                                description: langData.getTheRoll + `${secondRoleName}`,
                                 value: secondRole,
                             })
                         }
                         if (thirdRoleName && thirdRole) {
                             listRolePush({
                                 label: thirdRoleName,
-                                description: `get the roll of ${thirdRoleName}`,
+                                description: langData.getTheRoll + `${thirdRoleName}`,
                                 value: thirdRole,
                             })
                         }
                         if (fourthRoleName && fourthRole) {
                             listRolePush({
                                 label: fourthRoleName,
-                                description: `get the roll of ${fourthRoleName}`,
+                                description: langData.getTheRoll + `${fourthRoleName}`,
                                 value: fourthRole,
                             })
                         }
                         if (fifthRoleName && fifthRole) {
                             listRolePush({
                                 label: fifthRoleName,
-                                description: `get the roll of ${fifthRoleName}`,
+                                description: langData.getTheRoll + `${fifthRoleName}`,
                                 value: fifthRole,
                             })
                         }
@@ -861,7 +869,7 @@ module.exports = {
                         //!    StringSelectMenuBuilder
                         const newRoleList = new StringSelectMenuBuilder()
                             .setCustomId(rolesInfo.roleType)
-                            .setPlaceholder("Make a selection...")
+                            .setPlaceholder(langData.selection)
                             .setMinValues(rolesInfo.minChoice)
                             .setMaxValues(rolesInfo.maxChoice)
                             .addOptions(
@@ -869,7 +877,7 @@ module.exports = {
                             )
                         const actionRow = new ActionRowBuilder().addComponents(newRoleList);
                         await interaction.reply({
-                            content: `${roleContent} command was run successfully`,
+                            content: langData.success.replace("{{roleContent}}", roleContent),
                             ephemeral: true,
                         });
                         await interaction.channel.send({
@@ -883,23 +891,26 @@ module.exports = {
                         row.components.push(
                             new ButtonBuilder()
                                 .setCustomId("register")
-                                .setLabel("Register")
+                                .setLabel(langData.btnRegister)
                                 .setStyle(ButtonStyle.Primary)
                         );
                         await interaction.reply({
-                            content: `user-info-button command was run successfully`,
+                            content: langData.userInfoButton,
                             ephemeral: true,
                         });
-                        await interaction.channel.send({ content: `Please set your ${interaction.guild.name} server name `, components: [row], }) // Send Embed, Image And Mess
+                        await interaction.channel.send({ content: langData.setUserInfo.replace("{{guildName}}", interaction.guild.name), components: [row], }) // Send Embed, Image And Mess
                         break;
                 }
                 break;
             case "join-to-create":
+                langData = langData.joinToCreate;
                 let jtcData = await voiceDB.findOne(queryGuild)
                 const jtcSubcommand = interaction.options.getSubcommand();
                 switch (jtcSubcommand) {
                     case "enable":
-                        if (jtcData) { return await interaction.reply({ content: 'You already have a setup join to create system for disabled run /join-to-create disable', ephemeral: true }); }
+                        if (jtcData) {
+                            return await interaction.reply({ content: langData.alreadyEnabled, ephemeral: true });
+                        }
                         //!take jtcData
                         const channel = interaction.options.getChannel("channel");
                         const category = interaction.options.getChannel("category");
@@ -916,22 +927,22 @@ module.exports = {
 
                         //?embed Build
                         embed
-                            .setColor('Random')
-                            .setDescription(`The join to create system has been Setup in ${channel}, All new voice Channel will created in ${category}`)
+                            .setColor('Green')
+                            .setDescription(langData.enable.replace("{{category}}", category).replace("{{channel}}", channel)`The join to create system has been Setup in ${channel}, All new voice Channel will created in ${category}`)
                         await interaction.reply({ embeds: [embed] })
                         break;
                     case "disable":
-                        if (!jtcData) { return await interaction.reply({ content: 'You dont have a setup join to create system for setup run /join-to-create setup', ephemeral: true }); }
+                        if (!jtcData) { return await interaction.reply({ content: langData.notEnabled, ephemeral: true }); }
                         const result = jtcData.deleteOne(queryGuild)
                         if (result.deletedCount > 0) {
                             await interaction.reply({
-                                content: 'The Join to create System has been successfully disabled.',
+                                content: langData.disable,
                                 ephemeral: true
                             });
                         }
                         embed
-                            .setColor('Random')
-                            .setDescription('The join to create system has been "disabled"')
+                            .setColor('Red')
+                            .setDescription(langData.disable)
                         await interaction.reply({ embeds: [embed] })
                         break;
                 }
@@ -939,10 +950,7 @@ module.exports = {
                 break;
             case "welcome-config":
                 const wlSubcommand = interaction.options.getSubcommand();
-                if (!interaction.member.permissions.has(PermissionsBitField.Flags.ManageChannels)) return await interaction.reply({
-                    content: `The welcome system cannot be set up because you do not have the necessary permissions to do so.`,
-                    ephemeral: true
-                })
+                langData = langData.welcomeConfig;
                 switch (wlSubcommand) {
                     case "enable":
                         const welcomeChannel = interaction.options.getChannel('welcome-channel');
@@ -957,12 +965,12 @@ module.exports = {
                                 registerChannel: registerChannel.id
                             });
                             await interaction.reply({
-                                content: `The welcome message system has been successfully implemented within the ${welcomeChannel}.`,
+                                content: langData.enableMessage,
                                 ephemeral: true
                             });
                         } else {
                             await interaction.reply({
-                                content: 'You have a welcome message system in place. To restart it, use the `/welcome-disable` command.',
+                                content: langData.existingSystemMessage,
                                 ephemeral: true
                             });
                         }
@@ -972,12 +980,12 @@ module.exports = {
                         const result = await welcomeSchema.deleteOne();
                         if (result.deletedCount > 0) {
                             await interaction.reply({
-                                content: 'The Welcome Message System has been successfully disabled.',
+                                content: langData.disableMessage,
                                 ephemeral: true
                             });
                         } else {
                             await interaction.reply({
-                                content: 'No welcome message system found to disable.',
+                                content: langData.noSystemMessage,
                                 ephemeral: true
                             });
                         }
@@ -985,6 +993,8 @@ module.exports = {
                 }
                 break;
             case "autorole-configure":
+                langData = langData.autoroleConfigure;
+
                 const auSubcommand = interaction.options.getSubcommand();
                 switch (auSubcommand) {
                     case "enable":
@@ -993,7 +1003,7 @@ module.exports = {
                         let autoRole = await AutoRole.findOne(queryGuild);
                         if (autoRole) {
                             if (autoRole.roleId === targetRoleId) {
-                                interaction.editReply('Auto role has already been configured for that role. To disable run `/autorole-disable`');
+                                interaction.editReply(langData.existingSystemMessage);
                                 return;
                             }
                             autoRole.roleId = targetRoleId;
@@ -1004,16 +1014,16 @@ module.exports = {
                             });
                         }
                         await autoRole.save();
-                        interaction.editReply('Autorole has now been configured. To disable run `/autorole-disable`');
+                        interaction.editReply(langData.enableMessage);
                         break;
                     case "disable":
                         await interaction.deferReply();
                         if (!(await AutoRole.exists(queryGuild))) {
-                            interaction.editReply('Auto role has not been configured for this server. Use `/autorole-configure disable` to set it up.');
+                            interaction.editReply(langData.noSystemMessage);
                             return;
                         }
                         await AutoRole.findOneAndDelete(queryGuild);
-                        interaction.editReply('Auto role has been disabled for this server. Use `/autorole-configure enable` to set it up again.');
+                        interaction.editReply(langData.disableMessage);
                         break;
                 }
                 break;
@@ -1022,6 +1032,8 @@ module.exports = {
                 if (!logChDB) {
                     logChDB = new logChSchema(queryGuild);
                 }
+                langData = langData.setupLogSystem;
+
                 const logSubcommand = interaction.options.getSubcommand();
                 switch (logSubcommand) {
                     case "choice-log-channels":
@@ -1030,7 +1042,7 @@ module.exports = {
                                 .setColor('Red')
                                 .setTimestamp()
                                 .setAuthor({ name: interaction.user.displayName })
-                                .addFields({ name: "Log Channels", value: `>Channels already exsit` })
+                                .addFields({ name: langData.title, value: langData.alreadyExist })
                             return interaction.reply({ embeds: [embed], ephemeral: true });
                         }
                         await interaction.deferReply({ ephemeral: true });
@@ -1070,7 +1082,7 @@ module.exports = {
                             .setColor('Red')
                             .setTimestamp()
                             .setAuthor({ name: interaction.user.displayName })
-                            .addFields({ name: "Log Channels", value: `>Log Channels settled now` })
+                            .addFields({ name: langData.title, value: langData.settledNow })
                         interaction.editReply({ embeds: [embed], ephemeral: true });
                         break;
                     case "setup-one-log-channel":
@@ -1079,7 +1091,7 @@ module.exports = {
                                 .setColor('Red')
                                 .setTimestamp()
                                 .setAuthor({ name: interaction.user.displayName })
-                                .addFields({ name: "Log Channels", value: `>Channels already exsit` })
+                                .addFields({ name: langData.title, value: langData.alreadyExist })
                             return interaction.reply({ embeds: [embed], ephemeral: true });
                         }
                         await interaction.deferReply({ ephemeral: true });
@@ -1106,7 +1118,7 @@ module.exports = {
                             .setColor('Red')
                             .setTimestamp()
                             .setAuthor({ name: interaction.user.displayName })
-                            .addFields({ name: "Log Channels", value: `>Log Channels settled in one channels` })
+                            .addFields({ name: langData.title, value: langData.oneChSettledNow })
                         interaction.editReply({ embeds: [embed], ephemeral: true });
                         break;
                     case "create-log-channel":
@@ -1115,7 +1127,7 @@ module.exports = {
                                 .setColor('Red')
                                 .setTimestamp()
                                 .setAuthor({ name: interaction.user.displayName })
-                                .addFields({ name: "Log Channels", value: `>Channels already exsit` })
+                                .addFields({ name: langData.title, value: langData.alreadyExist })
                             return interaction.reply({ embeds: [embed], ephemeral: true });
                         }
                         await interaction.deferReply({ ephemeral: true });
@@ -1165,7 +1177,7 @@ module.exports = {
                             .setColor('Green')
                             .setTimestamp()
                             .setAuthor({ name: interaction.user.displayName })
-                            .addFields({ name: "Log Channels", value: `>Log Channels created successfully` })
+                            .addFields({ name: langData.title, value: langData.created })
                         await interaction.editReply({ embeds: [embed], ephemeral: true });
 
                         break;
@@ -1175,7 +1187,7 @@ module.exports = {
                                 .setColor('Red')
                                 .setTimestamp()
                                 .setAuthor({ name: interaction.user.displayName })
-                                .addFields({ name: "Log Channels", value: `>Channels doesnt exsit` })
+                                .addFields({ name: langData.title, value: langData.notExist })
                             return interaction.reply({ embeds: [embed], ephemeral: true });
                         }
                         await interaction.deferReply({ ephemeral: true });
@@ -1207,20 +1219,21 @@ module.exports = {
                                 .setColor('Green')
                                 .setTimestamp()
                                 .setAuthor({ name: interaction.user.displayName })
-                                .addFields({ name: "Log Channels", value: `>Log Channels deleted successfully` })
+                                .addFields({ name: langData.title, value: langData.deleted })
                             await interaction.editReply({ embeds: [embed], ephemeral: true });
                         }
                         break;
                 }
                 break;
             case "ticket-setup":
+                langData = langData.ticketSetup;
                 const tkSubcommand = interaction.options.getSubcommand();
                 let ticketSystemDB = await ticketSystemSchema.findOne(queryGuild);
                 switch (tkSubcommand) {
                     case "enable":
                         const staffRoleID = interaction.options.get('staff-role').value;
                         if (ticketSystemDB) {
-                            return interaction.reply({ content: 'The ticked system is already exist', ephemeral: true });
+                            return interaction.reply({ content: langData.alreadyExist, ephemeral: true });
                         } else {
                             ticketSystemDB = new ticketSystemSchema({
                                 guildId: interaction.guild.id,
@@ -1231,23 +1244,23 @@ module.exports = {
                         }
                         interaction.deferReply({ ephemeral: true });
                         embed
-                            .setDescription('Create a ticket and contact the support team with the button below.')
+                            .setDescription(langData.ticketDescription)
                             .setColor("Blue");
                         const ticketBtn = new ButtonBuilder()
                             .setCustomId('ticketBtnId')
-                            .setLabel("Create Ticket")
+                            .setLabel(langData.btnLabel)
                             .setEmoji('📩')
                             .setStyle(ButtonStyle.Secondary);
                         const row = new ActionRowBuilder()
                             .addComponents(ticketBtn);
                         // Kategori oluştur
                         await interaction.guild.channels.create({
-                            name: "Support",
+                            name: langData.categoryName,
                             type: ChannelType.GuildCategory,
                         }).then(async (category) => {
                             ticketSystemDB.forDeleteCategoryId = category.id;
                             await interaction.guild.channels.create({
-                                name: "[🎫] ticket",
+                                name: langData.chName,
                                 parent: category,
                                 type: ChannelType.GuildText,
                             }).then(async (channel) => {
@@ -1261,7 +1274,7 @@ module.exports = {
                             })
                         })
                         await interaction.guild.channels.create({
-                            name: "TICKETS",
+                            name: langData.cretatedCategoryName,
                             type: ChannelType.GuildCategory,
                         }).then(async (category) => {
                             ticketSystemDB.categoryId = category.id;
@@ -1270,15 +1283,15 @@ module.exports = {
 
                         embed
                             .setColor("Green")
-                            .setTitle("Ticket server")
-                            .setDescription("Ticket created succesfuly");
+                            .setTitle(langData.title)
+                            .setDescription(langData.createdSucces);
 
                         await interaction.editReply({ embeds: [embed], ephemeral: true })
                         break;
                     case "disable":
                         // Check if the ticket system is already disabled
                         if (!ticketSystemDB) {
-                            return interaction.reply({ content: 'The ticket system is already disabled', ephemeral: true });
+                            return interaction.reply({ content: langData.notExist, ephemeral: true });
                         }
 
                         // Delete the channels and category associated with the ticket system
@@ -1302,8 +1315,8 @@ module.exports = {
 
                         embed
                             .setColor("Red")
-                            .setTitle("Ticket server")
-                            .setDescription("The ticket system has been disabled successfully");
+                            .setTitle(langData.title)
+                            .setDescription(langData.disableSucces);
 
                         await interaction.reply({ embeds: [embed], ephemeral: true })
                         break;
@@ -1312,37 +1325,37 @@ module.exports = {
                 break;
             case "config-suggestions":
                 let guildConfiguration = await GuildConfigurations.findOne(queryGuild);
-
+                langData = langData.configSuggestions;
                 const configSubcommand = interaction.options.getSubcommand();
                 switch (configSubcommand) {
                     case "enable":
                         if (guildConfiguration?.suggestionChannelId) {
                             embed
                                 .setColor("Green")
-                                .setTitle("Suggest system server")
-                                .setDescription("Suggestion system allready exist ");
+                                .setTitle(langData.title)
+                                .setDescription(langData.alreadyExist);
                             await interaction.reply({ embeds: [embed], ephemeral: true });
                             return;
                         }
                         interaction.deferReply({ ephemeral: true });
 
                         embed
-                            .setDescription('Create a suggest and start a vote for it')
+                            .setDescription(langData.suggestionDescription)
                             .setColor("Blue");
                         const suggestBtn = new ButtonBuilder()
                             .setCustomId('suggestBtnId')
-                            .setLabel("Create suggest")
+                            .setLabel(langData.btnLabel)
                             .setEmoji('🗳️')
                             .setStyle(ButtonStyle.Secondary);
                         const row = new ActionRowBuilder()
                             .addComponents(suggestBtn);
                         await interaction.guild.channels.create({
-                            name: "Suggestions",
+                            name: langData.categoryName,
                             type: ChannelType.GuildCategory,
                         }).then(async (category) => {
                             guildConfiguration.suggestionCategoryId = category.id;
                             await interaction.guild.channels.create({
-                                name: "[🗳️] suggest",
+                                name: langData.chName,
                                 parent: category,
                                 type: ChannelType.GuildText,
                             }).then(async (channel) => {
@@ -1358,11 +1371,19 @@ module.exports = {
                         })
                         embed
                             .setColor("Green")
-                            .setTitle("Suggest system server")
-                            .setDescription("Suggestion created succesfuly");
+                            .setTitle(langData.title)
+                            .setDescription(langData.createdSucces);
                         await interaction.editReply({ embeds: [embed], ephemeral: true })
                         break;
                     case "disable":
+                        if (!guildConfiguration?.suggestionChannelId) {
+                            embed
+                                .setColor("Green")
+                                .setTitle(langData.title)
+                                .setDescription(langData.notExist);
+                            await interaction.reply({ embeds: [embed], ephemeral: true });
+                            return;
+                        }
                         // Kategori ve kanal ID'lerini al
                         const categoryIdToRemove = guildConfiguration.suggestionCategoryId;
                         const channelIdToRemove = guildConfiguration.suggestionChannelId;
@@ -1385,19 +1406,20 @@ module.exports = {
                         await guildConfiguration.save();
                         embed
                             .setColor("Red")
-                            .setTitle("Suggest system server")
-                            .setDescription("Suggestion removed succesfuly");
+                            .setTitle(langData.title)
+                            .setDescription(langData.disableSucces);
                         await interaction.reply({ embeds: [embed], ephemeral: true });
                         break;
                 }
                 break;
             case "giveaway-setup":
                 let giveawaySystemDB = await giveawaySystemSchema.findOne({ guildId: interaction.guild.id });
+                langData = langData.giveawaySetup;
                 switch (subcommand) {
                     case "enable":
                         const embed = new EmbedBuilder()
                         if (giveawaySystemDB) {
-                            return interaction.reply({ content: 'The giveaway system is already exist', ephemeral: true });
+                            return interaction.reply({ content: langData.alreadyExist, ephemeral: true });
                         } else {
                             giveawaySystemDB = new giveawaySystemSchema({
                                 guildId: interaction.guild.id,
@@ -1406,23 +1428,23 @@ module.exports = {
                             });
                         }
                         embed
-                            .setDescription('Create a giveaway and contact the support team with the button below.')
+                            .setDescription(langData.giveawayDescription)
                             .setColor("Blue");
                         const giveawayBtn = new ButtonBuilder()
                             .setCustomId('giveawayBtnId')
-                            .setLabel("Create giveaway")
+                            .setLabel(langData.btnLabel)
                             .setEmoji('🎁')
                             .setStyle(ButtonStyle.Secondary);
                         const row = new ActionRowBuilder()
                             .addComponents(giveawayBtn);
                         // Kategori oluştur
                         await interaction.guild.channels.create({
-                            name: "Giveaway",
+                            name: langData.categoryName,
                             type: ChannelType.GuildCategory,
                         }).then(async (category) => {
                             giveawaySystemDB.categoryId = category.id;
                             await interaction.guild.channels.create({
-                                name: "[🎁] giveaway",
+                                name: langData.chName,
                                 parent: category,
                                 type: ChannelType.GuildText,
                             }).then(async (channel) => {
@@ -1436,8 +1458,8 @@ module.exports = {
                         })
                         embed
                             .setColor("Green")
-                            .setTitle("giveaway server")
-                            .setDescription("giveaway created succesfuly");
+                            .setTitle(langData.title)
+                            .setDescription(langData.createdSucces);
 
                         await giveawaySystemDB.save();
                         await interaction.reply({ embeds: [embed], ephemeral: true })
@@ -1445,7 +1467,7 @@ module.exports = {
                     case "disable":
                         // Check if the giveaway system is already disabled
                         if (!giveawaySystemDB) {
-                            return interaction.reply({ content: 'The giveaway system is already disabled', ephemeral: true });
+                            return interaction.reply({ content: langData.notExist, ephemeral: true });
                         }
 
                         // Delete the channels and category associated with the giveaway system
@@ -1462,7 +1484,7 @@ module.exports = {
                         // Delete the giveaway system configuration from the database
                         await giveawaySystemDB.deleteOne(queryGuild);
 
-                        interaction.reply({ content: 'The giveaway system has been disabled successfully', ephemeral: true });
+                        interaction.reply({ content: langData.disableSucces, ephemeral: true });
                         break;
                 }
                 break;

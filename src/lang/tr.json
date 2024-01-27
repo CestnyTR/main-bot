@@ -289,123 +289,145 @@
     },
     "commands": {
         "inGuildError": "Bu komutu yalnızca sunucu içinde kullanabilirsin.",
+        "permissionsError": "Bu komutu çalıştırmak için yeterli izniniz yok",
         "chatGuard": {
             "noManageChannelsPermission": "Kanalları yönetmek için yeterli izinlere sahip değilsin.",
             "antiLink": {
-                "enableSuccess": {
-                    "title": "Anti-Link Sistemi",
-                    "description": "Anti-Link Sistemi şu anda etkin. Devre dışı bırakmak için /anti-link disable komutunu kullanabilirsin.",
-                    "role": "Link Erişim Rolü"
-                },
-                "enableAlreadyExist": {
-                    "title": "Anti-Link Sistemi",
-                    "description": "Anti-Link Sistemi zaten bu rolü kullanıyor. Devre dışı bırakmak için /anti-link disable komutunu kullanabilirsin.",
-                    "role": "Link Erişim Rolü"
-                },
-                "disableSuccess": {
-                    "title": "Anti-Link Sistemi",
-                    "description": "Anti-Link Sistemi şu anda devre dışı. Kurmak için /anti-link enable komutunu kullanabilirsin."
-                },
-                "disableNotExist": {
-                    "title": "Anti-Link Sistemi",
-                    "description": "Anti-Link Sistemi kurulu değil. Kurmak için /anti-link enable komutunu kullanabilirsin."
-                }
+                "title": "Anti-Link Sistemi",
+                "role": "Link Erişim Rolü",
+                "enabled": "Anti-Link Sistemi şu anda etkin. Devre dışı bırakmak için /anti-link disable komutunu kullanabilirsin.",
+                "alreadyExist": "Anti-Link Sistemi zaten bu rolü kullanıyor. Devre dışı bırakmak için /anti-link disable komutunu kullanabilirsin.",
+                "disabled": "Anti-Link Sistemi şu anda devre dışı. Kurmak için /anti-link enable komutunu kullanabilirsin.",
+                "notExist": "Anti-Link Sistemi kurulu değil. Kurmak için /anti-link enable komutunu kullanabilirsin."
             },
-            "capitalLetter": {
-                "enableSuccess": "Büyük harfle yazı yazmayı etkinleştir",
-                "disableSuccess": "Büyük harfle yazı yazmayı devre dışı bırak"
-            },
+            "capitalLetter": "Büyük harfle yazı yazmayı {{lastStatus}}",
             "slowMode": {
-                "enableSuccess": ":white_check_mark: {channel} şu anda **yavaş modda** {duration} saniye. Devre dışı bırakmak için \"/slowmode-disable\" komutunu kullanabilirsin.",
-                "disableSuccess": ":white_check_mark: {channel} şu anda **yavaş modu** devre dışı. Devre dışı bırakmak için \"/slowmode-disable\" komutunu kullanabilirsin."
+                "enableSuccess": ":white_check_mark: {{activeChannel}} şu anda **yavaş modda** {{duration}} saniye. Devre dışı bırakmak için \"/slowmode-disable\" komutunu kullanabilirsin.",
+                "disableSuccess": ":white_check_mark: {{activeChannel}} şu anda **yavaş modu** devre dışı. Devre dışı bırakmak için \"/slowmode-disable\" komutunu kullanabilirsin."
             },
             "forbidWord": {
-                "addedSuccess": "Kelime başarıyla eklendi.",
-                "alreadyAdded": "Kelime zaten eklenmiş."
+                "addedSuccess": "Kelime başarıyla eklendi. Kelime :{{forbidWord}}",
+                "alreadyAdded": "Kelime zaten eklenmiş. Kelime :{{forbidWord}}"
             }
         },
         "game": {
-            "inGuildError": "Bu komutu yalnızca sunucu içinde kullanabilirsin.",
             "gamble": {
                 "amountError": "En az 100 Meteorit bahis yapmalısın.",
                 "notEnoughBalance": "Bahis yapmak için yeterli Meteoritin yok, aptal.",
                 "lossMessage": "Her zamanki gibi kazanmadın, çünkü... işte biliyorsun.",
-                "winMessage": "Kazandın +{amountWon}\nŞu anda {newBalance} Meteoritin var. Endişelenme, bir daha kazanmana izin vermeyeceğim."
+                "winMessage": "Kazandın +{{amountWon}}\nŞu anda {{userProfile.balance}} Meteoritin var. Endişelenme, bir daha kazanmana izin vermeyeceğim."
             },
             "rps": {
+                "title": "Taş Kağıt Makas",
                 "selfPlayError": "Kendinle taş kağıt makas oynayamazsın.",
                 "botPlayError": "Bot ile taş kağıt makas oynayamazsın.",
-                "challengeMessage": "{challenger}, {challenged} tarafından taş kağıt makas oyununa meydan okundun. Oynamaya başlamak için aşağıdaki düğmelerden birine tıkla.",
-                "timeoutMessage": "Oyun bitti. {user} zamanında cevap vermedi.",
-                "turnMessage": "Şu anda {user}'nın sırası.",
-                "resultMessage": "{challenger} {challengerChoice} seçti\n{challenged} {challengedChoice} seçti\n\n{result}",
+                "challengeMessage": "{{challenger}}, {{challenged}} tarafından taş kağıt makas oyununa meydan okundun. Oynamaya başlamak için aşağıdaki düğmelerden birine tıkla.",
+                "timeoutMessage": "Oyun bitti. {{user}} zamanında cevap vermedi.",
+                "turnMessage": "Şu anda {{user}}'nın sırası.",
+                "picked": "Seçiminiz {{choice}}",
+                "resultMessage": "{{challenger}} {{challengerChoice}} seçti\n{{challenged}} {{challengedChoice}} seçti\n\n{{result}}",
                 "tieResult": "Berabere",
-                "winResult": "{winner} 👑 Kazandı 👑"
+                "winResult": "{{winner}} 👑 Kazandı 👑"
             }
         },
         "info": {
-            "inGuildError": "Bu komutu yalnızca sunucu içinde kullanabilirsin.",
             "emojimap": {
-                "pagination": {
-                    "title": "Emojiler (Sayfa {currentPage}/{totalPages})",
-                    "noEmojis": "Bu sunucuda emojiler yok",
-                    "buttonLabels": {
-                        "previous": "Önceki",
-                        "next": "Sonraki"
-                    }
+                "title": "Emojiler (Sayfa {currentPage}/{totalPages})",
+                "noEmojis": "Bu sunucuda emojiler yok",
+                "buttonLabels": {
+                    "previous": "Önceki",
+                    "next": "Sonraki"
                 }
             },
             "help": {
-                "description": "CestnyTR genel komutları, Yönetici komutları, Moderasyon komutları ve Eğlence komutları içeren çok işlevli bir bottur. Yakında Ticket ve diğerleri eklenecek.",
-                "publicCommands": "Genel komutlar",
-                "moderationCommands": "Moderasyon komutları",
-                "musicCommands": "Müzik komutları",
-                "funCommands": "Eğlence komutları",
-                "inviteMe": "Beni davet et",
-                "buttons": {
-                    "fun": {
-                        "label": "Eğlence komutları",
+                "helpMenu": {
+                    "menu": {
+                        "customId": "menu",
+                        "placeholder": "Select a topic",
+                        "options": [
+                            {
+                                "label": "Public commands",
+                                "description": "Shows all public commands",
+                                "value": "menu1"
+                            },
+                            {
+                                "label": "Moderation commands",
+                                "description": "Shows all moderation commands",
+                                "value": "menu2"
+                            },
+                            {
+                                "label": "Music commands",
+                                "description": "Shows the music commands",
+                                "value": "menu3"
+                            }
+                        ]
+                    },
+                    "funButton": {
+                        "customId": "funbutton",
+                        "label": "Fun commands",
                         "style": "Secondary"
                     },
-                    "back": {
-                        "label": "Geri",
+                    "generalCommands": {
+                        "customId": "back",
+                        "label": "Back",
                         "style": "Primary"
+                    },
+                    "inviteMe": {
+                        "label": "Invite me",
+                        "style": "Link",
+                        "url": "https://discord.com/api/oauth2/authorize?client_id=1170412463993409586&permissions=8&scope=bot%20applications.commands"
                     }
+                },
+                "helpEmbed": {
+                    "color": "Blue",
+                    "description": "CestnyTR is a multi-function bot with general commands, Admin commands, Moderation commands, Fun commands. Ticket and others will be added soon",
+                    "timestamp": true
+                },
+                "publicCommands": {
+                    "color": "Green",
+                    "description": "`/help`: Shows help menu\n`/avatar`: Shows avatar\n`/askGpt`: Ask a question to chatgpt\n`/invite`: Give the bot's invite link\n`/botStats`: Checks the status of the bot\n`/mcStats`: Checks status of a minecraft server\n`/serverInfo`: Gives information about the server\n`/userInfo`: Gives information about a user",
+                    "timestamp": true
+                },
+                "funCommands": {
+                    "color": "Yellow",
+                    "description": "`/tweet`: fake-tweets a post\n`/meme`: Generates a random meme\n`/pixelate`: Pixelate a user's avatar\n`/slap`: Slaps a user",
+                    "timestamp": true
+                },
+                "moderationCommands": {
+                    "color": "Red",
+                    "description": "`/ban`: Bans a user\n`/unban`: Unbans a user\n`/kick`: Kicks a user\n`/mute`: Mutes a user\n`/unmute`: Unmutes a user\n`/purge`: Purges specific numbers of messages\n`/setupLogs`: Setups log channel in your server\n`/warningsAdd`: Add warnings to a user\n`/warningsCheck`: Checks numbers of warnings a user has\n`/warningsRemove`: Clears a specific number of warns from a user\n`/warningsClear`: Clear all warns from a user",
+                    "timestamp": true
+                },
+                "musicCommands": {
+                    "color": "Purple",
+                    "description": "`/play`: Plays a music\n`/forward`: Forwards a music\n`/loop`: Loops a music\n`/nowPlaying`: Shows information about the current playing song\n`/pause`: Pauses the playing music\n`/resume`: Resumes a paused music\n`/queue`: Get the list of your currently active queue\n`/shuffle`: Shuffle current playlist.\n`/rewind`: Rewinds the playing music\n`/volume`: Change the volume\n`/stop`: Stops the music",
+                    "timestamp": true
                 }
             },
             "serverInfo": {
-                "permissionError": "Bu komutu gerçekleştirmek için yeterli izinlere sahip değilsin.",
-                "fields": {
-                    "owner": "Sahip",
-                    "textChannels": "Metin Kanalları",
-                    "voiceChannels": "Ses Kanalları",
-                    "categories": "Kategoriler",
-                    "members": "Üyeler",
-                    "roles": "Roller",
-                    "roleList": "Rol Listesi"
-                },
-                "footer": "ID: {guildId} | Sunucu Oluşturuldu: {createdAt}"
+                "permissionError": "Bu komutu yürütmek için yeterli izniniz yok.",
+                "owner": "Sahip",
+                "textChannels": "Metin Kanalları",
+                "voiceChannels": "Ses Kanalları",
+                "categories": "Kategoriler",
+                "members": "Üyeler",
+                "roles": "Roller",
+                "roleList": "Rol Listesi",
+                "footer": "ID: {{guildId}} | Sunucu Oluşturuldu: {{createdAt}}"
             },
             "userInfo": {
-                "title": "{username}'nin Bilgileri",
-                "color": "Red",
-                "thumbnail": "{avatarUrl}",
-                "footer": "Kullanıcı ID: {userId}",
-                "fields": {
-                    "joinedDiscord": "Discord'a Katılım",
-                    "joinedServer": "Sunucuya Katılım",
-                    "nickname": "Takma Ad",
-                    "boostedServer": "Boostlanan Sunucu",
-                    "bot": "BOT"
-                },
-                "values": {
-                    "yes": "Evet",
-                    "no": "Hayır"
-                }
+                "title": "{{username}}'nin Bilgileri",
+                "footer": "Kullanıcı ID: {{userId}}",
+                "joinedDiscord": "<:arrow:1174741041404989502> Discord'a Katılım",
+                "joinedServer": "<:arrow:1174741041404989502> Sunucuya Katılım",
+                "nickname": "<:namecard:1174742568332963932> Takma Ad",
+                "boostedServer": "<:discordboost:1174743833649623050> Boostlanan Sunucu",
+                "bot": "<:botverify:1174744270276677763> BOT",
+                "none": "Hiçbiri",
+                "yes": "Evet",
+                "no": "Hayır"
             },
-            "ping": {
-                "deferredReply": "Pong! İstemci {ping}ms | Websocket: {websocketPing}ms"
-            }
+            "ping": "Pong! İstemci {{ping}}ms | Websocket: {{websocketPing}}ms"
         },
         "levelSys": {
             "inGuildError": "Bu komutu yalnızca sunucu içinde kullanabilirsin.",
@@ -423,364 +445,143 @@
                 "noLevelsSelf": "Henüz seviye almadın. Biraz daha sohbet et ve tekrar dene."
             }
         },
+        "modrateSystem": {
+            "noReason": "Bir sebep belirtilmedi.",
+            "permissions": "Bu komutu çalıştırmak için yeterli izniniz yok",
+            "kick": {
+                "userNotFound": "Bu kullanıcı bu sunucuda bulunmuyor.",
+                "ownerError": "Bu kullanıcıyı atamazsınız, çünkü bu sunucunun sahibidir.",
+                "roleErrorUser": "Bu kullanıcıyı atamazsınız, çünkü onunla aynı ya da daha yüksek bir role sahipsiniz.",
+                "roleErrorBot": "Bu kullanıcıyı atamam, çünkü onunla aynı ya da daha yüksek bir role sahibim.",
+                "success": "Kullanıcı {targetUser} atıldı\nSebep: {reason}"
+            },
+            "moveAll": "<#{{sourceChannel}}> Kanalındaki üyelerin ,<#{{targetChannel}}> kanalına taşıma işlemi Tamamlandı.Taşınan üye sayısı : {{count}}",
+            "removeRole": {
+                "success": "Tüm rolleri {{targetUser}}'dan kaldırıldı ve kayıt rolü eklendi.",
+                "successNoRegisterRole": "Tüm rolleri {{targetUser}}'dan kaldırıldı.",
+                "userNotFound": "Bu kullanıcı bu sunucuda bulunmuyor."
+            },
+            "timeout": {
+                "userNotFound": "Bu kullanıcı bu sunucuda bulunmuyor.",
+                "botError": "Bir botu timeout edemem.",
+                "durationError": "Lütfen geçerli bir timeout süresi belirtin.",
+                "durationOutOfRange": "Timeout süresi 5 saniyeden az veya 28 günden fazla olamaz.",
+                "roleErrorUser": "Bu kullanıcıyı timeout edemezsiniz, çünkü onunla aynı ya da daha yüksek bir role sahipsiniz.",
+                "roleErrorBot": "Bu kullanıcıyı timeout edemem, çünkü onunla aynı ya da daha yüksek bir role sahibim.",
+                "success": "{{targetUser}} kullanıcısı {{prettyDuration}} süresi boyunca timeout edildi.\nSebep: {{reason}}",
+                "successUpdate": "{{targetUser}}'nin timeout süresi {{prettyDuration}} olarak güncellendi.\nSebep: {{reason}}"
+            },
+            "clear": {
+                "message": "Mesaj",
+                "messages": "Mesajlar",
+                "invalidAmount": "Lütfen geçerli bir temizleme miktarı belirtin.",
+                "personSuccess": "'✅'{{channel}} kanalındaki {{target}} kanalından '{{messagesToDelete}}' Başarıyla Temizlendi ",
+                "success": "'✅' Başarıyla {{channel}} kanalındaki '{{messageCount}}' {{mesaj}} temizlendi."
+            },
+            "chanceUserName": {
+                "userNotFound": "Bu kullanıcı bu sunucuda bulunmuyor.",
+                "success": "{{targetUser}} kullanıcısının kullanıcı adı başarıyla değiştirildi: {{name}}",
+                "roleError": "Bu kullanıcının kullanıcı adını değiştiremezsiniz, çünkü onunla aynı ya da daha yüksek bir role sahipsiniz."
+            },
+            "ban": {
+                "userNotFound": "Bu kullanıcı bu sunucuda bulunmuyor.",
+                "ownerError": "Bu kullanıcıyı yasaklayamazsınız, çünkü bu sunucunun sahibidir.",
+                "roleErrorUser": "Bu kullanıcıyı yasaklayamazsınız, çünkü onunla aynı ya da daha yüksek bir role sahipsiniz.",
+                "roleErrorBot": "Bu kullanıcıyı yasaklayamam, çünkü onunla aynı ya da daha yüksek bir role sahibim.",
+                "success": "Kullanıcı {{targetUser}} yasaklandı\nSebep: {{reason}}"
+            }
+        },
         "musicSys": {
-            "description": "Müziğini çal",
-            "subcommands": {
-                "play": {
-                    "description": "Buraya bir şarkı adı yazın",
-                    "queryOption": {
-                        "name": "query",
-                        "description": "YouTube URL'sini yapıştırın",
-                        "required": true
-                    }
-                },
-                "volume": {
-                    "description": "Şarkı sesini ayarlayın",
-                    "percentOption": {
-                        "name": "percent",
-                        "description": "10=10%",
-                        "minValue": 0,
-                        "maxValue": 100,
-                        "required": true
-                    }
-                },
-                "queue": {
-                    "description": "Müzik kuyruğu"
-                },
-                "skip": {
-                    "description": "Müziği atla"
-                },
-                "pause": {
-                    "description": "Müziği duraklat"
-                },
-                "resume": {
-                    "description": "Müziği devam ettir"
-                },
-                "stop": {
-                    "description": "Müziği durdur"
-                },
-                "now-playing": {
-                    "description": "Şu Anda Çalınan"
-                },
-                "shuffle": {
-                    "description": "Mevcut çalma listesini karıştır"
-                },
-                "foward": {
-                    "description": "Bir şarkıda ileri sarma",
-                    "secondsOption": {
-                        "name": "seconds",
-                        "description": "İleri sarmak için saniye miktarı. (10 = 10s)",
-                        "minValue": 0,
-                        "required": true
-                    }
-                },
-                "rewind": {
-                    "description": "Bir şarkıda geri sarma",
-                    "secondsOption": {
-                        "name": "seconds",
-                        "description": "Geri sarmak için saniye miktarı. (10 = 10s)",
-                        "minValue": 0,
-                        "required": true
-                    }
-                },
-                "loop": {
-                    "description": "Döngü seçeneklerini göster",
-                    "loopOptionsOption": {
-                        "name": "loop-options",
-                        "description": "Döngü seçenekleri: kapalı, şarkı, kuyruk",
-                        "choices": [
-                            {
-                                "name": "kapalı",
-                                "value": "kapalı"
-                            },
-                            {
-                                "name": "şarkı",
-                                "value": "şarkı"
-                            },
-                            {
-                                "name": "kuyruk",
-                                "value": "kuyruk"
-                            }
-                        ],
-                        "required": true
-                    }
-                }
+            "noQueue": "Aktif çalan bir liste sırası yok",
+            "joinChErr": "Ses kanalına katılmalısınız",
+            "diffrentCh": "<#{{channel}}> kanalında zaten etkin olduğundan müzik çaları kullanamazsınız",
+            "play": "🎵 Talep alındı.",
+            "volume": "🔉 Ses düzeyi %{{volume}}'e ayarlandı.",
+            "skip": "⏭️ Şarkı geçildi.",
+            "stop": "⏹️ Şarkı durduruldu.",
+            "pause": "⏸️ Şarkı duraklatıldı.",
+            "resume": "⏯️ Şarkı devam ettirildi.",
+            "queue": "Kuyruk başarıyla alındı.",
+            "shuffle": "Kuyruk karıştırıldı.",
+            "forward": "⏭️ Şarkı ileri sarıldı {{seconds}} saniye.",
+            "rewind": "⏮️ Şarkı geri sarıldı {{seconds}} saniye.",
+            "nowPlaying": "🎵 **Şu anda çalınıyor:** ",
+            "loop": "🔁 Tekrar modu `{{mode}}` olarak ayarlandı.",
+            "repeat": {
+                "queue": "Listeyi döngüye al",
+                "song": "Şarkıyı döngüye al",
+                "off": "Döngü kapalı"
             }
         },
         "setSys": {
             "setupRegister": {
-                "activateRoleSelectMenu": {
-                    "successMessage": "{roleType} için rol seçim menüsü başarıyla etkinleştirildi.",
-                    "contentDescription": "Açıklama: {roleContent}",
-                    "maxChoice": "Maksimum Seçenekler: {setMaxValue}",
-                    "minChoice": "Minimum Seçenekler: {setMinValue}",
-                    "defaultRole": "Varsayılan Rol: {defaultRoleName}",
-                    "additionalRoles": [
-                        "{firstRoleName}: {firstRole}",
-                        "{secondRoleName}: {secondRole}",
-                        "{thirdRoleName}: {thirdRole}",
-                        "{fourthRoleName}: {fourthRole}",
-                        "{fifthRoleName}: {fifthRole}"
-                    ]
-                },
-                "userInfoButton": {
-                    "successMessage": "Kullanıcı bilgi düğmesi başarıyla oluşturuldu.",
-                    "instructionMessage": "Lütfen {guildName} sunucu adınızı ayarlayın."
-                }
+                "getTheRoll": "Rolü al",
+                "selection": "Seçim yap...",
+                "success": "{{roleContent}} komutu başarıyla çalıştırıldı",
+                "btnRegister": "Kayıt",
+                "userInfoButton": "user-info-button komutu başarıyla çalıştırıldı",
+                "setUserInfo": "{{guildName}} sunucunuzun adını ayarlayın lütfen"
             },
             "joinToCreate": {
-                "enable": {
-                    "alreadyEnabled": "Zaten bir kurulum katılmak için sistem etkin. Devre dışı bırakmak için /joinToCreate disable komutunu çalıştırın.",
-                    "channel": {
-                        "label": "Ses Kanalı",
-                        "description": "Yeni kanalların oluşturulacağı ses kanalı."
-                    },
-                    "category": {
-                        "label": "Kategori",
-                        "description": "Yeni ses kanallarının yerleştirileceği kategori."
-                    },
-                    "voiceLimit": {
-                        "label": "Ses Sınırlaması",
-                        "description": "Her yeni ses kanalında izin verilen maksimum kullanıcı sayısı. Varsayılan 10'dur."
-                    },
-                    "successMessage": "Katılın ve oluştur sistem başarıyla kuruldu. Yeni ses kanalları {channel} içinde, {category} kategorisi altında oluşturulacaktır."
-                },
-                "disable": {
-                    "notEnabled": "Katıl ve oluştur sisteminiz yok. Kurmak için /joinToCreate enable komutunu çalıştırın.",
-                    "successMessage": "Katıl ve oluştur sistemi başarıyla devre dışı bırakıldı.",
-                    "disabledMessage": "Katıl ve oluştur sistemi devre dışı bırakıldı."
-                }
+                "alreadyEnabled": "Zaten bir katıl-oluştur sistemini etkinleştirdiniz. Devre dışı bırakmak için /join-to-create disable komutunu kullanın.",
+                "enable": "Katıl-oluştur sistemi, {{channel}} kanalında etkinleştirildi. Tüm yeni ses kanalları {{category}} kategorisinde oluşturulacaktır.",
+                "notEnabled": "Daha önce bir katıl-oluştur sistemini etkinleştirmemişsiniz. Kurmak için /join-to-create enable komutunu kullanın.",
+                "disable": "Katıl-oluştur sistemi başarıyla \"devre dışı\" bırakıldı."
             },
             "welcomeConfig": {
-                "enable": {
-                    "missingPermissions": "Karşılama sistemi, bunu yapmak için gerekli izinlere sahip olmadığınızdan kurulamaz.",
-                    "channelOptions": {
-                        "welcomeChannel": {
-                            "label": "Karşılama Kanalı",
-                            "description": "Karşılama mesajlarının gönderileceği kanal."
-                        },
-                        "registerChannel": {
-                            "label": "Kayıt Kanalı",
-                            "description": "Kayıt mesajlarının gönderileceği kanal."
-                        }
-                    },
-                    "successMessage": "Karşılama mesajı sistemi {welcomeChannel} içinde başarıyla uygulandı.",
-                    "existingSystemMessage": "Zaten bir karşılama mesajı sisteminiz var. Yeniden başlatmak için `/welcome-disable` komutunu kullanın."
-                },
-                "disable": {
-                    "successMessage": "Karşılama Mesajı Sistemi başarıyla devre dışı bırakıldı.",
-                    "noSystemMessage": "Devre dışı bırakılacak bir karşılama mesajı sistemi bulunamadı."
-                }
+                "enableMessage": "Karşılama mesajı sistemi {{welcomeChannel}} içinde başarıyla uygulandı.",
+                "existingSystemMessage": "Zaten bir karşılama mesajı sisteminiz var. Yeniden başlatmak için `/welcome-disable` komutunu kullanın.",
+                "disableMessage": "Karşılama Mesajı Sistemi başarıyla devre dışı bırakıldı.",
+                "noSystemMessage": "Devre dışı bırakılacak bir karşılama mesajı sistemi bulunamadı."
             },
             "autoroleConfigure": {
-                "name": "otomatik-rol-yapılandırması",
-                "description": "Bu sunucu için oto rolünüzü yapılandırın.",
-                "enable": {
-                    "name": "etkinleştir",
-                    "description": "Bu sunucu için oto rolünüzü etkinleştirin.",
-                    "role": {
-                        "name": "rol",
-                        "description": "Kullanıcıların katılınca alacakları rol."
-                    }
-                },
-                "disable": {
-                    "name": "devre-dışı-bırak",
-                    "description": "Bu sunucu için oto rolünüzü devre dışı bırakın."
-                }
+                "enableMessage": "Otomatik rol başarıyla yapılandırıldı. Devre dışı bırakmak için `/autorole-disable` komutunu kullanın.",
+                "existingSystemMessage": "Bu rol için otomatik rol zaten yapılandırılmış durumda. Devre dışı bırakmak için `/autorole-disable` komutunu kullanın.",
+                "disableMessage": "Bu sunucu için otomatik rol devre dışı bırakıldı. Yeniden yapılandırmak için `/autorole-configure enable` komutunu kullanın.",
+                "noSystemMessage": "Bu sunucu için otomatik rol henüz yapılandırılmamış. Yapılandırmak için `/autorole-configure disable` komutunu kullanın."
             },
             "setupLogSystem": {
-                "choiceLogChannels": {
-                    "errorMessage": {
-                        "color": "Red",
-                        "timestamp": true,
-                        "author": {
-                            "name": "{interaction.user.displayName}"
-                        },
-                        "fields": [
-                            {
-                                "name": "Log Kanalları",
-                                "value": ">Kanallar zaten mevcut"
-                            }
-                        ]
-                    }
-                },
-                "setupOneLogChannel": {
-                    "errorMessage": {
-                        "color": "Red",
-                        "timestamp": true,
-                        "author": {
-                            "name": "{interaction.user.displayName}"
-                        },
-                        "fields": [
-                            {
-                                "name": "Log Kanalları",
-                                "value": ">Kanallar zaten mevcut"
-                            }
-                        ]
-                    }
-                },
-                "createLogChannel": {
-                    "errorMessage": {
-                        "color": "Red",
-                        "timestamp": true,
-                        "author": {
-                            "name": "{interaction.user.displayName}"
-                        },
-                        "fields": [
-                            {
-                                "name": "Log Kanalları",
-                                "value": ">Kanallar zaten mevcut"
-                            }
-                        ]
-                    },
-                    "successMessage": {
-                        "color": "Green",
-                        "timestamp": true,
-                        "author": {
-                            "name": "{interaction.user.displayName}"
-                        },
-                        "fields": [
-                            {
-                                "name": "Log Kanalları",
-                                "value": ">Log Kanalları başarıyla oluşturuldu"
-                            }
-                        ]
-                    }
-                },
-                "deleteLogChannel": {
-                    "errorMessage": {
-                        "color": "Red",
-                        "timestamp": true,
-                        "author": {
-                            "name": "{interaction.user.displayName}"
-                        },
-                        "fields": [
-                            {
-                                "name": "Log Kanalları",
-                                "value": ">Kanallar mevcut değil"
-                            }
-                        ]
-                    },
-                    "successMessage": {
-                        "color": "Green",
-                        "timestamp": true,
-                        "author": {
-                            "name": "{interaction.user.displayName}"
-                        },
-                        "fields": [
-                            {
-                                "name": "Log Kanalları",
-                                "value": ">Log Kanalları başarıyla silindi"
-                            }
-                        ]
-                    }
-                }
+                "title": "Log Kanalları",
+                "alreadyExist": ">Kanallar zaten mevcut",
+                "notExist": ">Kanallar mevcut değil",
+                "settledNow": ">Log Kanalları şimdi ayarlandı",
+                "oneChSettledNow": ">Log Kanalları tek bir kanalda ayarlandı",
+                "created": "`>Log Kanalları başarıyla oluşturuldu",
+                "deleted": ">Log Kanalları başarıyla silindi"
             },
             "ticketSetup": {
-                "enable": {
-                    "errorMessage": {
-                        "color": "Red",
-                        "timestamp": true,
-                        "fields": [
-                            {
-                                "name": "Ticket Sistemi",
-                                "value": "Ticket sistemi zaten etkin"
-                            }
-                        ]
-                    },
-                    "successMessage": {
-                        "color": "Green",
-                        "timestamp": true,
-                        "fields": [
-                            {
-                                "name": "Ticket Sunucusu",
-                                "value": "Ticket sistemi başarıyla etkinleştirildi"
-                            }
-                        ]
-                    }
-                },
-                "disable": {
-                    "errorMessage": {
-                        "color": "Red",
-                        "timestamp": true,
-                        "fields": [
-                            {
-                                "name": "Ticket Sistemi",
-                                "value": "Ticket sistemi zaten devre dışı"
-                            }
-                        ]
-                    },
-                    "successMessage": {
-                        "color": "Red",
-                        "timestamp": true,
-                        "fields": [
-                            {
-                                "name": "Ticket Sunucusu",
-                                "value": "Ticket sistemi başarıyla devre dışı bırakıldı"
-                            }
-                        ]
-                    }
-                }
+                "alreadyExist": "Bilet sistemi zaten mevcut",
+                "ticketDescription": "Aşağıdaki düğme ile bir bilet oluşturun ve destek ekibi ile iletişime geçin.",
+                "btnLabel": "Bilet Oluştur",
+                "categoryName": "Destek",
+                "chName": "[🎫] Bilet",
+                "cretatedCategoryName": "BILETLER",
+                "createdSucces": "Bilet başarıyla oluşturuldu",
+                "title": "Bilet Sunucusu",
+                "notExist": "Bilet sistemi zaten devre dışı bırakılmış durumda",
+                "disableSucces": "Bilet sistemi başarıyla devre dışı bırakıldı"
             },
             "configSuggestions": {
-                "enable": {
-                    "errorMessage": {
-                        "color": "Green",
-                        "title": "Öneri Sistemi Sunucusu",
-                        "description": "Öneri sistemi zaten mevcut",
-                        "inline": false
-                    },
-                    "successMessage": {
-                        "color": "Green",
-                        "title": "Öneri Sistemi Sunucusu",
-                        "description": "Öneri başarıyla oluşturuldu",
-                        "inline": false
-                    }
-                },
-                "disable": {
-                    "errorMessage": {
-                        "color": "Red",
-                        "title": "Öneri Sistemi Sunucusu",
-                        "description": "Öneri sistemi zaten devre dışı",
-                        "inline": false
-                    },
-                    "successMessage": {
-                        "color": "Red",
-                        "title": "Öneri Sistemi Sunucusu",
-                        "description": "Öneri başarıyla kaldırıldı",
-                        "inline": false
-                    }
-                }
+                "title": "Öneri Sistemi Sunucusu",
+                "alreadyExist": "Öneri sistemi zaten mevcut",
+                "notExist": "Öneri sistemi zaten devre dışı.",
+                "suggestionDescription": "Bir öneri oluşturun ve bunun için bir oylama başlatın",
+                "btnLabel": "Öneri Oluştur",
+                "categoryName": "Öneriler",
+                "chName": "[🗳️] öneri",
+                "createdSucces": "Öneri başarıyla oluşturuldu",
+                "disableSucces": "Öneri başarıyla kaldırıldı"
             },
             "giveawaySetup": {
-                "enable": {
-                    "errorMessage": {
-                        "color": "Green",
-                        "title": "Çekiliş Sunucusu",
-                        "description": "Çekiliş sistemi zaten mevcut",
-                        "inline": false
-                    },
-                    "successMessage": {
-                        "color": "Green",
-                        "title": "Çekiliş Sunucusu",
-                        "description": "Çekiliş başarıyla oluşturuldu",
-                        "inline": false
-                    }
-                },
-                "disable": {
-                    "errorMessage": {
-                        "color": "Red",
-                        "title": "Çekiliş Sunucusu",
-                        "description": "Çekiliş sistemi zaten devre dışı",
-                        "inline": false
-                    },
-                    "successMessage": {
-                        "color": "Red",
-                        "title": "Çekiliş Sunucusu",
-                        "description": "Çekiliş sistemi başarıyla devre dışı bırakıldı",
-                        "inline": false
-                    }
-                }
+                "title": "Çekiliş Sunucusu",
+                "alreadyExist": "Çekiliş sistemi zaten mevcut",
+                "notExist": "Çekiliş sistemi zaten devre dışı bırakılmış durumda",
+                "giveawayDescription": "Bir çekiliş oluşturun ve aşağıdaki düğme ile destek ekibi ile iletişime geçin.",
+                "btnLabel": "Çekiliş Oluştur",
+                "categoryName": "Çekiliş",
+                "chName": "[🎁] Çekiliş",
+                "createdSucces": "Çekiliş başarıyla oluşturuldu",
+                "disableSucces": "Çekiliş başarıyla kaldırıldı"
             }
         }
     },

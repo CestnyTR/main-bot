@@ -5,7 +5,7 @@ const forbiddenDb = require('../models/Forbidden');
 
 const trLang = require("../lang/tr.json").buildCommands.chatGuard;
 const enLang = require("../lang/en.json").buildCommands.chatGuard;
-const LanguageService = require("../../utils/LanguageService");
+const LanguageService = require("../utils/LanguageService");
 let langData
 module.exports = {
     data: new SlashCommandBuilder()
@@ -187,7 +187,8 @@ module.exports = {
                         })
                         .setRequired(true)
                 )
-        ),
+        )
+    ,
 
     /**
     * 
@@ -196,7 +197,6 @@ module.exports = {
     */
     run: async ({ interaction }) => {
         langData = await LanguageService.getLocalizedString(interaction.guild.id, 'commands');
-
         if (!interaction.inGuild()) {
             interaction.reply({
                 content: langData.inGuildError,
@@ -204,8 +204,9 @@ module.exports = {
             });
             return;
         }
+        langData = langData.chatGuard;
         if (!interaction.memberPermissions.has('ManageChannels')) {
-            await interaction.reply("You dont have enough Permissions");
+            await interaction.reply(langData.noManageChannelsPermission);
             return;
         }
         const mainSubCommand = interaction.options.getSubcommandGroup();
@@ -215,7 +216,6 @@ module.exports = {
             guildId: interaction.guild.id,
         };
         const embed = new EmbedBuilder()
-        langData = langData.chatGuard
         switch (mainSubCommand) {
             case "anti-link":
                 langData = langData.antiLink
@@ -230,11 +230,11 @@ module.exports = {
                             if (linkAccessDB.roleId === targetRoleId) {
                                 embed
                                     .setColor('Green')
-                                    .setTitle('Anti-Link System')
-                                    .setDescription("Anti-Link System is already have that role.Use /anti-link disable for disable")
-                                    .addFields({ name: "Link Access Role", value: `><@&${targetRoleId}>` })
+                                    .setTitle(langData.title)
+                                    .setDescription(langData.alreadyExist)
+                                    .addFields({ name: langData.role, value: `><@&${targetRoleId}>` })
 
-                                interaction.editReply({ embeds: [embed], ephemeral: true }); 
+                                interaction.editReply({ embeds: [embed], ephemeral: true });
                                 return;
                             }
                             linkAccessDB.roleId = targetRoleId;
@@ -247,9 +247,9 @@ module.exports = {
                         await linkAccessDB.save();
                         embed
                             .setColor('Green')
-                            .setTitle('Anti-Link System')
-                            .setDescription("Anti-Link System is now enabled.Use /anti-link disable for disable")
-                            .addFields({ name: "Link Access Role", value: `><@&${targetRoleId}>` })
+                            .setTitle(langData.title)
+                            .setDescription(langData.enabled)
+                            .addFields({ name: langData.role, value: `><@&${targetRoleId}>` })
 
                         interaction.editReply({ embeds: [embed], ephemeral: true });
 
@@ -259,15 +259,15 @@ module.exports = {
                         if (!(await linkAccessRole.exists({ guildId: interaction.guild.id }))) {
                             embed
                                 .setColor('Red')
-                                .setTitle('Anti-Link System')
-                                .setDescription("Anti-Link System is not exist. Use /anti-link enable for setup")
+                                .setTitle(langData.title)
+                                .setDescription(langData.notExist)
                             interaction.editReply({ embeds: [embed], ephemeral: true });
                             return;
                         }
                         embed
                             .setColor('Red')
-                            .setTitle('Anti-Link System')
-                            .setDescription("Anti-Link System is now disabled.Use /anti-link enable for setup")
+                            .setTitle(langData.title)
+                            .setDescription(langData.disabled)
                         interaction.editReply({ embeds: [embed], ephemeral: true });
 
                         await linkAccessRole.findOneAndDelete({ guildId: interaction.guild.id });
@@ -289,14 +289,14 @@ module.exports = {
                     dfStatus = false;
                 }
                 let lastStatus = dfStatus === true ? "enable" : "disable";
-
+                const text = langData.capitalLetter.replace("{{lastStatus}}", lastStatus);
                 if (!capitalLetterStatus) {
                     const newStat = new capitalLetterDB({
                         guildId: interaction.guild.id,
                         status: dfStatus,
                     })
                     await newStat.save();
-                    await interaction.editReply(`${lastStatus} delete writing with capital letter`);
+                    await interaction.editReply(text);
                     return;
                 }
                 capitalLetterStatus.status = dfStatus;
@@ -304,18 +304,22 @@ module.exports = {
                     console.log(`Error saving updated level ${e}`);
                     return;
                 });
-                await interaction.editReply(`${lastStatus} delete writing with capital letter`);
+                await interaction.editReply(text);
 
                 break;
             case "slow-mode":
                 const slowModesubcommand = interaction.options.getSubcommand();
+                langData = langData.slowMode
                 switch (slowModesubcommand) {
                     case "enable":
                         let duration = interaction.options.getInteger("duration");
                         const activeChannel = interaction.options.getChannel('channel') || interaction.channel;
                         embed
-                            .setColor("Random").setDescription(`:white_check_mark: ${activeChannel} now has ${duration} seconds of **slowmode**.To disable run "/slowmode-disable"`)
-
+                            .setColor("Green")
+                            .setDescription(langData.enableSuccess
+                                .replace("{{activeChannel}}", activeChannel)
+                                .replace("{{duration}}", duration)
+                            )
                         activeChannel.setRateLimitPerUser(duration).then(async () => {
                             await interaction.reply({ embeds: [embed], ephemeral: true });
                         }).catch(err => {
@@ -326,8 +330,8 @@ module.exports = {
                     case "disable":
                         const disableChannel = interaction.options.getChannel('channel') || interaction.channel;
                         embed
-                            .setColor("Random").setDescription(`:white_check_mark: ${disableChannel} now disable of **slowmode**.To disable run "/slowmode-disable"`)
-
+                            .setColor("Red")
+                            .setDescription(langData.disableSuccess.replace("{{activeChannel}}", activeChannel))
                         disableChannel.setRateLimitPerUser(0).then(async () => {
                             await interaction.reply({ embeds: [embed], ephemeral: true });
                         }).catch(err => {
@@ -340,10 +344,10 @@ module.exports = {
         if (subcommand == "forbid-word") {
             const forbidWord = interaction.options.get('word').value.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
             await interaction.deferReply();
-
+            langData = langData.forbidWord;
             let notExist = false;
-            const added = `The word has  added succesfuly `;
-            const alreadyAdded = `The word has already added `;
+            const added = langData.addedSuccess.replace("{{forbidWord}}", forbidWord);
+            const alreadyAdded = langData.alreadyAdded.replace("{{forbidWord}}", forbidWord);
             const forbid = await forbiddenDb.findOne(queryGuild);
             if (forbid) {
                 if (forbid.forbiddenWord) {

@@ -19,7 +19,8 @@ module.exports = async (interaction) => {
 
 
     const [type, member, action] = interaction.customId.split('.');
-    if (type == "language_select_menu") return;
+    if (type == "language_select_menu" || type == "helpMenu") return;
+
     langData = await LanguageService.getLocalizedString(interaction.guildId, "events");
     langData = langData.listRole
     // await interaction.deferReply({ ephemeral: true });

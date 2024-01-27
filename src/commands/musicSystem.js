@@ -3,6 +3,8 @@ const client = require("../index")
 let queueList
 const trLang = require("../lang/tr.json").buildCommands.music;
 const enLang = require("../lang/en.json").buildCommands.music;
+const LanguageService = require("../utils/LanguageService");
+let langData
 module.exports = {
     data: new SlashCommandBuilder()
         .setName(enLang.name)
@@ -206,7 +208,14 @@ module.exports = {
     */
     run: async ({ interaction }) => {
 
-
+        langData = await LanguageService.getLocalizedString(interaction.guild.id, 'commands');
+        if (!interaction.inGuild()) {
+            interaction.reply({
+                content: langData.inGuildError,
+                ephemeral: true,
+            });
+            return;
+        }
         const { options, member, guild, channel } = interaction
         const subcommand = options.getSubcommand();
         const query = options.getString("query");
@@ -216,59 +225,61 @@ module.exports = {
         const loopOptions = options.getString("loop-options")
         const queue = await client.distube.getQueue(voiceChannel)
         const embed = new EmbedBuilder();
+        langData = langData.musicSys
         if (!voiceChannel) {
-            embed.setColor("Red").setDescription("You must join voice channel");
+            embed.setColor("Red").setDescription(langData.joinChErr);
             return interaction.reply({ embeds: [embed], ephemeral: true })
         }
         if (!member.voice.channelId == guild.members.me.voice.channelId) {
-            embed.setColor("Red").setDescription(`You can't use music player as it already active in <#${guild.members.me.voice.channelId}>`);
+            embed.setColor("Red").setDescription(langData.diffrentCh.replace("{{channel}}", guild.members.me.voice.channelId))
             return interaction.reply({ embeds: [embed], ephemeral: true })
         }
         switch (subcommand) {
             case "play":
                 client.distube.play(voiceChannel, query, { textChannel: channel, member: member });
-                interaction.reply({ content: "🎵 Request recived." })
+                interaction.reply({ content: langData.play })
                 break;
             case "volume":
                 queueList = await checkQueue();
                 if (queueList == null) return;
                 client.distube.setVolume(voiceChannel, volume);
-                interaction.reply({ content: `🔉 Volume has been set to ${volume}%` })
+                interaction.reply({ content: langData.volume.replace("{{volume}}", volume) })
                 break;
             case "skip":
                 queueList = await checkQueue();
                 if (queueList == null) return;
                 await queue.skip(voiceChannel);
-                embed.setColor("Blue").setDescription(`⏭️ The song has been skipped`);
+                embed.setColor("Blue").setDescription(langData.skip);
                 interaction.reply({ embeds: [embed], ephemeral: true })
                 break;
             case "stop":
                 queueList = await checkQueue();
                 if (queueList == null) return;
                 await queue.stop(voiceChannel);
-                embed.setColor("Red").setDescription(`⏹️ The song has been stopped`);
+                embed.setColor("Red").setDescription(langData.stop);
                 interaction.reply({ embeds: [embed], ephemeral: true })
                 break;
             case "pause":
                 queueList = await checkQueue();
                 if (queueList == null) return;
                 await queue.pause(voiceChannel);
-                embed.setColor("Orange").setDescription(`⏸️ The song has been paused`);
+                embed.setColor("Orange").setDescription(langData.pause);
                 interaction.reply({ embeds: [embed], ephemeral: true })
                 break;
             case "resume":
                 queueList = await checkQueue();
                 if (queueList == null) return;
                 await queue.resume(voiceChannel);
-                embed.setColor("Green").setDescription(`⏯️ The song has been resumed`);
+                embed.setColor("Green").setDescription(langData.resume);
                 interaction.reply({ embeds: [embed], ephemeral: true })
                 break;
             case "queue":
                 queueList = await checkQueue();
                 if (queueList == null) return;
                 const listQueue = await client.distube.getQueue(voiceChannel)
-                embed.setColor("Purple").setDescription(`${listQueue.songs.map(
-                    (song, id) => `\n**${id + 1}** ${song.name} -\`${song.formattedDuration}\``)}`
+                embed.setColor("Purple").setDescription(langData.queue + `${listQueue.songs.map(
+                    (song, id) =>
+                        `\n**${id + 1}** ${song.name} -\`${song.formattedDuration}\``)}`
                 );
                 interaction.reply({ embeds: [embed], ephemeral: true })
                 break;
@@ -277,29 +288,33 @@ module.exports = {
                 if (queueList == null) return;
                 const shuffleSong = await client.distube.getQueue(voiceChannel)
                 await shuffleSong.shuffle();
-                embed.setColor("Purple").setDescription(`shuffled songs  in the queue. :${shuffleSong.songs.map(
-                    (song, id) => `\n**${id + 1}** ${song.name} -\`${song.formattedDuration}\``)}`
+                embed.setColor("Purple").setDescription(langData.shuffle +
+                    `   ${shuffleSong.songs.map(
+                        (song, id) => `\n**${id + 1}** ${song.name} -\`${song.formattedDuration}\``)
+                    }`
                 ); interaction.reply({ embeds: [embed], ephemeral: true })
                 break;
             case "foward":
                 queueList = await checkQueue();
                 if (queueList == null) return;
                 await queue.seek(queue.currentTime + seconds);
-                embed.setColor("Purple").setDescription(`⏭️ The song Fowarded \`${seconds}\`.`);
+                embed.setColor("Purple").setDescription(langData.forward.replace("{{seconds}}", seconds));
                 interaction.reply({ embeds: [embed], ephemeral: true })
                 break;
             case "rewind":
                 queueList = await checkQueue();
                 if (queueList == null) return;
                 await queue.seek(queue.currentTime - seconds);
-                embed.setColor("Purple").setDescription(`⏮️ The song Rewind \`${seconds}\`.`);
+                embed.setColor("Purple").setDescription(langData.rewind.replace("{{seconds}}", seconds));
                 interaction.reply({ embeds: [embed], ephemeral: true })
                 break;
             case "now-playing":
                 queueList = await checkQueue();
                 if (queueList == null) return;
                 const nowSong = queue.songs[0];
-                embed.setColor("Blue").setDescription(`🎵 **Currently playing:** \`${nowSong.name}\` - \`${nowSong.formattedDuration}\`.\n**Link:**\`${nowSong.url}\`.`).setThumbnail(nowSong.thumbnail);
+                embed.setColor("Blue")
+                    .setDescription(langData.nowPlaying + ` \`${nowSong.name}\` - \`${nowSong.formattedDuration}\`.\n**Link:**\`${nowSong.url}\`.`)
+                    .setThumbnail(nowSong.thumbnail);
                 interaction.reply({ embeds: [embed], ephemeral: true })
                 break;
             case "loop":
@@ -320,16 +335,15 @@ module.exports = {
                         break;
                 }
                 mode = await loopQueue.setRepeatMode(mode);
-                mode = mode ? (mode === 2 ? "Repeat queue" : "Repeat song") : "Off";
-                embed.setColor("Orange").setDescription(`🔁 Set repeat mode to \`${mode}\`.`);
+                mode = mode ? (mode === 2 ? langData.repeat.queue : langData.repeat.song) : langData.repeat.off;
+                embed.setColor("Orange").setDescription(langData.loop.replace("{{mode}}", mode));
                 interaction.reply({ embeds: [embed], ephemeral: true })
                 break;
         }
-
         async function checkQueue() {
             const list = await client.distube.getQueue(voiceChannel)
             if (list) return list;
-            embed.setColor("Red").setDescription("There is no active queue");
+            embed.setColor("Red").setDescription(langData.noQueue);
             interaction.reply({ embeds: [embed], ephemeral: true });
             return null;
         }

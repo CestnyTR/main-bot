@@ -289,501 +289,299 @@
     },
     "commands": {
         "inGuildError": "You can only run this command inside a server.",
+        "permissionsError": "You dont have enough Permissions",
         "chatGuard": {
             "noManageChannelsPermission": "You don't have enough permissions to manage channels.",
             "antiLink": {
-                "enableSuccess": {
-                    "title": "Anti-Link System",
-                    "description": "Anti-Link System is now enabled. Use /anti-link disable for disable.",
-                    "role": "Link Access Role"
-                },
-                "enableAlreadyExist": {
-                    "title": "Anti-Link System",
-                    "description": "Anti-Link System is already using that role. Use /anti-link disable for disable.",
-                    "role": "Link Access Role"
-                },
-                "disableSuccess": {
-                    "title": "Anti-Link System",
-                    "description": "Anti-Link System is now disabled. Use /anti-link enable for setup."
-                },
-                "disableNotExist": {
-                    "title": "Anti-Link System",
-                    "description": "Anti-Link System is not set up. Use /anti-link enable for setup."
-                }
+                "title": "Anti-Link System",
+                "role": "Link Access Role",
+                "enabled": "Anti-Link System is now enabled. Use /anti-link disable for disable.",
+                "alreadyExist": "Anti-Link System is already using that role. Use /anti-link disable for disable.",
+                "disabled": "Anti-Link System is now disabled. Use /anti-link enable for setup.",
+                "notExist": "Anti-Link System is not set up. Use /anti-link enable for setup."
             },
-            "capitalLetter": {
-                "enableSuccess": "enable delete writing with capital letter",
-                "disableSuccess": "disable delete writing with capital letter"
-            },
+            "capitalLetter": "{{lastStatus}} delete writing with capital letter",
             "slowMode": {
-                "enableSuccess": ":white_check_mark: {channel} now has {duration} seconds of **slowmode**. To disable, run \"/slowmode-disable\".",
-                "disableSuccess": ":white_check_mark: {channel} now disabled of **slowmode**. To disable, run \"/slowmode-disable\"."
+                "enableSuccess": ":white_check_mark: {{activeChannel}} now has {{duration}} seconds of **slowmode**. To disable, run \"/slowmode-disable\".",
+                "disableSuccess": ":white_check_mark: {{activeChannel}} now disabled of **slowmode**. To disable, run \"/slowmode-disable\"."
             },
             "forbidWord": {
-                "addedSuccess": "The word has added successfully.",
-                "alreadyAdded": "The word has already been added."
+                "addedSuccess": "The word has added successfully. The word : {{forbidWord}}",
+                "alreadyAdded": "The word has already been added. The word : {{forbidWord}}"
             }
         },
         "game": {
-            "inGuildError": "You can only run this command inside a server.",
             "gamble": {
                 "amountError": "You have to gamble at least 100 Meteorites.",
                 "notEnoughBalance": "You don't have enough Meteorites to gamble, idiot.",
                 "lossMessage": "You didn't win anything because you're... well, you know.",
-                "winMessage": "You won +{amountWon}\nYou now have {newBalance} Meteorites. Don't worry, I won't let you win again."
+                "winMessage": "You won +{{amountWon}}\nYou now have {{newBalance}} Meteorites. Don't worry, I won't let you win again."
             },
             "rps": {
+                "title": "Rock Paper Scissors",
                 "selfPlayError": "You can't play rock paper scissors with yourself.",
                 "botPlayError": "You can't play rock paper scissors with a bot.",
-                "challengeMessage": "{challenger}, you have been challenged to a game of Rock Paper Scissors, by {challenged}. To start playing, click one of the buttons below.",
-                "timeoutMessage": "Game over. {user} did not respond in time.",
-                "turnMessage": "It's currently {user}'s turn now.",
-                "resultMessage": "{challenger} picked {challengerChoice}\n{challenged} picked {challengedChoice}\n\n{result}",
+                "challengeMessage": "{{challenger}}, you have been challenged to a game of Rock Paper Scissors, by {{challenged}}. To start playing, click one of the buttons below.",
+                "timeoutMessage": "Game over. {{user}} did not respond in time.",
+                "turnMessage": "It's currently {{user}}'s turn now.",
+                "picked": "You picked {{choice}}",
+                "resultMessage": "{{challenger}} picked {{challengerChoice}}\n{{challenged}} picked {{challengedChoice}}\n\n{{result}}",
                 "tieResult": "It was a tie",
-                "winResult": "{winner} 👑 Won 👑"
+                "winResult": "{{winner}} 👑 Won 👑"
             }
         },
         "info": {
-            "inGuildError": "You can only run this command inside a server.",
             "emojimap": {
-                "pagination": {
-                    "title": "Emojis (Page {currentPage} of {totalPages})",
-                    "noEmojis": "This server does not have emojis",
-                    "buttonLabels": {
-                        "previous": "Previous",
-                        "next": "Next"
-                    }
+                "title": "Emojis (Page {{currentPage}} of {{totalPages}})",
+                "noEmojis": "This server does not have emojis",
+                "buttonLabels": {
+                    "previous": "Previous",
+                    "next": "Next"
                 }
             },
             "help": {
-                "description": "CestnyTR is a multi-function bot with general commands, Admin commands, Moderation commands, Fun commands. Ticket and others will be added soon",
-                "publicCommands": "Public commands",
-                "moderationCommands": "Moderation commands",
-                "musicCommands": "Music commands",
-                "funCommands": "Fun commands",
-                "inviteMe": "Invite me",
-                "buttons": {
-                    "fun": {
+                "helpMenu": {
+                    "menu": {
+                        "customId": "menu",
+                        "placeholder": "Select a topic",
+                        "options": [
+                            {
+                                "label": "Public commands",
+                                "description": "Shows all public commands",
+                                "value": "menu1"
+                            },
+                            {
+                                "label": "Moderation commands",
+                                "description": "Shows all moderation commands",
+                                "value": "menu2"
+                            },
+                            {
+                                "label": "Music commands",
+                                "description": "Shows the music commands",
+                                "value": "menu3"
+                            }
+                        ]
+                    },
+                    "funButton": {
+                        "customId": "funbutton",
                         "label": "Fun commands",
                         "style": "Secondary"
                     },
-                    "back": {
+                    "generalCommands": {
+                        "customId": "back",
                         "label": "Back",
                         "style": "Primary"
+                    },
+                    "inviteMe": {
+                        "label": "Invite me",
+                        "style": "Link",
+                        "url": "https://discord.com/api/oauth2/authorize?client_id=1170412463993409586&permissions=8&scope=bot%20applications.commands"
                     }
+                },
+                "helpEmbed": {
+                    "color": "Blue",
+                    "description": "CestnyTR is a multi-function bot with general commands, Admin commands, Moderation commands, Fun commands. Ticket and others will be added soon",
+                    "timestamp": true
+                },
+                "publicCommands": {
+                    "color": "Green",
+                    "description": "`/help`: Shows help menu\n`/avatar`: Shows avatar\n`/askGpt`: Ask a question to chatgpt\n`/invite`: Give the bot's invite link\n`/botStats`: Checks the status of the bot\n`/mcStats`: Checks status of a minecraft server\n`/serverInfo`: Gives information about the server\n`/userInfo`: Gives information about a user",
+                    "timestamp": true
+                },
+                "funCommands": {
+                    "color": "Yellow",
+                    "description": "`/tweet`: fake-tweets a post\n`/meme`: Generates a random meme\n`/pixelate`: Pixelate a user's avatar\n`/slap`: Slaps a user",
+                    "timestamp": true
+                },
+                "moderationCommands": {
+                    "color": "Red",
+                    "description": "`/ban`: Bans a user\n`/unban`: Unbans a user\n`/kick`: Kicks a user\n`/mute`: Mutes a user\n`/unmute`: Unmutes a user\n`/purge`: Purges specific numbers of messages\n`/setupLogs`: Setups log channel in your server\n`/warningsAdd`: Add warnings to a user\n`/warningsCheck`: Checks numbers of warnings a user has\n`/warningsRemove`: Clears a specific number of warns from a user\n`/warningsClear`: Clear all warns from a user",
+                    "timestamp": true
+                },
+                "musicCommands": {
+                    "color": "Purple",
+                    "description": "`/play`: Plays a music\n`/forward`: Forwards a music\n`/loop`: Loops a music\n`/nowPlaying`: Shows information about the current playing song\n`/pause`: Pauses the playing music\n`/resume`: Resumes a paused music\n`/queue`: Get the list of your currently active queue\n`/shuffle`: Shuffle current playlist.\n`/rewind`: Rewinds the playing music\n`/volume`: Change the volume\n`/stop`: Stops the music",
+                    "timestamp": true
                 }
             },
             "serverInfo": {
                 "permissionError": "You don't have enough permissions to execute this command.",
-                "fields": {
-                    "owner": "Owner",
-                    "textChannels": "Text Channels",
-                    "voiceChannels": "Voice Channels",
-                    "categories": "Categories",
-                    "members": "Members",
-                    "roles": "Roles",
-                    "roleList": "Role List"
-                },
-                "footer": "ID: {guildId} | Server Created: {createdAt}"
+                "owner": "Owner",
+                "textChannels": "Text Channels",
+                "voiceChannels": "Voice Channels",
+                "categories": "Categories",
+                "members": "Members",
+                "roles": "Roles",
+                "roleList": "Role List",
+                "footer": "ID: {{guildId}} | Server Created: {{createdAt}}"
             },
             "userInfo": {
-                "title": "{username}'s Information",
-                "color": "Red",
-                "thumbnail": "{avatarUrl}",
-                "footer": "User ID: {userId}",
-                "fields": {
-                    "joinedDiscord": "Joined Discord",
-                    "joinedServer": "Joined Server",
-                    "nickname": "Nickname",
-                    "boostedServer": "Boosted Server",
-                    "bot": "BOT"
-                },
-                "values": {
-                    "yes": "Yes",
-                    "no": "No"
-                }
+                "title": "{{username}}'s Information",
+                "footer": "User ID: {{userId}}",
+                "joinedDiscord": "<:arrow:1174741041404989502> Joined Discord",
+                "joinedServer": "<:arrow:1174741041404989502>  Joined Server",
+                "nickname": "<:namecard:1174742568332963932>  Nickname",
+                "boostedServer": "<:discordboost:1174743833649623050> Boosted Server",
+                "bot": "<:botverify:1174744270276677763> BOT",
+                "none": "None",
+                "yes": "Yes",
+                "no": "No"
             },
-            "ping": {
-                "deferredReply": "Pong! Client {ping}ms | Websocket: {websocketPing}ms"
-            }
+            "ping": "Pong! Client {{ping}}ms | Websocket: {{websocketPing}}ms"
         },
         "levelSys": {
             "inGuildError": "You can only run this command inside a server.",
             "daily": {
                 "alreadyCollected": "You have already collected your dailies today. Come back tomorrow!",
-                "amountAdded": "{dailyAmount} was added to your balance. Your new balance is {userBalance}"
+                "amountAdded": "{{dailyAmount}} was added to your balance. Your new balance is {{userBalance}}"
             },
             "balance": {
-                "noProfile": "<@{targetUserIdBalance}> doesn't have a profile yet.",
-                "yourBalance": "Your balance is **{userBalance}**",
-                "otherUserBalance": "<@{targetUserIdBalance}>'s balance is **{userBalance}**"
+                "noProfile": "<@{{targetUserIdBalance}}> doesn't have a profile yet.",
+                "yourBalance": "Your balance is **{{userBalance}}**",
+                "otherUserBalance": "<@{{targetUserIdBalance}}>'s balance is **{{userBalance}}**"
             },
             "level": {
-                "noLevels": "{userTag} doesn't have any levels yet. Try again when they chat a little more.",
+                "noLevels": "{{userTag}} doesn't have any levels yet. Try again when they chat a little more.",
                 "noLevelsSelf": "You don't have any levels yet. Chat a little more and try again."
             }
         },
+        "modrateSystem": {
+            "noReason": "No reason provided",
+            "permissions": "You dont have enough Permissions",
+            "kick": {
+                "userNotFound": "This user doesn't exist in this server.",
+                "ownerError": "You can't kick that user because they're the server owner.",
+                "roleErrorUser": "You can't kick that user because they have the same/higher role than you.",
+                "roleErrorBot": "I can't kick that user because they have the same/higher role than me.",
+                "success": "User {{targetUser}} was kicked\nReason: {{reason}}"
+            },
+            "moveAll": "The process of moving members from the <#{{sourceChannel}}> channel to the <#{{targetChannel}}> channel has been completed.Number of members moved: {{count}}",
+            "removeRole": {
+                "success": "Removed all roles from {{targetUser}} and added the register role.",
+                "successNoRegisterRole": "Removed all roles from {{targetUser}}.",
+                "userNotFound": "That user doesn't exist in this server."
+            },
+            "timeout": {
+                "userNotFound": "That user doesn't exist in this server.",
+                "botError": "I can't timeout a bot.",
+                "durationError": "Please provide a valid timeout duration.",
+                "durationOutOfRange": "Timeout duration cannot be less than 5 seconds or more than 28 days.",
+                "roleErrorUser": "You can't timeout that user because they have the same/higher role than you.",
+                "roleErrorBot": "I can't timeout that user because they have the same/higher role than me.",
+                "success": "{{targetUser}} was timed out for {{prettyDuration}}.\nReason: {{reason}}",
+                "successUpdate": "{{targetUser}}'s timeout has been updated to {{prettyDuration}}.\nReason: {{reason}}"
+            },
+            "clear": {
+                "message": "message",
+                "messages": "messages",
+                "invalidAmount": "Please provide a valid clear amount.",
+                "personSuccess": "'✅'Succesfuly Cleard '{{messagesToDelete}}' from {{target}} in {{channel}} ",
+                "success": "'✅' Successfully cleared '{{messageCount}}' {{messages}} in {{channel}}."
+            },
+            "chanceUserName": {
+                "userNotFound": "That user doesn't exist in this server.",
+                "success": "{{targetUser}}'s username was set successfully: {{name}}",
+                "roleError": "You can't set the username for that user because they have the same/higher role than you."
+            },
+            "ban": {
+                "userNotFound": "That user doesn't exist in this server.",
+                "ownerError": "You can't ban that user because they're the server owner.",
+                "roleErrorUser": "You can't ban that user because they have the same/higher role than you.",
+                "roleErrorBot": "I can't ban that user because they have the same/higher role than me.",
+                "success": "User {{targetUser}} was banned\nReason: {{reason}}"
+            }
+        },
         "musicSys": {
-            "description": "Play your music",
-            "subcommands": {
-                "play": {
-                    "description": "Write here a song name",
-                    "queryOption": {
-                        "name": "query",
-                        "description": "Paste YouTube URL",
-                        "required": true
-                    }
-                },
-                "volume": {
-                    "description": "Adjust the song volume",
-                    "percentOption": {
-                        "name": "percent",
-                        "description": "10=10%",
-                        "minValue": 0,
-                        "maxValue": 100,
-                        "required": true
-                    }
-                },
-                "queue": {
-                    "description": "Music queue"
-                },
-                "skip": {
-                    "description": "Skip the music"
-                },
-                "pause": {
-                    "description": "Pause the music"
-                },
-                "resume": {
-                    "description": "Resume the music"
-                },
-                "stop": {
-                    "description": "Stop the music"
-                },
-                "now-playing": {
-                    "description": "Now Playing"
-                },
-                "shuffle": {
-                    "description": "Shuffle current playlist"
-                },
-                "foward": {
-                    "description": "Foward seconds in a song",
-                    "secondsOption": {
-                        "name": "seconds",
-                        "description": "Amount of seconds to foward. (10 = 10s)",
-                        "minValue": 0,
-                        "required": true
-                    }
-                },
-                "rewind": {
-                    "description": "Rewind seconds in a song",
-                    "secondsOption": {
-                        "name": "seconds",
-                        "description": "Amount of seconds to rewind. (10 = 10s)",
-                        "minValue": 0,
-                        "required": true
-                    }
-                },
-                "loop": {
-                    "description": "Display loop options",
-                    "loopOptionsOption": {
-                        "name": "loop-options",
-                        "description": "Loop options: off, song, queue",
-                        "choices": [
-                            {
-                                "name": "off",
-                                "value": "off"
-                            },
-                            {
-                                "name": "song",
-                                "value": "song"
-                            },
-                            {
-                                "name": "queue",
-                                "value": "queue"
-                            }
-                        ],
-                        "required": true
-                    }
-                }
+            "noQueue": "There is no active queue",
+            "joinChErr": "You must join the audio channel",
+            "diffrentCh": "You cannot use the music player because it is already active on the <#{{channel}}> channel",
+            "play": "🎵 Request received.",
+            "volume": "🔉 Volume set to %{{volume}}.",
+            "skip": "⏭️ Song skipped.",
+            "stop": "⏹️ Song stopped.",
+            "pause": "⏸️ Song paused.",
+            "resume": "⏯️ Song resumed.",
+            "queue": "Queue successfully received.",
+            "shuffle": "Shuffled songs in the queue. : ",
+            "forward": "⏭️ Song forwarded {{seconds}} seconds.",
+            "rewind": "⏮️ Song rewinded {{seconds}} seconds.",
+            "nowPlaying": "🎵 **Now playing:** ",
+            "loop": "🔁 Loop mode set to `{{mode}}`.",
+            "repeat": {
+                "queue": "Repeat queue",
+                "song": "Repeat song",
+                "off": "Off"
             }
         },
         "setSys": {
             "setupRegister": {
-                "activateRoleSelectMenu": {
-                    "successMessage": "Successfully activated role selection menu for {roleType}.",
-                    "contentDescription": "Description: {roleContent}",
-                    "maxChoice": "Maximum Choices: {setMaxValue}",
-                    "minChoice": "Minimum Choices: {setMinValue}",
-                    "defaultRole": "Default Role: {defaultRoleName}",
-                    "additionalRoles": [
-                        "{firstRoleName}: {firstRole}",
-                        "{secondRoleName}: {secondRole}",
-                        "{thirdRoleName}: {thirdRole}",
-                        "{fourthRoleName}: {fourthRole}",
-                        "{fifthRoleName}: {fifthRole}"
-                    ]
-                },
-                "userInfoButton": {
-                    "successMessage": "Successfully created user info button.",
-                    "instructionMessage": "Please set your {guildName} server name."
-                }
+                "getTheRoll": "get the roll of",
+                "selection": "Make a selection...",
+                "success": "{{roleContent}} command was run successfully",
+                "btnRegister": "Register",
+                "userInfoButton": "user-info-button command was run successfully",
+                "setUserInfo": "Please set your {{guildName}} server name"
             },
             "joinToCreate": {
-                "enable": {
-                    "alreadyEnabled": "You already have a setup join to create system. To disable, run /joinToCreate disable",
-                    "channel": {
-                        "label": "Voice Channel",
-                        "description": "The voice channel where new channels will be created."
-                    },
-                    "category": {
-                        "label": "Category",
-                        "description": "The category where new voice channels will be placed."
-                    },
-                    "voiceLimit": {
-                        "label": "Voice Limit",
-                        "description": "The maximum number of users allowed in each new voice channel. Default is 10."
-                    },
-                    "successMessage": "The join to create system has been successfully set up. New voice channels will be created in {channel}, under the category {category}."
-                },
-                "disable": {
-                    "notEnabled": "You don't have a setup join to create system. To set up, run /joinToCreate enable",
-                    "successMessage": "The Join to Create System has been successfully disabled.",
-                    "disabledMessage": "The join to create system has been disabled."
-                }
+                "alreadyEnabled": "You have already enabled a join-to-create system. Use the /join-to-create disable command to disable it.",
+                "enable": "Join-to-create system has been enabled in the {{channel}} channel. All new voice channels will be created in the {{category}} category.",
+                "notEnabled": "You haven't previously enabled a join-to-create system. Use the /join-to-create enable command to set it up.",
+                "disable": "Join-to-create system has been successfully set to 'disabled.'"
             },
             "welcomeConfig": {
-                "enable": {
-                    "missingPermissions": "The welcome system cannot be set up because you do not have the necessary permissions to do so.",
-                    "channelOptions": {
-                        "welcomeChannel": {
-                            "label": "Welcome Channel",
-                            "description": "The channel where welcome messages will be sent."
-                        },
-                        "registerChannel": {
-                            "label": "Register Channel",
-                            "description": "The channel where registration messages will be sent."
-                        }
-                    },
-                    "successMessage": "The welcome message system has been successfully implemented within the {welcomeChannel}.",
-                    "existingSystemMessage": "You have a welcome message system in place. To restart it, use the `/welcome-disable` command."
-                },
-                "disable": {
-                    "successMessage": "The Welcome Message System has been successfully disabled.",
-                    "noSystemMessage": "No welcome message system found to disable."
-                }
+                "enableMessage": "The welcome message system has been successfully implemented within the {{welcomeChannel}}.",
+                "existingSystemMessage": "You have a welcome message system in place. To restart it, use the `/welcome-disable` command.",
+                "disableMessage": "The Welcome Message System has been successfully disabled.",
+                "noSystemMessage": "No welcome message system found to disable."
             },
             "autoroleConfigure": {
-                "name": "configure-auto-role",
-                "description": "Configure your auto-role for this server.",
-                "enable": {
-                    "name": "enable",
-                    "description": "Enable your auto-role for this server.",
-                    "role": {
-                        "name": "role",
-                        "description": "The role you want users to get on join."
-                    }
-                },
-                "disable": {
-                    "name": "disable",
-                    "description": "Disable your auto-role for this server."
-                }
+                "enableMessage": "Autorole has now been configured. To disable run `/autorole-disable`",
+                "existingSystemMessage": "Auto role has already been configured for that role. To disable run `/autorole-disable.",
+                "disableMessage": "Auto role has been disabled for this server. Use `/autorole-configure enable` to set it up again.",
+                "noSystemMessage": "Auto role has not been configured for this server. Use `/autorole-configure disable` to set it up."
             },
             "setupLogSystem": {
-                "choiceLogChannels": {
-                    "errorMessage": {
-                        "color": "Red",
-                        "timestamp": true,
-                        "author": {
-                            "name": "{interaction.user.displayName}"
-                        },
-                        "fields": [
-                            {
-                                "name": "Log Channels",
-                                "value": ">Channels already exist"
-                            }
-                        ]
-                    }
-                },
-                "setupOneLogChannel": {
-                    "errorMessage": {
-                        "color": "Red",
-                        "timestamp": true,
-                        "author": {
-                            "name": "{interaction.user.displayName}"
-                        },
-                        "fields": [
-                            {
-                                "name": "Log Channels",
-                                "value": ">Channels already exist"
-                            }
-                        ]
-                    }
-                },
-                "createLogChannel": {
-                    "errorMessage": {
-                        "color": "Red",
-                        "timestamp": true,
-                        "author": {
-                            "name": "{interaction.user.displayName}"
-                        },
-                        "fields": [
-                            {
-                                "name": "Log Channels",
-                                "value": ">Channels already exist"
-                            }
-                        ]
-                    },
-                    "successMessage": {
-                        "color": "Green",
-                        "timestamp": true,
-                        "author": {
-                            "name": "{interaction.user.displayName}"
-                        },
-                        "fields": [
-                            {
-                                "name": "Log Channels",
-                                "value": ">Log Channels created successfully"
-                            }
-                        ]
-                    }
-                },
-                "deleteLogChannel": {
-                    "errorMessage": {
-                        "color": "Red",
-                        "timestamp": true,
-                        "author": {
-                            "name": "{interaction.user.displayName}"
-                        },
-                        "fields": [
-                            {
-                                "name": "Log Channels",
-                                "value": ">Channels doesn't exist"
-                            }
-                        ]
-                    },
-                    "successMessage": {
-                        "color": "Green",
-                        "timestamp": true,
-                        "author": {
-                            "name": "{interaction.user.displayName}"
-                        },
-                        "fields": [
-                            {
-                                "name": "Log Channels",
-                                "value": ">Log Channels deleted successfully"
-                            }
-                        ]
-                    }
-                }
+                "title": "Log Channels",
+                "alreadyExist": ">Channels already exsit",
+                "notExist": ">Channels doesnt exsit",
+                "settledNow": ">Log Channels settled now",
+                "oneChSettledNow": ">Log Channels settled in one channels",
+                "created": "`>Log Channels created successfully",
+                "deleted": ">Log Channels deleted successfully"
             },
             "ticketSetup": {
-                "enable": {
-                    "errorMessage": {
-                        "color": "Red",
-                        "timestamp": true,
-                        "fields": [
-                            {
-                                "name": "Ticket System",
-                                "value": "The ticket system is already enabled",
-                                "inline": false
-                            }
-                        ]
-                    },
-                    "successMessage": {
-                        "color": "Green",
-                        "timestamp": true,
-                        "fields": [
-                            {
-                                "name": "Ticket Server",
-                                "value": "Ticket system enabled successfully",
-                                "inline": false
-                            }
-                        ]
-                    }
-                },
-                "disable": {
-                    "errorMessage": {
-                        "color": "Red",
-                        "timestamp": true,
-                        "fields": [
-                            {
-                                "name": "Ticket System",
-                                "value": "The ticket system is already disabled",
-                                "inline": false
-                            }
-                        ]
-                    },
-                    "successMessage": {
-                        "color": "Red",
-                        "timestamp": true,
-                        "fields": [
-                            {
-                                "name": "Ticket Server",
-                                "value": "The ticket system has been disabled successfully"
-                            }
-                        ]
-                    }
-                }
+                "alreadyExist": "The ticked system is already exist",
+                "ticketDescription": "Create a ticket and contact the support team with the button below.",
+                "btnLabel": "Create a Ticket",
+                "categoryName": "Support",
+                "chName": "[🎫] Ticket",
+                "cretatedCategoryName": "TICKETS",
+                "createdSucces": "Ticket created succesfuly",
+                "title": "Ticket Server",
+                "notExist": "The ticket system is already disabled",
+                "disableSucces": "The ticket system has been disabled successfully"
             },
             "configSuggestions": {
-                "enable": {
-                    "errorMessage": {
-                        "color": "Green",
-                        "title": "Suggest System Server",
-                        "description": "The suggestion system already exists",
-                        "inline": false
-                    },
-                    "successMessage": {
-                        "color": "Green",
-                        "title": "Suggest System Server",
-                        "description": "Suggestion created successfully",
-                        "inline": false
-                    }
-                },
-                "disable": {
-                    "errorMessage": {
-                        "color": "Red",
-                        "title": "Suggest System Server",
-                        "description": "The suggestion system is already disabled",
-                        "inline": false
-                    },
-                    "successMessage": {
-                        "color": "Red",
-                        "title": "Suggest System Server",
-                        "description": "Suggestion removed successfully",
-                        "inline": false
-                    }
-                }
+                "title": "Suggest system server",
+                "alreadyExist": "Suggestion system allready exist",
+                "notExist": "The Suggestion system is already disabled",
+                "suggestionDescription": "Create a suggest and start a vote for it",
+                "btnLabel": "Create suggest",
+                "categoryName": "Suggestions",
+                "chName": "[🗳️] suggest",
+                "createdSucces": "Suggestion created succesfuly",
+                "disableSucces": "Suggestion removed succesfuly"
             },
             "giveawaySetup": {
-                "enable": {
-                    "errorMessage": {
-                        "color": "Green",
-                        "title": "Giveaway Server",
-                        "description": "The giveaway system is already exist",
-                        "inline": false
-                    },
-                    "successMessage": {
-                        "color": "Green",
-                        "title": "Giveaway Server",
-                        "description": "Giveaway created successfully",
-                        "inline": false
-                    }
-                },
-                "disable": {
-                    "errorMessage": {
-                        "color": "Red",
-                        "title": "Giveaway Server",
-                        "description": "The giveaway system is already disabled",
-                        "inline": false
-                    },
-                    "successMessage": {
-                        "color": "Red",
-                        "title": "Giveaway Server",
-                        "description": "The giveaway system has been disabled successfully",
-                        "inline": false
-                    }
-                }
+                "title": "Giveaway Server",
+                "alreadyExist": "The giveaway system is already exist",
+                "notExist": "The giveaway system is already disabled",
+                "giveawayDescription": "Create a giveaway and contact the support team with the button below.",
+                "btnLabel": "Create giveaway",
+                "categoryName": "Giveaway",
+                "chName": "[🎁] Giveaway",
+                "createdSucces": "Giveaway created succesfuly",
+                "disableSucces": "Giveaway removed succesfuly"
             }
         }
     },
