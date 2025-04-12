@@ -1,2 +1,1 @@
-# main-bot
- 
+Discord multifunctional bot
